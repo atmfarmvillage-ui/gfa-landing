@@ -4,142 +4,166 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GFA — Gestion Ferme Avicole · ATM Farm Village</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 <style>
 :root{
-  --or:#D4A853;--or2:#F0C97A;--vert:#2D6A4F;--vert2:#40916C;
-  --sombre:#0A0C0F;--sombre2:#111418;--sombre3:#1A1F27;
-  --texte:#F5F0E8;--textm:#9A8F7E;--textl:#5A5248;
-  --rouge:#C44B2B;
+  --bleu:#1B4FD8;--bleu2:#2563EB;--bleu3:#3B82F6;--bleu4:#EFF6FF;
+  --bleu-sombre:#0F2B6B;--bleu-mid:#1E40AF;
+  --vert:#059669;--or:#F59E0B;
+  --texte:#0F172A;--textm:#475569;--textl:#94A3B8;
+  --blanc:#FFFFFF;--gris:#F8FAFC;--gris2:#F1F5F9;--border:#E2E8F0;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--sombre);color:var(--texte);overflow-x:hidden}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--blanc);color:var(--texte);overflow-x:hidden}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,12,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,168,83,.15)}
-.nav-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--or);letter-spacing:1px}
-.nav-logo span{color:var(--texte);font-weight:400}
-.nav-links{display:flex;gap:28px;align-items:center}
-.nav-links a{color:var(--textm);text-decoration:none;font-size:13px;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--or)}
-.btn-nav{background:var(--or);color:var(--sombre);padding:8px 20px;border-radius:6px;font-weight:600;font-size:13px;text-decoration:none;transition:all .2s}
-.btn-nav:hover{background:var(--or2);color:var(--sombre)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 60px;height:68px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-icon{width:36px;height:36px;background:var(--bleu);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.nav-logo-text{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--bleu-sombre);letter-spacing:-0.5px}
+.nav-logo-sub{font-size:11px;color:var(--textm);font-weight:500}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{color:var(--textm);text-decoration:none;font-size:13px;font-weight:600;transition:color .2s}
+.nav-links a:hover{color:var(--bleu)}
+.btn-nav{background:var(--bleu);color:white;padding:9px 22px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(27,79,216,.3)}
+.btn-nav:hover{background:var(--bleu-mid);transform:translateY(-1px);box-shadow:0 4px 12px rgba(27,79,216,.4)}
 
 /* ── HERO ── */
-.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:120px 40px 80px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(45,106,79,.25) 0%,transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(212,168,83,.1) 0%,transparent 50%);z-index:0}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(212,168,83,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(212,168,83,.04) 1px,transparent 1px);background-size:60px 60px;z-index:0}
-.hero-content{position:relative;z-index:1;max-width:680px}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(212,168,83,.1);border:1px solid rgba(212,168,83,.3);border-radius:20px;padding:6px 16px;font-size:12px;color:var(--or);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
-.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--or);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-h1{font-family:'Playfair Display',serif;font-size:clamp(42px,6vw,80px);font-weight:900;line-height:1.05;margin-bottom:20px;letter-spacing:-1px}
-h1 em{font-style:normal;color:var(--or)}
-.hero-sub{font-size:17px;color:var(--textm);line-height:1.7;margin-bottom:36px;max-width:520px;font-weight:300}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
-.btn-primary{background:var(--or);color:var(--sombre);padding:14px 32px;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px}
-.btn-primary:hover{background:var(--or2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(212,168,83,.3)}
-.btn-secondary{background:transparent;color:var(--texte);padding:14px 32px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid rgba(255,255,255,.2);transition:all .2s;display:inline-flex;align-items:center;gap:8px}
-.btn-secondary:hover{border-color:var(--or);color:var(--or)}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:60px;padding:120px 60px 80px;background:linear-gradient(135deg,#F0F7FF 0%,#EFF6FF 50%,#F0FDF4 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.12),transparent 70%);z-index:0}
+.hero::after{content:'';position:absolute;bottom:-150px;left:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(5,150,105,.08),transparent 70%);z-index:0}
+.hero-content{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:white;border:1px solid var(--bleu3);border-radius:20px;padding:6px 16px;font-size:12px;color:var(--bleu);font-weight:700;letter-spacing:.5px;margin-bottom:24px;box-shadow:0 2px 8px rgba(59,130,246,.15)}
+.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--vert);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+h1{font-family:'Fraunces',serif;font-size:clamp(38px,4.5vw,62px);font-weight:900;line-height:1.08;margin-bottom:20px;letter-spacing:-1.5px;color:var(--bleu-sombre)}
+h1 em{font-style:normal;background:linear-gradient(135deg,var(--bleu),var(--bleu3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:17px;color:var(--textm);line-height:1.75;margin-bottom:36px;font-weight:400}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.btn-primary{background:var(--bleu);color:white;padding:14px 30px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(27,79,216,.35)}
+.btn-primary:hover{background:var(--bleu-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,79,216,.4)}
+.btn-secondary{background:white;color:var(--bleu);padding:14px 30px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;border:1.5px solid var(--bleu3);transition:all .2s;display:inline-flex;align-items:center;gap:8px}
+.btn-secondary:hover{background:var(--bleu4);transform:translateY(-1px)}
+.hero-stats{display:flex;gap:32px;padding-top:32px;border-top:1px solid var(--border)}
+.stat-item .num{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:var(--bleu-sombre)}
+.stat-item .lbl{font-size:11px;color:var(--textl);margin-top:2px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
 
-.hero-stats{display:flex;gap:40px;margin-top:56px;padding-top:40px;border-top:1px solid rgba(255,255,255,.07)}
-.stat-item .num{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--or)}
-.stat-item .lbl{font-size:12px;color:var(--textm);margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:1px}
-
-.hero-mockup{position:absolute;right:-40px;top:50%;transform:translateY(-50%);width:520px;opacity:.85;z-index:1}
-.hero-mockup img{width:100%;border-radius:16px;box-shadow:0 40px 80px rgba(0,0,0,.5)}
-.mockup-phone{position:absolute;bottom:-40px;left:-60px;width:220px;background:var(--sombre3);border-radius:24px;padding:16px;border:1px solid rgba(212,168,83,.2);box-shadow:0 20px 40px rgba(0,0,0,.4)}
-.mockup-phone-bar{height:6px;background:var(--or);border-radius:3px;margin-bottom:10px;width:60%}
-.mockup-phone-row{height:8px;background:rgba(255,255,255,.06);border-radius:4px;margin-bottom:6px}
-.mockup-phone-row.short{width:70%}
+/* Dashboard mockup */
+.hero-visual{position:relative;z-index:1}
+.dashboard-card{background:white;border-radius:20px;padding:28px;box-shadow:0 20px 60px rgba(15,43,107,.12),0 4px 16px rgba(15,43,107,.06);border:1px solid var(--border)}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.dash-title{font-size:14px;font-weight:700;color:var(--bleu-sombre)}
+.dash-date{font-size:11px;color:var(--textl);background:var(--gris2);padding:4px 10px;border-radius:6px}
+.dash-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.kpi{padding:14px;border-radius:12px;position:relative;overflow:hidden}
+.kpi.bleu{background:linear-gradient(135deg,var(--bleu),var(--bleu3));color:white}
+.kpi.vert{background:linear-gradient(135deg,#059669,#10B981);color:white}
+.kpi.or{background:linear-gradient(135deg,#D97706,var(--or));color:white}
+.kpi.violet{background:linear-gradient(135deg,#7C3AED,#A78BFA);color:white}
+.kpi-val{font-family:'Fraunces',serif;font-size:24px;font-weight:900}
+.kpi-lbl{font-size:10px;opacity:.85;margin-top:2px;font-weight:600}
+.dash-chart{background:var(--gris);border-radius:10px;padding:14px;margin-bottom:12px}
+.chart-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.chart-bar-label{font-size:10px;color:var(--textm);width:40px;text-align:right;font-weight:600}
+.chart-bar-track{flex:1;background:var(--border);border-radius:4px;height:8px}
+.chart-bar-fill{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--bleu),var(--bleu3))}
+.dash-footer{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--textl)}
+.dash-badge{background:linear-gradient(135deg,var(--vert),#10B981);color:white;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px}
 
 /* ── FEATURES ── */
-section{padding:100px 40px}
-.section-label{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--or);font-weight:600;margin-bottom:12px}
-.section-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,48px);font-weight:700;line-height:1.15;margin-bottom:16px}
-.section-sub{font-size:16px;color:var(--textm);max-width:560px;line-height:1.7;font-weight:300}
-
-.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2px;margin-top:60px;border-radius:16px;overflow:hidden}
-.feature-card{background:var(--sombre2);padding:36px 32px;transition:background .2s;position:relative;overflow:hidden}
-.feature-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--or),transparent);opacity:0;transition:opacity .3s}
-.feature-card:hover{background:var(--sombre3)}
-.feature-card:hover::after{opacity:1}
-.feature-icon{font-size:32px;margin-bottom:16px;display:block}
-.feature-title{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--texte)}
+.features-section{padding:100px 60px;background:white}
+.section-header{text-align:center;max-width:640px;margin:0 auto 64px}
+.section-label{display:inline-block;background:var(--bleu4);color:var(--bleu);font-size:11px;font-weight:700;padding:6px 16px;border-radius:20px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px}
+.section-title{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,44px);font-weight:900;color:var(--bleu-sombre);line-height:1.15;letter-spacing:-1px;margin-bottom:14px}
+.section-sub{font-size:16px;color:var(--textm);line-height:1.7;font-weight:400}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.feature-card{background:var(--gris);border:1.5px solid var(--border);border-radius:16px;padding:32px 28px;transition:all .25s;cursor:default}
+.feature-card:hover{background:white;border-color:var(--bleu3);box-shadow:0 8px 30px rgba(27,79,216,.1);transform:translateY(-3px)}
+.feature-icon-wrap{width:48px;height:48px;background:var(--bleu4);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+.feature-title{font-size:15px;font-weight:700;color:var(--bleu-sombre);margin-bottom:8px}
 .feature-desc{font-size:13px;color:var(--textm);line-height:1.7}
 
 /* ── PLANS ── */
-.plans-section{background:var(--sombre2)}
-.plans-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:60px}
-.plan-card{background:var(--sombre);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:32px;position:relative;transition:all .3s}
-.plan-card.featured{border-color:var(--or);background:linear-gradient(145deg,rgba(212,168,83,.05),var(--sombre))}
-.plan-card.featured::before{content:'POPULAIRE';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--or);color:var(--sombre);font-size:10px;font-weight:800;padding:4px 14px;border-radius:20px;letter-spacing:2px}
-.plan-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.3)}
-.plan-name{font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--textm);font-weight:600;margin-bottom:8px}
-.plan-price{font-family:'Playfair Display',serif;font-size:40px;font-weight:700;color:var(--texte);margin-bottom:4px}
-.plan-price span{font-size:14px;font-weight:400;color:var(--textm)}
-.plan-desc{font-size:12px;color:var(--textm);margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.06)}
-.plan-features{list-style:none;margin-bottom:28px}
-.plan-features li{font-size:13px;color:var(--textm);padding:6px 0;display:flex;align-items:center;gap:10px}
-.plan-features li::before{content:'✓';color:var(--or);font-weight:700;flex-shrink:0}
+.plans-section{padding:100px 60px;background:var(--gris)}
+.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
+.plan-card{background:white;border:1.5px solid var(--border);border-radius:20px;padding:32px;transition:all .3s;position:relative}
+.plan-card.featured{border-color:var(--bleu);background:linear-gradient(145deg,#EFF6FF,white);box-shadow:0 8px 30px rgba(27,79,216,.15)}
+.plan-card.featured::before{content:'POPULAIRE';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--bleu);color:white;font-size:10px;font-weight:800;padding:4px 14px;border-radius:20px;letter-spacing:2px;white-space:nowrap}
+.plan-card:hover:not(.featured){border-color:var(--bleu3);box-shadow:0 8px 24px rgba(27,79,216,.08);transform:translateY(-3px)}
+.plan-name{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--textl);font-weight:700;margin-bottom:10px}
+.plan-price{font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--bleu-sombre);margin-bottom:4px}
+.plan-price span{font-size:13px;font-weight:400;color:var(--textm)}
+.plan-desc{font-size:12px;color:var(--textm);margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);line-height:1.5}
+.plan-features{list-style:none;margin-bottom:24px}
+.plan-features li{font-size:13px;color:var(--textm);padding:5px 0;display:flex;align-items:center;gap:8px}
+.plan-features li::before{content:'✓';color:var(--vert);font-weight:800;flex-shrink:0;font-size:12px}
 .plan-features li.non{color:var(--textl)}
 .plan-features li.non::before{content:'×';color:var(--textl)}
-.btn-plan{display:block;text-align:center;padding:12px;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;transition:all .2s}
-.btn-plan.or{background:var(--or);color:var(--sombre)}
-.btn-plan.or:hover{background:var(--or2)}
-.btn-plan.outline{border:1px solid rgba(255,255,255,.15);color:var(--texte)}
-.btn-plan.outline:hover{border-color:var(--or);color:var(--or)}
+.btn-plan{display:block;text-align:center;padding:12px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s}
+.btn-plan.bleu{background:var(--bleu);color:white;box-shadow:0 3px 10px rgba(27,79,216,.3)}
+.btn-plan.bleu:hover{background:var(--bleu-mid)}
+.btn-plan.outline{border:1.5px solid var(--border);color:var(--bleu-sombre)}
+.btn-plan.outline:hover{border-color:var(--bleu);color:var(--bleu);background:var(--bleu4)}
 
 /* ── AVIS ── */
-.avis-section{background:var(--sombre)}
-.avis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:40px}
-.avis-card{background:var(--sombre2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:24px}
+.avis-section{padding:100px 60px;background:white}
+.avis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:48px}
+.avis-card{background:var(--gris);border:1.5px solid var(--border);border-radius:16px;padding:24px;transition:all .2s}
+.avis-card:hover{border-color:var(--bleu3);box-shadow:0 4px 16px rgba(27,79,216,.08)}
 .avis-stars{color:var(--or);font-size:16px;margin-bottom:12px;letter-spacing:2px}
-.avis-msg{font-size:14px;color:var(--textm);line-height:1.7;margin-bottom:16px;font-style:italic}
-.avis-auteur{font-size:12px;font-weight:700;color:var(--texte)}
+.avis-msg{font-size:14px;color:var(--textm);line-height:1.75;margin-bottom:16px;font-style:italic}
+.avis-auteur{font-size:13px;font-weight:700;color:var(--bleu-sombre)}
 .avis-ferme{font-size:11px;color:var(--textl);margin-top:2px}
 
-.avis-form{background:var(--sombre2);border:1px solid rgba(212,168,83,.2);border-radius:16px;padding:40px;margin-top:48px;max-width:600px}
-.avis-form h3{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:8px}
-.avis-form p{font-size:13px;color:var(--textm);margin-bottom:24px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.form-field{margin-bottom:12px}
-.form-field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--textm);margin-bottom:6px;font-weight:600}
-.form-field input,.form-field textarea{width:100%;background:var(--sombre);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;color:var(--texte);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
-.form-field input:focus,.form-field textarea:focus{border-color:var(--or)}
+.avis-form-wrap{background:linear-gradient(135deg,var(--bleu-sombre),var(--bleu-mid));border-radius:24px;padding:56px;margin-top:56px}
+.avis-form-inner{max-width:560px;margin:0 auto}
+.avis-form-inner h3{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:white;margin-bottom:8px;letter-spacing:-0.5px}
+.avis-form-inner p{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:28px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-field{margin-bottom:14px}
+.form-field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.6);margin-bottom:6px;font-weight:700}
+.form-field input,.form-field textarea{width:100%;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 16px;color:white;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .2s}
+.form-field input::placeholder,.form-field textarea::placeholder{color:rgba(255,255,255,.35)}
+.form-field input:focus,.form-field textarea:focus{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.15)}
 .form-field textarea{resize:vertical;min-height:100px}
-.stars-input{display:flex;gap:8px;margin-bottom:20px}
-.star-btn{background:none;border:none;font-size:28px;cursor:pointer;color:var(--textl);transition:all .2s;padding:0}
+.stars-input{display:flex;gap:6px;margin-bottom:20px}
+.star-btn{background:none;border:none;font-size:30px;cursor:pointer;color:rgba(255,255,255,.3);transition:all .2s;padding:0}
 .star-btn.active{color:var(--or)}
-.star-btn:hover{transform:scale(1.15)}
-.btn-submit{background:var(--or);color:var(--sombre);border:none;padding:12px 32px;border-radius:8px;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
-.btn-submit:hover{background:var(--or2)}
-.form-success{display:none;text-align:center;padding:20px;color:var(--or);font-size:14px}
+.star-btn:hover{transform:scale(1.2);color:var(--or)}
+.btn-submit{background:white;color:var(--bleu);border:none;padding:13px 32px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.2)}
+.btn-submit:hover{background:var(--bleu4);transform:translateY(-1px)}
+.form-success{display:none;text-align:center;padding:16px;color:white;font-size:14px;background:rgba(5,150,105,.3);border-radius:10px;margin-top:12px;font-weight:600}
 
 /* ── CONTACT ── */
-.contact-section{background:var(--sombre2);text-align:center}
-.contact-box{max-width:560px;margin:0 auto}
-.contact-links{display:flex;gap:16px;justify-content:center;margin-top:32px;flex-wrap:wrap}
-.contact-link{display:flex;align-items:center;gap:10px;background:var(--sombre);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px 24px;text-decoration:none;color:var(--texte);font-size:14px;font-weight:500;transition:all .2s}
-.contact-link:hover{border-color:var(--or);color:var(--or)}
+.contact-section{padding:80px 60px;background:var(--gris);text-align:center}
+.contact-links{display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap}
+.contact-link{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--border);border-radius:12px;padding:14px 24px;text-decoration:none;color:var(--bleu-sombre);font-size:13px;font-weight:600;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,.04)}
+.contact-link:hover{border-color:var(--bleu);color:var(--bleu);box-shadow:0 4px 14px rgba(27,79,216,.12);transform:translateY(-2px)}
 
 /* ── FOOTER ── */
-footer{background:var(--sombre);border-top:1px solid rgba(255,255,255,.06);padding:40px;text-align:center}
-footer p{font-size:12px;color:var(--textl)}
-footer strong{color:var(--or)}
+footer{background:var(--bleu-sombre);padding:40px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+footer p{font-size:12px;color:rgba(255,255,255,.5)}
+footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:white}
 
 /* ── MOBILE ── */
+@media(max-width:1024px){
+  .features-grid{grid-template-columns:1fr 1fr}
+  .plans-grid{grid-template-columns:1fr 1fr}
+}
 @media(max-width:768px){
-  nav{padding:14px 20px}
+  nav{padding:0 20px}
   .nav-links{display:none}
-  .hero{padding:100px 20px 60px}
-  .hero-mockup{display:none}
-  .hero-stats{gap:24px}
-  section{padding:70px 20px}
+  .hero{grid-template-columns:1fr;padding:100px 20px 60px;gap:40px}
+  .hero-visual{display:none}
+  .hero-stats{gap:20px}
+  .features-section,.plans-section,.avis-section,.contact-section{padding:70px 20px}
+  .features-grid{grid-template-columns:1fr}
+  .plans-grid{grid-template-columns:1fr}
+  .avis-form-wrap{padding:32px 20px}
   .form-row{grid-template-columns:1fr}
-  .avis-form{padding:24px}
+  footer{padding:30px 20px;flex-direction:column;text-align:center}
 }
 </style>
 </head>
@@ -147,226 +171,273 @@ footer strong{color:var(--or)}
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">GFA <span>· Aviculture</span></div>
+  <div class="nav-logo">
+    <div class="nav-logo-icon">🐔</div>
+    <div>
+      <div class="nav-logo-text">GFA</div>
+      <div class="nav-logo-sub">ATM Farm Village</div>
+    </div>
+  </div>
   <div class="nav-links">
     <a href="#fonctionnalites">Fonctionnalités</a>
-    <a href="#plans">Plans</a>
-    <a href="#avis">Avis</a>
+    <a href="#plans">Tarifs</a>
+    <a href="#avis">Avis clients</a>
     <a href="#contact">Contact</a>
-    <a href="https://avifarmer.net" class="btn-nav">Accéder →</a>
+    <a href="https://app.avifarmer.net" class="btn-nav">Accéder à l'app →</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="hero-badge">🐔 Logiciel avicole professionnel</div>
+    <div class="hero-badge"><div class="hero-badge-dot"></div> Logiciel avicole professionnel</div>
     <h1>Gérez votre ferme<br>avec <em>précision</em><br>et sérénité.</h1>
-    <p class="hero-sub">GFA est le logiciel de gestion avicole conçu pour les éleveurs africains. Rapports journaliers, suivi des stocks, ventes, équipe — tout en un.</p>
+    <p class="hero-sub">GFA est le logiciel de gestion avicole conçu pour les éleveurs d'Afrique de l'Ouest. Rapports, stocks, ventes, équipe — tout en un seul outil.</p>
     <div class="hero-btns">
-      <a href="https://avifarmer.net" class="btn-primary">🚀 Démarrer gratuitement</a>
+      <a href="https://app.avifarmer.net" class="btn-primary">🚀 Démarrer gratuitement</a>
       <a href="#fonctionnalites" class="btn-secondary">Voir les fonctionnalités</a>
     </div>
     <div class="hero-stats">
       <div class="stat-item"><div class="num" id="stat-fermes">—</div><div class="lbl">Fermes actives</div></div>
       <div class="stat-item"><div class="num" id="stat-rapports">—</div><div class="lbl">Rapports saisis</div></div>
-      <div class="stat-item"><div class="num">7+</div><div class="lbl">Années d'expertise</div></div>
+      <div class="stat-item"><div class="num">7+</div><div class="lbl">Ans d'expertise</div></div>
     </div>
   </div>
-  <div class="hero-mockup">
-    <div style="background:var(--sombre2);border-radius:16px;padding:24px;border:1px solid rgba(212,168,83,.2)">
-      <div style="display:flex;gap:6px;margin-bottom:16px"><div style="width:10px;height:10px;border-radius:50%;background:#ff5f56"></div><div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e"></div><div style="width:10px;height:10px;border-radius:50%;background:#27c93f"></div></div>
-      <div style="background:var(--sombre3);border-radius:10px;padding:16px;margin-bottom:10px">
-        <div style="font-size:10px;color:var(--textm);margin-bottom:8px">TABLEAU DE BORD</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div style="background:var(--sombre2);border-radius:6px;padding:10px;border-left:3px solid var(--or)"><div style="font-size:18px;font-weight:700;color:var(--or)">94.2%</div><div style="font-size:9px;color:var(--textm)">Taux de ponte</div></div>
-          <div style="background:var(--sombre2);border-radius:6px;padding:10px;border-left:3px solid var(--vert2)"><div style="font-size:18px;font-weight:700;color:var(--vert2)">847</div><div style="font-size:9px;color:var(--textm)">Plateaux dispo</div></div>
-          <div style="background:var(--sombre2);border-radius:6px;padding:10px;border-left:3px solid #60A5FA"><div style="font-size:18px;font-weight:700;color:#60A5FA">12</div><div style="font-size:9px;color:var(--textm)">Sacs aliment</div></div>
-          <div style="background:var(--sombre2);border-radius:6px;padding:10px;border-left:3px solid #a78bfa"><div style="font-size:18px;font-weight:700;color:#a78bfa">2.8M</div><div style="font-size:9px;color:var(--textm)">Marge FCFA</div></div>
-        </div>
+
+  <!-- Dashboard mockup -->
+  <div class="hero-visual">
+    <div class="dashboard-card">
+      <div class="dash-header">
+        <div class="dash-title">📊 Tableau de bord — Fairfield</div>
+        <div class="dash-date">Aujourd'hui</div>
       </div>
-      <div style="background:var(--sombre3);border-radius:10px;padding:14px">
-        <div style="font-size:10px;color:var(--textm);margin-bottom:8px">DERNIÈRES VENTES</div>
-        <div style="font-size:11px;color:var(--texte);display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)"><span>Campagne 4 Blanc</span><span style="color:var(--or)">45 000 FCFA</span></div>
-        <div style="font-size:11px;color:var(--texte);display:flex;justify-content:space-between;padding:4px 0"><span>Campagne 3 Rouge</span><span style="color:var(--or)">32 500 FCFA</span></div>
+      <div class="dash-kpis">
+        <div class="kpi bleu"><div class="kpi-val">94.2%</div><div class="kpi-lbl">Taux de ponte</div></div>
+        <div class="kpi vert"><div class="kpi-val">847</div><div class="kpi-lbl">Plateaux dispo</div></div>
+        <div class="kpi or"><div class="kpi-val">12 sacs</div><div class="kpi-lbl">Stock aliment</div></div>
+        <div class="kpi violet"><div class="kpi-val">2.8M</div><div class="kpi-lbl">Marge FCFA</div></div>
+      </div>
+      <div class="dash-chart">
+        <div style="font-size:10px;font-weight:700;color:var(--textm);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Taux de ponte — 7 jours</div>
+        <div class="chart-bar-row"><div class="chart-bar-label">Lun</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:88%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">88%</div></div>
+        <div class="chart-bar-row"><div class="chart-bar-label">Mar</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:91%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">91%</div></div>
+        <div class="chart-bar-row"><div class="chart-bar-label">Mer</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:94%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">94%</div></div>
+        <div class="chart-bar-row"><div class="chart-bar-label">Jeu</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:89%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">89%</div></div>
+        <div class="chart-bar-row"><div class="chart-bar-label">Ven</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:96%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">96%</div></div>
+      </div>
+      <div class="dash-footer">
+        <span>3 techniciens connectés 🟢</span>
+        <div class="dash-badge">✓ En ligne</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- FONCTIONNALITÉS -->
-<section id="fonctionnalites">
-  <div class="section-label">Fonctionnalités</div>
-  <div class="section-title">Tout ce dont vous avez<br>besoin pour gérer votre élevage</div>
-  <div class="section-sub">Conçu par des aviculteurs, pour des aviculteurs. Chaque fonctionnalité répond à un besoin réel du terrain.</div>
+<section id="fonctionnalites" class="features-section">
+  <div class="section-header">
+    <div class="section-label">Fonctionnalités</div>
+    <div class="section-title">Tout pour gérer votre élevage</div>
+    <p class="section-sub">Conçu par des aviculteurs, pour des aviculteurs. Chaque fonctionnalité répond à un besoin réel du terrain.</p>
+  </div>
   <div class="features-grid">
-    <div class="feature-card"><span class="feature-icon">📊</span><div class="feature-title">Tableau de bord en temps réel</div><div class="feature-desc">Taux de ponte, mortalité, marge nette, stock œufs — tout en un coup d'œil avec alertes intelligentes.</div></div>
-    <div class="feature-card"><span class="feature-icon">📝</span><div class="feature-title">Rapports journaliers</div><div class="feature-desc">Saisie rapide par les techniciens. Suivi par phase (croissance, ponte). Détection automatique de la phase.</div></div>
-    <div class="feature-card"><span class="feature-icon">💰</span><div class="feature-title">Gestion des ventes</div><div class="feature-desc">Caisse journalière, rapport hebdo/mensuel/annuel. Suivi des œufs cassés. Envoi automatique WhatsApp.</div></div>
-    <div class="feature-card"><span class="feature-icon">💸</span><div class="feature-title">Dépenses & Charges</div><div class="feature-desc">Aliment, médicaments, main d'œuvre, équipements. Upload des reçus. Calcul automatique des marges.</div></div>
-    <div class="feature-card"><span class="feature-icon">📦</span><div class="feature-title">Stock physique</div><div class="feature-desc">Sacs d'aliment restants, œufs disponibles, médicaments. Alertes si stock sous le seuil minimum.</div></div>
-    <div class="feature-card"><span class="feature-icon">👥</span><div class="feature-title">Gestion d'équipe</div><div class="feature-desc">4 rôles (Admin, Superviseur, Secrétaire, Technicien). Présence en ligne. Discussion en temps réel.</div></div>
-    <div class="feature-card"><span class="feature-icon">💊</span><div class="feature-title">Calendrier prophylaxie</div><div class="feature-desc">Programme de vaccination automatique Hy-Line / Cobb500. Notifications 7 jours avant chaque acte.</div></div>
-    <div class="feature-card"><span class="feature-icon">🛒</span><div class="feature-title">Boutique intégrée</div><div class="feature-desc">Commandez aliments, médicaments, formations directement depuis l'app. Livraison à votre ferme.</div></div>
-    <div class="feature-card"><span class="feature-icon">📱</span><div class="feature-title">Mode hors ligne</div><div class="feature-desc">Saisissez vos données même sans connexion. Synchronisation automatique dès que le réseau revient.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">📊</div><div class="feature-title">Tableau de bord temps réel</div><div class="feature-desc">Taux de ponte, mortalité, marge nette, stock œufs — alertes intelligentes si baisse détectée.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">📝</div><div class="feature-title">Rapports journaliers</div><div class="feature-desc">Saisie rapide par les techniciens. Détection automatique de la phase de ponte.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">💰</div><div class="feature-title">Gestion des ventes</div><div class="feature-desc">Caisse journalière, hebdo, mensuel, annuel. Suivi des œufs cassés. Rapport WhatsApp auto.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">💸</div><div class="feature-title">Dépenses & Charges</div><div class="feature-desc">Aliment, médicaments, main d'œuvre, équipements. Upload des reçus. Calcul automatique des marges.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">📦</div><div class="feature-title">Stock physique</div><div class="feature-desc">Sacs d'aliment restants, œufs disponibles, médicaments. Alertes si stock sous le seuil.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">👥</div><div class="feature-title">Gestion d'équipe</div><div class="feature-desc">4 rôles (Admin, Superviseur, Secrétaire, Technicien). Présence en ligne. Discussion en temps réel.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">💊</div><div class="feature-title">Calendrier prophylaxie</div><div class="feature-desc">Programme Hy-Line / Cobb500 automatique. Notifications 7 jours avant chaque acte.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">🛒</div><div class="feature-title">Boutique intégrée</div><div class="feature-desc">Commandez aliments, médicaments, formations directement depuis l'app.</div></div>
+    <div class="feature-card"><div class="feature-icon-wrap">📱</div><div class="feature-title">Mode hors ligne</div><div class="feature-desc">Saisissez vos données même sans connexion. Synchronisation automatique dès que le réseau revient.</div></div>
   </div>
 </section>
 
 <!-- PLANS -->
 <section id="plans" class="plans-section">
-  <div class="section-label">Tarifs</div>
-  <div class="section-title">Choisissez votre plan</div>
-  <div class="section-sub">Commencez gratuitement. Évoluez selon vos besoins.</div>
-  <div class="plans-grid">
+  <div class="section-header">
+    <div class="section-label">Tarifs</div>
+    <div class="section-title">Choisissez votre plan</div>
+    <p class="section-sub">Commencez gratuitement. Évoluez selon vos besoins.</p>
+  </div>
+  <!-- Badge Enterprise gratuit -->
+  <div style="text-align:center;margin-bottom:32px">
+    <div style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#EFF6FF,#F0FDF4);border:1.5px solid var(--bleu3);border-radius:14px;padding:14px 28px">
+      <span style="font-size:20px">🎁</span>
+      <div style="text-align:left">
+        <div style="font-size:13px;font-weight:800;color:var(--bleu-sombre)">1 mois Enterprise GRATUIT pour tout nouvel inscrit</div>
+        <div style="font-size:12px;color:var(--textm)">Accès à toutes les fonctionnalités sans carte bancaire</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toggle mensuel/annuel -->
+  <div style="display:flex;justify-content:center;gap:0;margin-bottom:40px">
+    <button id="toggle-mensuel" onclick="setPeriode('mensuel')" style="background:var(--bleu);color:white;border:none;padding:10px 28px;border-radius:8px 0 0 8px;font-weight:700;font-size:13px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Mensuel</button>
+    <button id="toggle-annuel" onclick="setPeriode('annuel')" style="background:var(--gris2);color:var(--textm);border:none;padding:10px 28px;border-radius:0 8px 8px 0;font-weight:700;font-size:13px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Annuel <span style="font-size:10px;background:#D1FAE5;color:var(--vert);padding:2px 6px;border-radius:4px;margin-left:4px">-17%</span></button>
+  </div>
+
+  <div class="plans-grid" style="grid-template-columns:repeat(4,1fr)">
     <div class="plan-card">
-      <div class="plan-name">Essai</div>
-      <div class="plan-price">Gratuit <span>/ 30 jours</span></div>
-      <div class="plan-desc">Découvrez toutes les fonctionnalités sans engagement</div>
+      <div class="plan-name">Starter</div>
+      <div class="plan-price" id="price-starter">5 000 <span>FCFA/mois</span></div>
+      <div id="price-starter-annuel" style="display:none;font-size:12px;color:var(--vert);font-weight:700;margin-bottom:4px">50 000 FCFA/an — 1 mois offert</div>
+      <div class="plan-desc">Pour les petits élevages, idéal pour démarrer</div>
       <ul class="plan-features">
         <li>1 ferme · 1 admin</li>
+        <li>3 techniciens max</li>
         <li>Rapports journaliers</li>
         <li>Tableau de bord</li>
         <li>Prophylaxie</li>
-        <li class="non">Équipe multi-rôles</li>
         <li class="non">Ventes & Caisse</li>
+        <li class="non">Équipe multi-rôles</li>
       </ul>
-      <a href="https://avifarmer.net" class="btn-plan outline">Commencer →</a>
-    </div>
-    <div class="plan-card featured">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price">5 000 <span>FCFA / mois</span></div>
-      <div class="plan-desc">Pour les petits élevages jusqu'à 3 techniciens</div>
-      <ul class="plan-features">
-        <li>1 ferme · 1 admin</li>
-        <li>3 techniciens</li>
-        <li>Rapports + Prophylaxie</li>
-        <li>Ventes & Caisse</li>
-        <li>Stock physique</li>
-        <li class="non">Multi-fermes</li>
-      </ul>
-      <a href="https://avifarmer.net" class="btn-plan or">Démarrer →</a>
+      <a href="https://app.avifarmer.net" class="btn-plan outline">Commencer →</a>
     </div>
     <div class="plan-card">
       <div class="plan-name">Élite</div>
-      <div class="plan-price">10 000 <span>FCFA / mois</span></div>
-      <div class="plan-desc">Pour les élevages moyens avec secrétaire</div>
+      <div class="plan-price" id="price-elite">7 000 <span>FCFA/mois</span></div>
+      <div id="price-elite-annuel" style="display:none;font-size:12px;color:var(--vert);font-weight:700;margin-bottom:4px">70 000 FCFA/an — 1 mois offert</div>
+      <div class="plan-desc">Pour les élevages avec secrétaire et ventes</div>
       <ul class="plan-features">
         <li>1 ferme · équipe complète</li>
-        <li>Admin + Secrétaire + Techniciens</li>
-        <li>Toutes les fonctionnalités</li>
-        <li>Boutique intégrée</li>
-        <li>Rapports WhatsApp auto</li>
+        <li>Admin + Secrétaire</li>
+        <li>Ventes & Caisse</li>
+        <li>Stock physique</li>
+        <li>Rapports WhatsApp</li>
         <li class="non">Multi-fermes</li>
       </ul>
-      <a href="https://avifarmer.net" class="btn-plan outline">Choisir →</a>
+      <a href="https://app.avifarmer.net" class="btn-plan outline">Choisir →</a>
+    </div>
+    <div class="plan-card featured">
+      <div class="plan-name">Pro</div>
+      <div class="plan-price" id="price-pro">10 000 <span>FCFA/mois</span></div>
+      <div id="price-pro-annuel" style="display:none;font-size:12px;color:var(--vert);font-weight:700;margin-bottom:4px">100 000 FCFA/an — 1 mois offert</div>
+      <div class="plan-desc">Pour les exploitations avancées multi-bandes</div>
+      <ul class="plan-features">
+        <li>1 ferme · tous les rôles</li>
+        <li>Boutique intégrée</li>
+        <li>Graphiques avancés</li>
+        <li>Comparaison standards</li>
+        <li>Alertes intelligentes</li>
+        <li class="non">Multi-fermes</li>
+      </ul>
+      <a href="https://app.avifarmer.net" class="btn-plan bleu">Démarrer →</a>
     </div>
     <div class="plan-card">
       <div class="plan-name">Enterprise</div>
-      <div class="plan-price">25 000 <span>FCFA / mois</span></div>
+      <div class="plan-price" id="price-entr">15 000 <span>FCFA/mois</span></div>
+      <div id="price-entr-annuel" style="display:none;font-size:12px;color:var(--vert);font-weight:700;margin-bottom:4px">150 000 FCFA/an — 1 mois offert</div>
       <div class="plan-desc">Pour les grandes exploitations multi-sites</div>
       <ul class="plan-features">
         <li>Multi-fermes illimité</li>
         <li>Équipe illimitée</li>
-        <li>Panel admin dédié</li>
         <li>Stock envoi/réception</li>
+        <li>Panel admin dédié</li>
         <li>Support prioritaire</li>
         <li>Formation incluse</li>
       </ul>
-      <a href="https://avifarmer.net" class="btn-plan outline">Nous contacter →</a>
+      <a href="#contact" class="btn-plan outline">Nous contacter →</a>
     </div>
+  </div>
+
+  <!-- Code parrain -->
+  <div style="background:linear-gradient(135deg,var(--bleu-sombre),var(--bleu-mid));border-radius:20px;padding:36px 40px;margin-top:40px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+    <div style="font-size:36px">🤝</div>
+    <div style="flex:1;min-width:280px">
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:6px">Programme Parrain</div>
+      <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:white;margin-bottom:8px">Code parrain = 5% de réduction</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7">Vous avez un code parrain ? Entrez-le lors de votre inscription sur l'application pour obtenir <strong style="color:white">5% de réduction</strong> sur votre premier abonnement. Le parrain reçoit également un <strong style="color:white">bonus</strong> sur son compte.</div>
+    </div>
+    <a href="https://app.avifarmer.net" style="background:white;color:var(--bleu);padding:13px 28px;border-radius:10px;font-weight:800;font-size:13px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.2)">S'inscrire avec un code →</a>
   </div>
 </section>
 
 <!-- AVIS -->
 <section id="avis" class="avis-section">
-  <div class="section-label">Témoignages</div>
-  <div class="section-title">Ce que disent nos éleveurs</div>
-  <div id="avis-grid" class="avis-grid">
-    <div style="color:var(--textm);font-size:13px;padding:20px">Chargement des avis...</div>
+  <div class="section-header">
+    <div class="section-label">Témoignages</div>
+    <div class="section-title">Ce que disent nos éleveurs</div>
+    <p class="section-sub">Des éleveurs de toute l'Afrique de l'Ouest font confiance à GFA.</p>
   </div>
-
-  <!-- Formulaire avis -->
-  <div class="avis-form">
-    <h3>Déposez votre avis</h3>
-    <p>Partagez votre expérience avec GFA — votre avis aide d'autres éleveurs.</p>
-    <div class="form-field">
-      <label>Votre note</label>
-      <div class="stars-input" id="stars-input">
-        <button class="star-btn active" data-star="1" onclick="setEtoile(1)">★</button>
-        <button class="star-btn active" data-star="2" onclick="setEtoile(2)">★</button>
-        <button class="star-btn active" data-star="3" onclick="setEtoile(3)">★</button>
-        <button class="star-btn active" data-star="4" onclick="setEtoile(4)">★</button>
-        <button class="star-btn active" data-star="5" onclick="setEtoile(5)">★</button>
-      </div>
-    </div>
-    <div class="form-row">
+  <div id="avis-grid" class="avis-grid">
+    <div style="color:var(--textl);font-size:13px;padding:20px">Chargement des avis...</div>
+  </div>
+  <div class="avis-form-wrap">
+    <div class="avis-form-inner">
+      <h3>Partagez votre expérience</h3>
+      <p>Votre avis aide d'autres éleveurs à découvrir GFA.</p>
       <div class="form-field">
-        <label>Votre nom</label>
-        <input type="text" id="avis-nom" placeholder="Ex: Kofi Mensah">
+        <label>Votre note</label>
+        <div class="stars-input">
+          <button class="star-btn active" onclick="setEtoile(1)">★</button>
+          <button class="star-btn active" onclick="setEtoile(2)">★</button>
+          <button class="star-btn active" onclick="setEtoile(3)">★</button>
+          <button class="star-btn active" onclick="setEtoile(4)">★</button>
+          <button class="star-btn active" onclick="setEtoile(5)">★</button>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Votre nom</label>
+          <input type="text" id="avis-nom" placeholder="Ex: Kofi Mensah">
+        </div>
+        <div class="form-field">
+          <label>Votre ferme (optionnel)</label>
+          <input type="text" id="avis-ferme" placeholder="Ex: Ferme Mensah">
+        </div>
       </div>
       <div class="form-field">
-        <label>Votre ferme (optionnel)</label>
-        <input type="text" id="avis-ferme" placeholder="Ex: Ferme Mensah">
+        <label>Votre message</label>
+        <textarea id="avis-message" placeholder="Partagez votre expérience avec GFA..."></textarea>
       </div>
+      <button class="btn-submit" onclick="soumettreAvis()">Envoyer mon avis →</button>
+      <div class="form-success" id="avis-success">✓ Merci ! Votre avis sera publié après validation.</div>
+      <div id="avis-err" style="color:rgba(255,100,100,.9);font-size:12px;margin-top:8px"></div>
     </div>
-    <div class="form-field">
-      <label>Votre message</label>
-      <textarea id="avis-message" placeholder="Partagez votre expérience avec GFA..."></textarea>
-    </div>
-    <button class="btn-submit" onclick="soumettreAvis()">Envoyer mon avis →</button>
-    <div class="form-success" id="avis-success">✓ Merci ! Votre avis sera publié après validation.</div>
-    <div id="avis-err" style="color:#C44B2B;font-size:12px;margin-top:8px"></div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact" class="contact-section">
-  <div class="contact-box">
-    <div class="section-label">Contact</div>
-    <div class="section-title">Parlons de votre élevage</div>
-    <p style="color:var(--textm);margin-top:12px;font-size:15px;font-weight:300">Notre équipe est disponible pour vous accompagner dans la prise en main du logiciel.</p>
-    <div class="contact-links">
-      <a href="https://wa.me/22870992018" class="contact-link" target="_blank">📲 WhatsApp · (+228) 70 99 20 18</a>
-      <a href="mailto:armel.atchou@gmail.com" class="contact-link">✉️ armel.atchou@gmail.com</a>
-      <a href="https://avifarmer.net" class="contact-link">🌐 avifarmer.net</a>
-    </div>
-    <p style="color:var(--textl);font-size:12px;margin-top:24px">📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo</p>
+  <div class="section-label">Contact</div>
+  <div class="section-title" style="font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--bleu-sombre);letter-spacing:-1px;margin:12px 0">Parlons de votre élevage</div>
+  <p style="color:var(--textm);font-size:15px;max-width:480px;margin:0 auto">Notre équipe est disponible pour vous accompagner dans la prise en main du logiciel.</p>
+  <div class="contact-links">
+    <a href="https://wa.me/22870992018" class="contact-link" target="_blank">📲 WhatsApp · (+228) 70 99 20 18</a>
+    <a href="mailto:armel.atchou@gmail.com" class="contact-link">✉️ armel.atchou@gmail.com</a>
+    <a href="https://app.avifarmer.net" class="contact-link">🌐 app.avifarmer.net</a>
   </div>
+  <p style="color:var(--textl);font-size:12px;margin-top:24px">📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo</p>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2025 <strong>GFA — Gestion Ferme Avicole</strong> · ATM Farm Village · Lomé, Togo</p>
-  <p style="margin-top:6px">Conçu avec ❤️ pour les éleveurs africains</p>
+  <div class="footer-logo">GFA · ATM Farm Village</div>
+  <p>© 2025 ATM Farm Village · Lomé, Togo · Conçu pour les éleveurs africains</p>
 </footer>
 
 <script>
 const SUPA_URL = 'https://ikdzmzlleemkegnpqgvu.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZHptemxsZWVta2VnbnBxZ3Z1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NjIxNDUsImV4cCI6MjA5MTIzODE0NX0.FYJrw4JfwFlbirITmX2f7Y_pixr7KdeMzRMNn_3k0d4';
 const SB = supabase.createClient(SUPA_URL, SUPA_KEY);
-
 let etoilesSelectionnees = 5;
 
-// ── Charger les stats ──
 async function loadStats(){
   const [{data:fermes},{data:rapports}] = await Promise.all([
-    SB.from('fermes').select('id',{count:'exact'}),
-    SB.from('rapports').select('id',{count:'exact'})
+    SB.from('fermes').select('id'),
+    SB.from('rapports').select('id')
   ]);
-  const nbFermes = fermes?.length||0;
-  const nbRapports = rapports?.length||0;
-  document.getElementById('stat-fermes').textContent = nbFermes > 0 ? nbFermes+'+' : '—';
-  document.getElementById('stat-rapports').textContent = nbRapports > 100 ? Math.floor(nbRapports/100)*100+'+' : nbRapports||'—';
+  document.getElementById('stat-fermes').textContent = (fermes?.length||0)+'+';
+  const nb = rapports?.length||0;
+  document.getElementById('stat-rapports').textContent = nb>100?Math.floor(nb/100)*100+'+':nb||'—';
 }
 
-// ── Charger les avis ──
 async function loadAvis(){
   const{data} = await SB.from('avis').select('*').eq('approuve',true).order('created_at',{ascending:false}).limit(6);
   const grid = document.getElementById('avis-grid');
   if(!data?.length){
-    grid.innerHTML = '<div style="color:var(--textm);font-size:13px;padding:20px;grid-column:1/-1;text-align:center">Soyez le premier à laisser un avis !</div>';
+    grid.innerHTML = '<div style="color:var(--textl);font-size:13px;padding:20px;grid-column:1/-1;text-align:center">Soyez le premier à laisser un avis !</div>';
     return;
   }
   grid.innerHTML = data.map(a=>`
@@ -378,7 +449,6 @@ async function loadAvis(){
     </div>`).join('');
 }
 
-// ── Étoiles ──
 function setEtoile(n){
   etoilesSelectionnees = n;
   document.querySelectorAll('.star-btn').forEach((btn,i)=>{
@@ -386,40 +456,49 @@ function setEtoile(n){
   });
 }
 
-// ── Soumettre avis ──
 async function soumettreAvis(){
   const nom = document.getElementById('avis-nom').value.trim();
   const ferme = document.getElementById('avis-ferme').value.trim();
   const message = document.getElementById('avis-message').value.trim();
   const errEl = document.getElementById('avis-err');
   errEl.textContent = '';
-
   if(!nom){ errEl.textContent = 'Votre nom est requis'; return; }
-  if(!message || message.length < 10){ errEl.textContent = 'Votre message doit faire au moins 10 caractères'; return; }
-
-  const{error} = await SB.from('avis').insert({nom, ferme, etoiles:etoilesSelectionnees, message});
+  if(!message||message.length<10){ errEl.textContent = 'Message trop court (min 10 caractères)'; return; }
+  const{error} = await SB.from('avis').insert({nom,ferme,etoiles:etoilesSelectionnees,message});
   if(error){ errEl.textContent = 'Erreur: '+error.message; return; }
-
   document.getElementById('avis-success').style.display = 'block';
   document.getElementById('avis-nom').value = '';
   document.getElementById('avis-ferme').value = '';
   document.getElementById('avis-message').value = '';
   setEtoile(5);
-  setTimeout(()=>{ document.getElementById('avis-success').style.display='none'; }, 4000);
+  setTimeout(()=>{ document.getElementById('avis-success').style.display='none'; },4000);
 }
 
-// ── Init ──
-loadStats();
-loadAvis();
-
-// Animation au scroll
-const observer = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.style.opacity='1', e.target.style.transform='translateY(0)'; });
+// Animations scroll
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }});
 },{threshold:.1});
 document.querySelectorAll('.feature-card,.plan-card,.avis-card').forEach(el=>{
-  el.style.opacity='0';el.style.transform='translateY(20px)';el.style.transition='opacity .5s, transform .5s';
-  observer.observe(el);
+  el.style.opacity='0'; el.style.transform='translateY(24px)'; el.style.transition='opacity .5s, transform .5s';
+  obs.observe(el);
 });
+
+loadStats(); loadAvis();
+
+function setPeriode(p){
+  const mensuel = p==='mensuel';
+  document.getElementById('toggle-mensuel').style.background = mensuel?'var(--bleu)':'var(--gris2)';
+  document.getElementById('toggle-mensuel').style.color = mensuel?'white':'var(--textm)';
+  document.getElementById('toggle-annuel').style.background = !mensuel?'var(--bleu)':'var(--gris2)';
+  document.getElementById('toggle-annuel').style.color = !mensuel?'white':'var(--textm)';
+  
+  [['starter','5 000','50 000'],['elite','7 000','70 000'],['pro','10 000','100 000'],['entr','15 000','150 000']].forEach(([k,m,a])=>{
+    document.getElementById('price-'+k).innerHTML = (mensuel?m:Math.round(+a.replace(' ','')/12).toLocaleString())+' <span>FCFA/mois</span>';
+    const annuelEl = document.getElementById('price-'+k+'-annuel');
+    if(annuelEl) annuelEl.style.display = mensuel?'none':'block';
+  });
+}
+
 </script>
 </body>
 </html>
