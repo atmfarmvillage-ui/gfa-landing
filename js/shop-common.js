@@ -15,7 +15,7 @@ const FEDAPAY_PUBLIC_KEY = 'pk_live_sl8rovKwBzuvqQc1LWRNLIPl';
 function slugify(s){
   if(!s) return '';
   return s.toString()
-    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .normalize('NFD').replace(/\p{Diacritic}/gu,'')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g,'-')
     .replace(/^-+|-+$/g,'')
