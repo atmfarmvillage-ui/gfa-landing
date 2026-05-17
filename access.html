@@ -60,10 +60,29 @@ const SB = supabase.createClient(SHOP_SUPA_URL, SHOP_SUPA_KEY);
     dernier_clic: new Date().toISOString(),
   }).eq('token', token).then(()=>{});
 
+  // Déterminer l'URL finale
+  let urlFinale = data.lien_reel;
+
+  // Si le lien commence par "storage:<bucket>/<path>", générer une URL signée (10 min)
+  if(urlFinale && urlFinale.startsWith('storage:')){
+    const match = urlFinale.match(/^storage:([^/]+)\/(.+)$/);
+    if(match){
+      const bucket = match[1];
+      const path = match[2];
+      document.getElementById('contenu').innerHTML = `<div class="spinner"></div><h1>Génération du lien sécurisé...</h1><p>Cette opération prend quelques secondes.</p>`;
+      const { data: signed, error: errSign } = await SB.storage.from(bucket).createSignedUrl(path, 600); // 10 min
+      if(errSign || !signed?.signedUrl){
+        document.getElementById('contenu').innerHTML = `<div class="ico err-ico">⚠️</div><h1>Erreur d'accès</h1><p>Impossible de générer votre lien d'accès. Contactez ATM.</p><a class="btn" href="https://wa.me/22870992018">💬 Contacter ATM</a>`;
+        return;
+      }
+      urlFinale = signed.signedUrl;
+    }
+  }
+
   // Redirection
   document.getElementById('contenu').innerHTML = `<div class="ico">✓</div><h1>Accès validé</h1><p>Redirection vers votre contenu...</p>`;
   setTimeout(() => {
-    location.href = data.lien_reel;
+    location.href = urlFinale;
   }, 1200);
 })();
 </script>
