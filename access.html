@@ -34,7 +34,9 @@ const SHOP_SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const SB = supabase.createClient(SHOP_SUPA_URL, SHOP_SUPA_KEY);
 
 (async () => {
-  const token = new URLSearchParams(location.search).get('t');
+  const token = new URLSearchParams(location.search).get('t')
+    || decodeURIComponent(location.pathname.replace(/^\/access\/?/, '').replace(/\/$/, ''))
+    || '';
   if(!token){
     document.getElementById('contenu').innerHTML = `<div class="ico err-ico">⚠️</div><h1>Lien invalide</h1><p>Ce lien d'accès est incomplet.</p><a class="btn" href="/boutique">← Retour boutique</a>`;
     return;

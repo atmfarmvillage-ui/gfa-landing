@@ -126,7 +126,9 @@ footer a{color:white;text-decoration:none;font-weight:600}
 <script src="/js/shop-common.js"></script>
 <script>
 const params = new URLSearchParams(location.search);
-const slug = params.get('slug') || '';
+const slug = params.get('slug')
+  || decodeURIComponent(location.pathname.replace(/^\/boutique\/?/, '').replace(/\/$/, ''))
+  || '';
 
 async function init(){
   if(!slug){

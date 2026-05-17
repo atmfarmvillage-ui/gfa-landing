@@ -96,7 +96,9 @@ h1{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--bleu-
 <script src="/js/shop-common.js"></script>
 <script>
 const params = new URLSearchParams(location.search);
-const slug = params.get('slug') || '';
+const slug = params.get('slug')
+  || decodeURIComponent(location.pathname.replace(/^\/checkout\/?/, '').replace(/\/$/, ''))
+  || '';
 const qteInit = +params.get('q') || 1;
 const modeInit = params.get('mode') || 'fedapay';
 const gratuit = params.get('gratuit') === '1';
