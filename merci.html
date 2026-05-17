@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merci ! — ATM Farm Village</title>
+<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --bleu:#1B4FD8;--bleu3:#3B82F6;--bleu4:#EFF6FF;--bleu-sombre:#0F2B6B;--bleu-mid:#1E40AF;
+  --vert:#059669;--or:#F59E0B;--rouge:#EF4444;
+  --texte:#0F172A;--textm:#475569;--textl:#94A3B8;
+  --blanc:#FFFFFF;--gris:#F8FAFC;--gris2:#F1F5F9;--border:#E2E8F0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#F0FDF4 0%,#EFF6FF 50%,#FFF7ED 100%);color:var(--texte);min-height:100vh;display:flex;flex-direction:column}
+
+nav{padding:18px 32px;background:white;border-bottom:1px solid var(--border);display:flex;align-items:center}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:36px;height:36px;border-radius:8px;overflow:hidden;background:white;box-shadow:0 2px 8px rgba(15,43,107,.10);display:flex;align-items:center;justify-content:center}
+.nav-logo-icon img{width:100%;height:100%;object-fit:contain}
+.nav-logo-text{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:var(--bleu-sombre)}
+
+.merci-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.merci-card{background:white;border-radius:18px;padding:48px 32px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(15,43,107,.10);text-align:center;border:1px solid var(--border)}
+
+.merci-ico-wrap{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#dcfce7,#bbf7d0);display:flex;align-items:center;justify-content:center;font-size:48px;margin:0 auto 24px;animation:pop .6s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+
+h1{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:var(--bleu-sombre);margin-bottom:12px;letter-spacing:-0.5px}
+.lead{font-size:15px;color:var(--textm);line-height:1.6;margin-bottom:24px}
+
+.alerte{background:#FEF2F2;border-left:4px solid var(--rouge);padding:16px 20px;border-radius:10px;text-align:left;margin-bottom:24px}
+.alerte-titre{font-size:14px;font-weight:800;color:var(--rouge);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.alerte-texte{font-size:13px;color:#7F1D1D;line-height:1.5}
+
+.btn-whatsapp{background:#25D366;color:white;padding:18px 28px;border-radius:12px;font-size:16px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:12px;width:100%;box-shadow:0 6px 20px rgba(37,211,102,.35);transition:all .25s;font-family:inherit;border:none;cursor:pointer;margin-bottom:14px;animation:pulse 2s ease-in-out infinite}
+.btn-whatsapp:hover{background:#1ea952;transform:translateY(-2px);box-shadow:0 10px 28px rgba(37,211,102,.45)}
+@keyframes pulse{0%,100%{box-shadow:0 6px 20px rgba(37,211,102,.35)}50%{box-shadow:0 6px 28px rgba(37,211,102,.6)}}
+.btn-wa-ico{font-size:22px}
+
+.btn-secondary{background:white;color:var(--bleu);padding:12px 22px;border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;border:1.5px solid var(--bleu3);display:inline-block;margin-top:8px}
+.btn-secondary:hover{background:var(--bleu4)}
+
+.detail-line{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:var(--textm);border-bottom:1px dashed var(--gris2);text-align:left}
+.detail-bloc{background:var(--gris);border-radius:10px;padding:14px 18px;margin-bottom:20px}
+.detail-bloc strong{color:var(--bleu-sombre);font-weight:700}
+
+.lien-acces-box{background:#DCFCE7;border:2px solid var(--vert);border-radius:12px;padding:18px;margin:20px 0;text-align:left}
+.lien-acces-titre{font-size:13px;font-weight:800;color:var(--vert);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.lien-acces-url{background:white;padding:12px;border-radius:8px;font-family:monospace;font-size:12px;color:var(--bleu-sombre);word-break:break-all;border:1px solid #BBF7D0;margin-bottom:10px}
+.btn-acces{background:var(--vert);color:white;padding:12px;border-radius:8px;text-decoration:none;font-weight:700;font-size:13px;display:block;text-align:center;width:100%}
+.btn-acces:hover{background:#047857}
+
+.loading{padding:120px 20px;text-align:center;color:var(--textl)}
+
+footer{padding:24px;text-align:center;font-size:12px;color:var(--textm)}
+footer a{color:var(--bleu);text-decoration:none;font-weight:600}
+
+@media(max-width:600px){
+  .merci-card{padding:32px 22px}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="ATM"></div>
+    <div class="nav-logo-text">ATM Farm Village</div>
+  </a>
+</nav>
+
+<div class="merci-wrap" id="contenu">
+  <div class="loading">⏳ Chargement de votre commande...</div>
+</div>
+
+<footer>
+  Besoin d'aide ? <a href="https://wa.me/22870992018">WhatsApp +228 70 99 20 18</a>
+</footer>
+
+<script src="js/shop-common.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const cmdId = params.get('cmd');
+const mode = params.get('mode') || 'fedapay';
+
+async function init(){
+  if(!cmdId){
+    document.getElementById('contenu').innerHTML = '<div class="merci-card"><h1>⚠️ Commande introuvable</h1><p class="lead">Nous n\'avons pas trouvé votre commande. Si vous avez payé, contactez-nous : <a href="https://wa.me/22870992018" style="color:var(--bleu);font-weight:700">+228 70 99 20 18</a></p></div>';
+    return;
+  }
+
+  const { data: cmd, error } = await SHOP_SB.from('commandes').select('*').eq('id', cmdId).single();
+  if(error || !cmd){
+    document.getElementById('contenu').innerHTML = '<div class="merci-card"><h1>⚠️ Commande introuvable</h1><p class="lead">Cette commande n\'existe pas ou plus.</p><a href="/boutique" class="btn-secondary">← Retour boutique</a></div>';
+    return;
+  }
+
+  // Récupérer le token d'accès si virtuel + payé
+  let acces = null;
+  if(cmd.type === 'virtuel' && cmd.paye){
+    const { data: a } = await SHOP_SB.from('acces_virtuels').select('*').eq('commande_id', cmdId).maybeSingle();
+    acces = a;
+  }
+
+  rendreMerci(cmd, acces);
+}
+
+function rendreMerci(cmd, acces){
+  const isVirtuel = cmd.type === 'virtuel';
+  const isPaye = cmd.paye;
+  const isLivraison = cmd.mode_paiement === 'livraison';
+
+  // Construire message WA pré-rempli
+  let messageWA;
+  if(isVirtuel && isPaye){
+    messageWA = `Bonjour ATM 👋\n\nJ'ai acheté *${cmd.produit_titre}* pour ${cmd.montant.toLocaleString('fr-FR')} FCFA.\n\n*Mon nom :* ${cmd.client_nom}\n*Référence :* ${cmd.fedapay_ref || 'N/A'}\n*ID Commande :* ${cmd.id.slice(0,8)}\n\nMerci de m'envoyer mon accès. 🙏`;
+  } else if(isVirtuel && !isPaye){
+    // Gratuit
+    messageWA = `Bonjour ATM 👋\n\nJe souhaite réclamer l'accès gratuit à *${cmd.produit_titre}*.\n\n*Mon nom :* ${cmd.client_nom}\n*ID Commande :* ${cmd.id.slice(0,8)}\n\nMerci ! 🙏`;
+  } else if(isLivraison){
+    messageWA = `Bonjour ATM 👋\n\nJe veux commander *${cmd.produit_titre}* × ${cmd.quantite} pour ${cmd.montant.toLocaleString('fr-FR')} FCFA.\n\n*Mon nom :* ${cmd.client_nom}\n*Téléphone :* ${cmd.client_tel}\n*Lieu de livraison :* ${cmd.client_adresse || 'À préciser'}${cmd.client_geoloc?'\n*Position GPS :* https://maps.google.com/?q='+cmd.client_geoloc:''}\n\n💰 *Paiement à la livraison*\n\nMerci de me contacter pour confirmer la livraison. 🙏`;
+  } else {
+    // Réel + payé via FedaPay
+    messageWA = `Bonjour ATM 👋\n\nJ'ai commandé et payé *${cmd.produit_titre}* × ${cmd.quantite} (${cmd.montant.toLocaleString('fr-FR')} FCFA).\n\n*Mon nom :* ${cmd.client_nom}\n*Téléphone :* ${cmd.client_tel}\n*Lieu de livraison :* ${cmd.client_adresse || 'À préciser'}${cmd.client_geoloc?'\n*Position GPS :* https://maps.google.com/?q='+cmd.client_geoloc:''}\n*Référence FedaPay :* ${cmd.fedapay_ref || 'N/A'}\n*ID Commande :* ${cmd.id.slice(0,8)}\n\nMerci de me confirmer la livraison. 🙏`;
+  }
+
+  const lienWA = lienWhatsApp(messageWA);
+
+  document.getElementById('contenu').innerHTML = `
+    <div class="merci-card">
+      <div class="merci-ico-wrap">${isPaye ? '✅' : '📋'}</div>
+
+      <h1>${isPaye ? 'Paiement reçu !' : 'Commande enregistrée'}</h1>
+      <p class="lead">
+        ${isPaye
+          ? (isVirtuel
+              ? 'Votre paiement de <b>'+cmd.montant.toLocaleString('fr-FR')+' FCFA</b> est confirmé. Envoyez maintenant un message WhatsApp à ATM pour recevoir votre accès personnel.'
+              : 'Votre paiement de <b>'+cmd.montant.toLocaleString('fr-FR')+' FCFA</b> est confirmé. Envoyez maintenant un message WhatsApp à ATM pour organiser la livraison.')
+          : (isLivraison
+              ? 'Vous avez choisi le paiement à la livraison. <b>Cliquez ci-dessous pour envoyer votre commande à ATM via WhatsApp.</b> Sans cette étape, votre commande ne sera pas traitée.'
+              : 'Réclamez maintenant votre accès gratuit en envoyant un message WhatsApp à ATM.')}
+      </p>
+
+      ${!isPaye || isLivraison ? `
+        <div class="alerte">
+          <div class="alerte-titre">⚠️ Action requise</div>
+          <div class="alerte-texte">Votre commande n'est <b>PAS encore traitée</b>. Cliquez sur le bouton ci-dessous pour l'envoyer à ATM via WhatsApp. Sans cette étape, nous ne pourrons pas vous ${isVirtuel?'donner accès':'livrer'}.</div>
+        </div>
+      ` : ''}
+
+      ${acces ? `
+        <div class="lien-acces-box">
+          <div class="lien-acces-titre">⚡ Votre lien d'accès personnel</div>
+          <div class="lien-acces-url">${location.origin}/access/${acces.token}</div>
+          <a href="/access/${acces.token}" class="btn-acces" target="_blank">▶ Ouvrir le contenu maintenant</a>
+        </div>
+      ` : ''}
+
+      <a href="${lienWA}" class="btn-whatsapp" id="btnWA" target="_blank">
+        <span class="btn-wa-ico">📲</span>
+        <span>Envoyer à ATM sur WhatsApp</span>
+      </a>
+
+      <div class="detail-bloc" style="margin-top:24px">
+        <div class="detail-line"><span>Commande</span><strong>#${cmd.id.slice(0,8)}</strong></div>
+        <div class="detail-line"><span>Produit</span><strong>${escapeHtml(cmd.produit_titre)}</strong></div>
+        ${!isVirtuel ? `<div class="detail-line"><span>Quantité</span><strong>× ${cmd.quantite}</strong></div>` : ''}
+        <div class="detail-line"><span>Montant</span><strong>${cmd.montant>0 ? cmd.montant.toLocaleString('fr-FR')+' FCFA' : 'Gratuit'}</strong></div>
+        <div class="detail-line"><span>Statut</span><strong style="color:${isPaye?'var(--vert)':'var(--or)'}">${isPaye?'✓ Payé':'⏳ '+(isLivraison?'À payer à la livraison':'En attente')}</strong></div>
+      </div>
+
+      <a href="/boutique" class="btn-secondary">← Continuer mes achats</a>
+    </div>
+  `;
+
+  // Marquer "wa_envoye" quand le user clique sur le bouton WhatsApp
+  document.getElementById('btnWA').addEventListener('click', async () => {
+    await SHOP_SB.from('commandes').update({wa_envoye: true, updated_at: new Date().toISOString()}).eq('id', cmd.id);
+  });
+}
+
+function escapeHtml(s){
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+init();
+</script>
+</body>
+</html>

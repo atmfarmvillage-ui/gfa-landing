@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boutique — ATM Farm Village · Formations, livres, intrants</title>
+<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<meta name="description" content="Boutique ATM Farm Village : formations vidéo, livres numériques, aliments, médicaments. Paiement Mobile Money sécurisé via FedaPay. Livraison au Togo.">
+<meta property="og:title" content="Boutique ATM Farm Village">
+<meta property="og:description" content="Formations, livres, aliments, médicaments pour éleveurs. Paiement sécurisé.">
+<meta property="og:image" content="https://app.avifarmer.net/icons/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --bleu:#1B4FD8;--bleu2:#2563EB;--bleu3:#3B82F6;--bleu4:#EFF6FF;
+  --bleu-sombre:#0F2B6B;--bleu-mid:#1E40AF;
+  --vert:#059669;--or:#F59E0B;
+  --texte:#0F172A;--textm:#475569;--textl:#94A3B8;
+  --blanc:#FFFFFF;--gris:#F8FAFC;--gris2:#F1F5F9;--border:#E2E8F0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gris);color:var(--texte)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:68px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:40px;height:40px;border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:white;box-shadow:0 2px 8px rgba(15,43,107,.10)}
+.nav-logo-icon img{width:100%;height:100%;object-fit:contain}
+.nav-logo-text{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--bleu-sombre);letter-spacing:-0.5px}
+.nav-logo-sub{font-size:11px;color:var(--textm);font-weight:500}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{color:var(--textm);text-decoration:none;font-size:13px;font-weight:600;transition:color .2s}
+.nav-links a:hover{color:var(--bleu)}
+.btn-nav{background:var(--bleu);color:white;padding:9px 22px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(27,79,216,.3)}
+.btn-nav:hover{background:var(--bleu-mid);transform:translateY(-1px)}
+
+/* HEADER */
+.shop-header{padding:120px 32px 40px;text-align:center;background:linear-gradient(135deg,#F0F7FF 0%,#EFF6FF 50%,#F0FDF4 100%);border-bottom:1px solid var(--border)}
+.shop-header-label{display:inline-block;background:white;color:var(--bleu);font-size:11px;font-weight:700;padding:6px 16px;border-radius:20px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px;border:1px solid var(--bleu3)}
+.shop-header h1{font-family:'Fraunces',serif;font-size:clamp(32px,4vw,48px);font-weight:900;color:var(--bleu-sombre);margin-bottom:14px;letter-spacing:-1px}
+.shop-header p{font-size:15px;color:var(--textm);max-width:620px;margin:0 auto;line-height:1.6}
+
+/* FILTRES */
+.filtres-wrap{max-width:1200px;margin:0 auto;padding:32px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.filtre-btn{background:white;border:1.5px solid var(--border);border-radius:24px;padding:8px 18px;font-size:13px;font-weight:600;color:var(--textm);cursor:pointer;transition:all .2s}
+.filtre-btn:hover{border-color:var(--bleu3);color:var(--bleu)}
+.filtre-btn.active{background:var(--bleu);border-color:var(--bleu);color:white}
+.recherche{margin-left:auto;background:white;border:1.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;width:280px;font-family:inherit}
+.recherche:focus{outline:none;border-color:var(--bleu3)}
+
+/* GRILLE PRODUITS */
+.produits-grid{max-width:1200px;margin:0 auto;padding:0 32px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px}
+.produit-card{background:white;border-radius:14px;overflow:hidden;border:1px solid var(--border);transition:all .3s;text-decoration:none;color:inherit;display:flex;flex-direction:column}
+.produit-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(15,43,107,.12);border-color:var(--bleu3)}
+.produit-img{aspect-ratio:16/10;background:var(--gris2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.produit-img img{width:100%;height:100%;object-fit:cover}
+.produit-img-placeholder{font-size:48px;opacity:.3}
+.produit-badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);padding:4px 10px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.produit-badge.virtuel{color:#ef4444}
+.produit-badge.reel{color:#059669}
+.produit-badge.gratuit{position:absolute;top:10px;right:10px;background:#22c55e;color:white;padding:4px 10px;border-radius:6px;font-size:10px;font-weight:800;letter-spacing:1px}
+.produit-body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.produit-titre{font-size:15px;font-weight:700;color:var(--bleu-sombre);line-height:1.3;min-height:38px}
+.produit-desc{font-size:13px;color:var(--textm);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.produit-footer{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--gris2);margin-top:auto}
+.produit-prix{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--bleu)}
+.produit-prix.gratuit{color:var(--vert)}
+.produit-cta{background:var(--bleu);color:white;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;transition:all .2s}
+.produit-card:hover .produit-cta{background:var(--bleu-mid)}
+
+.empty{text-align:center;padding:80px 20px;color:var(--textl);grid-column:1/-1}
+.empty-ico{font-size:48px;margin-bottom:12px;opacity:.5}
+
+/* FOOTER */
+footer{background:var(--bleu-sombre);color:rgba(255,255,255,.7);padding:32px;text-align:center;font-size:12px}
+footer a{color:white;text-decoration:none;font-weight:600}
+
+@media(max-width:768px){
+  nav{padding:0 16px;height:60px}
+  .nav-links{gap:14px}
+  .nav-logo-sub{display:none}
+  .shop-header{padding:90px 20px 32px}
+  .filtres-wrap{padding:20px;gap:8px}
+  .recherche{width:100%;margin-left:0;margin-top:8px}
+  .produits-grid{padding:0 16px 60px;gap:16px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .produit-titre{font-size:13px;min-height:34px}
+  .produit-desc{font-size:11px;-webkit-line-clamp:2}
+  .produit-body{padding:12px;gap:6px}
+  .produit-prix{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="ATM"></div>
+    <div>
+      <div class="nav-logo-text">ATM Farm Village</div>
+      <div class="nav-logo-sub">Boutique</div>
+    </div>
+  </a>
+  <div class="nav-links">
+    <a href="/">Accueil</a>
+    <a href="/#fonctionnalites">L'app GFA</a>
+    <a href="/#contact">Contact</a>
+    <a class="btn-nav" href="https://app.avifarmer.net">Ouvrir l'app →</a>
+  </div>
+</nav>
+
+<header class="shop-header">
+  <div class="shop-header-label">🛒 Boutique</div>
+  <h1>Tout pour réussir votre élevage</h1>
+  <p>Formations vidéo, livres numériques, aliments, médicaments. Paiement Mobile Money sécurisé par FedaPay. Sans création de compte.</p>
+</header>
+
+<div class="filtres-wrap">
+  <button class="filtre-btn active" data-filtre="tous">Tous</button>
+  <button class="filtre-btn" data-filtre="virtuel">📚 Formations & livres</button>
+  <button class="filtre-btn" data-filtre="reel">🌾 Aliments & intrants</button>
+  <button class="filtre-btn" data-filtre="gratuit">🎁 Gratuit</button>
+  <input type="text" id="recherche" class="recherche" placeholder="🔍 Rechercher un produit...">
+</div>
+
+<div id="produitsGrid" class="produits-grid">
+  <div class="empty"><div class="empty-ico">⏳</div>Chargement de la boutique...</div>
+</div>
+
+<footer>
+  © 2026 ATM Farm Village · <a href="https://wa.me/22870992018">Contact WhatsApp +228 70 99 20 18</a>
+</footer>
+
+<script src="js/shop-common.js"></script>
+<script>
+let _produits = [];
+let _filtre = 'tous';
+let _recherche = '';
+
+async function init(){
+  try{
+    _produits = await chargerTousLesProduits();
+    rendreProduits();
+  } catch(e){
+    document.getElementById('produitsGrid').innerHTML = `<div class="empty"><div class="empty-ico">⚠️</div>Erreur de chargement. Réessayez plus tard.</div>`;
+    console.error(e);
+  }
+}
+
+function rendreProduits(){
+  const grid = document.getElementById('produitsGrid');
+  let liste = _produits;
+
+  if(_filtre === 'virtuel') liste = liste.filter(p => p.type === 'virtuel');
+  else if(_filtre === 'reel') liste = liste.filter(p => p.type === 'reel');
+  else if(_filtre === 'gratuit') liste = liste.filter(p => p.gratuit);
+
+  if(_recherche){
+    const q = _recherche.toLowerCase();
+    liste = liste.filter(p =>
+      p.titre.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q) ||
+      p.categorie.toLowerCase().includes(q)
+    );
+  }
+
+  if(liste.length === 0){
+    grid.innerHTML = `<div class="empty"><div class="empty-ico">🔍</div>Aucun produit trouvé.<br><br><button class="filtre-btn" onclick="document.querySelector('[data-filtre=tous]').click()">Voir tous les produits</button></div>`;
+    return;
+  }
+
+  grid.innerHTML = liste.map(p => `
+    <a href="/boutique/${p.slug}" class="produit-card">
+      <div class="produit-img">
+        ${p.image_url
+          ? `<img src="${p.image_url}" alt="${p.titre}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=produit-img-placeholder>${p.type==='virtuel'?'📚':'🌾'}</div>'+this.parentElement.innerHTML">`
+          : `<div class="produit-img-placeholder">${p.type==='virtuel'?'📚':'🌾'}</div>`
+        }
+        <div class="produit-badge ${p.type}">${p.type==='virtuel'?(p.sous_type==='video'?'🎬 Vidéo':'📄 PDF'):'📦 Livraison'}</div>
+        ${p.gratuit ? '<div class="produit-badge gratuit">GRATUIT</div>' : ''}
+      </div>
+      <div class="produit-body">
+        <div class="produit-titre">${escapeHtml(p.titre)}</div>
+        <div class="produit-desc">${escapeHtml(p.description || 'Aucune description.')}</div>
+        <div class="produit-footer">
+          <div class="produit-prix ${p.gratuit?'gratuit':''}">${fcfa(p.prix)}</div>
+          <div class="produit-cta">${p.gratuit?'Obtenir':'Acheter'} →</div>
+        </div>
+      </div>
+    </a>
+  `).join('');
+}
+
+function escapeHtml(s){
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Filtres
+document.querySelectorAll('.filtre-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    _filtre = btn.dataset.filtre;
+    rendreProduits();
+  });
+});
+
+// Recherche
+document.getElementById('recherche').addEventListener('input', e => {
+  _recherche = e.target.value;
+  rendreProduits();
+});
+
+init();
+</script>
+</body>
+</html>

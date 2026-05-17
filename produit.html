@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Produit — ATM Farm Village</title>
+<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<meta name="description" id="metaDesc" content="Produit ATM Farm Village. Paiement Mobile Money sécurisé.">
+<meta property="og:title" id="ogTitle" content="Produit ATM Farm Village">
+<meta property="og:description" id="ogDesc" content="Découvrez ce produit.">
+<meta property="og:image" id="ogImage" content="https://app.avifarmer.net/icons/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+<style>
+:root{
+  --bleu:#1B4FD8;--bleu2:#2563EB;--bleu3:#3B82F6;--bleu4:#EFF6FF;
+  --bleu-sombre:#0F2B6B;--bleu-mid:#1E40AF;
+  --vert:#059669;--or:#F59E0B;
+  --texte:#0F172A;--textm:#475569;--textl:#94A3B8;
+  --blanc:#FFFFFF;--gris:#F8FAFC;--gris2:#F1F5F9;--border:#E2E8F0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gris);color:var(--texte)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:68px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-icon{width:40px;height:40px;border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:white;box-shadow:0 2px 8px rgba(15,43,107,.10)}
+.nav-logo-icon img{width:100%;height:100%;object-fit:contain}
+.nav-logo-text{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--bleu-sombre);letter-spacing:-0.5px}
+.nav-logo-sub{font-size:11px;color:var(--textm);font-weight:500}
+.btn-nav{background:var(--bleu);color:white;padding:9px 22px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(27,79,216,.3)}
+.btn-nav:hover{background:var(--bleu-mid);transform:translateY(-1px)}
+
+.fil-ariane{max-width:1100px;margin:0 auto;padding:90px 32px 0;font-size:13px;color:var(--textm)}
+.fil-ariane a{color:var(--bleu);text-decoration:none;font-weight:600}
+.fil-ariane a:hover{text-decoration:underline}
+
+.produit-detail{max-width:1100px;margin:0 auto;padding:24px 32px 60px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+
+.galerie{background:white;border-radius:16px;border:1px solid var(--border);overflow:hidden;aspect-ratio:1;display:flex;align-items:center;justify-content:center;position:relative}
+.galerie img{width:100%;height:100%;object-fit:cover}
+.galerie-placeholder{font-size:120px;opacity:.3}
+.galerie .badge{position:absolute;top:16px;left:16px;background:white;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.galerie .badge.virtuel{color:#ef4444}
+.galerie .badge.reel{color:#059669}
+.galerie .badge-gratuit{position:absolute;top:16px;right:16px;background:#22c55e;color:white;padding:6px 14px;border-radius:8px;font-size:11px;font-weight:800;letter-spacing:1.5px}
+
+.infos h1{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,42px);font-weight:900;color:var(--bleu-sombre);margin-bottom:16px;letter-spacing:-1px;line-height:1.15}
+.categorie-tag{display:inline-block;background:var(--bleu4);color:var(--bleu);padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
+.description{font-size:15px;color:var(--textm);line-height:1.7;margin-bottom:24px;white-space:pre-line}
+
+.prix-bloc{background:white;border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px}
+.prix-label{font-size:11px;color:var(--textl);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.prix{font-family:'Fraunces',serif;font-size:42px;font-weight:900;color:var(--bleu);line-height:1}
+.prix.gratuit{color:var(--vert)}
+.prix-unite{font-size:14px;color:var(--textm);font-weight:600;margin-left:6px}
+
+.quantite-wrap{display:flex;align-items:center;gap:12px;margin:18px 0}
+.quantite-wrap label{font-size:13px;font-weight:600;color:var(--texte)}
+.quantite-input{width:80px;background:white;border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-size:14px;font-weight:700;text-align:center;font-family:inherit}
+.quantite-input:focus{outline:none;border-color:var(--bleu3)}
+.total-line{font-size:13px;color:var(--textm)}
+.total-line strong{color:var(--bleu-sombre);font-size:16px}
+
+.cta-bloc{display:flex;flex-direction:column;gap:10px}
+.btn-cta{padding:16px 24px;border-radius:10px;font-size:15px;font-weight:700;text-align:center;text-decoration:none;cursor:pointer;border:none;font-family:inherit;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn-primary{background:var(--bleu);color:white;box-shadow:0 4px 14px rgba(27,79,216,.35)}
+.btn-primary:hover{background:var(--bleu-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,79,216,.4)}
+.btn-secondary{background:white;color:var(--bleu);border:1.5px solid var(--bleu3)}
+.btn-secondary:hover{background:var(--bleu4)}
+
+.trust-line{margin-top:14px;padding:14px;background:var(--bleu4);border-radius:10px;font-size:12px;color:var(--bleu-sombre);display:flex;align-items:center;gap:10px}
+.trust-line .ico{font-size:18px}
+
+.partage{margin-top:20px;display:flex;gap:8px;align-items:center;font-size:12px;color:var(--textm)}
+.partage button{background:white;border:1px solid var(--border);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:12px;font-weight:600;color:var(--textm);transition:all .2s}
+.partage button:hover{border-color:var(--bleu3);color:var(--bleu)}
+
+.detail-extra{max-width:1100px;margin:40px auto 80px;padding:0 32px}
+.detail-card{background:white;border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
+.detail-card h3{font-family:'Fraunces',serif;font-size:18px;color:var(--bleu-sombre);margin-bottom:12px}
+.detail-card p, .detail-card li{font-size:13px;color:var(--textm);line-height:1.7}
+.detail-card ul{padding-left:20px}
+
+.loading-page{padding:200px 32px;text-align:center;color:var(--textl)}
+
+footer{background:var(--bleu-sombre);color:rgba(255,255,255,.7);padding:32px;text-align:center;font-size:12px}
+footer a{color:white;text-decoration:none;font-weight:600}
+
+@media(max-width:768px){
+  nav{padding:0 16px;height:60px}
+  .nav-logo-sub{display:none}
+  .fil-ariane{padding:80px 16px 0}
+  .produit-detail{grid-template-columns:1fr;gap:24px;padding:16px 16px 40px}
+  .infos h1{font-size:24px}
+  .prix{font-size:32px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="ATM"></div>
+    <div>
+      <div class="nav-logo-text">ATM Farm Village</div>
+      <div class="nav-logo-sub">Boutique</div>
+    </div>
+  </a>
+  <a class="btn-nav" href="/boutique">← Boutique</a>
+</nav>
+
+<div class="fil-ariane">
+  <a href="/">Accueil</a> › <a href="/boutique">Boutique</a> › <span id="filArianeTitre">Produit</span>
+</div>
+
+<div id="contenu">
+  <div class="loading-page">⏳ Chargement du produit...</div>
+</div>
+
+<footer>
+  © 2026 ATM Farm Village · <a href="https://wa.me/22870992018">Contact WhatsApp +228 70 99 20 18</a>
+</footer>
+
+<script src="js/shop-common.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const slug = params.get('slug') || '';
+
+async function init(){
+  if(!slug){
+    document.getElementById('contenu').innerHTML = '<div class="loading-page">⚠️ Produit introuvable. <a href="/boutique" style="color:var(--bleu)">Retour à la boutique</a></div>';
+    return;
+  }
+
+  const produit = await trouverProduitParSlug(slug);
+  if(!produit){
+    document.getElementById('contenu').innerHTML = '<div class="loading-page">⚠️ Ce produit n\'existe plus. <a href="/boutique" style="color:var(--bleu)">Retour à la boutique</a></div>';
+    return;
+  }
+
+  rendreProduit(produit);
+}
+
+function rendreProduit(p){
+  // Meta tags
+  document.getElementById('pageTitle').textContent = p.titre + ' — ATM Farm Village';
+  document.getElementById('metaDesc').setAttribute('content', (p.description || p.titre).slice(0, 160));
+  document.getElementById('ogTitle').setAttribute('content', p.titre);
+  document.getElementById('ogDesc').setAttribute('content', (p.description || p.titre).slice(0, 160));
+  if(p.image_url) document.getElementById('ogImage').setAttribute('content', p.image_url);
+  document.getElementById('filArianeTitre').textContent = p.titre;
+
+  const isVirtuel = p.type === 'virtuel';
+  const isGratuit = p.gratuit;
+  const ico = isVirtuel ? (p.sous_type === 'video' ? '🎬' : '📄') : '🌾';
+  const typeLabel = isVirtuel ? (p.sous_type === 'video' ? '🎬 Formation vidéo' : '📄 Livre numérique') : '📦 Produit livré';
+
+  document.getElementById('contenu').innerHTML = `
+    <div class="produit-detail">
+      <div class="galerie">
+        ${p.image_url
+          ? `<img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.titre)}" onerror="this.style.display='none';this.parentElement.querySelector('.fallback')?.removeAttribute('hidden')">`
+          : ''
+        }
+        <div class="galerie-placeholder fallback" ${p.image_url?'hidden':''}>${ico}</div>
+        <div class="badge ${p.type}">${typeLabel}</div>
+        ${isGratuit ? '<div class="badge-gratuit">GRATUIT</div>' : ''}
+      </div>
+
+      <div class="infos">
+        ${p.categorie ? `<div class="categorie-tag">${escapeHtml(p.categorie)}</div>` : ''}
+        <h1>${escapeHtml(p.titre)}</h1>
+        <div class="description">${escapeHtml(p.description || 'Aucune description disponible.')}</div>
+
+        <div class="prix-bloc">
+          <div class="prix-label">${isGratuit ? '🎁 Accès gratuit' : 'Prix'}</div>
+          <div class="prix ${isGratuit?'gratuit':''}">
+            ${fcfa(p.prix)}
+            ${(!isGratuit && !isVirtuel) ? `<span class="prix-unite">/ ${escapeHtml(p.unite||'unité')}</span>` : ''}
+          </div>
+
+          ${!isVirtuel ? `
+            <div class="quantite-wrap">
+              <label for="quantite">Quantité :</label>
+              <input type="number" id="quantite" class="quantite-input" value="1" min="1" max="500" onchange="majTotal(${p.prix})">
+              <div class="total-line">Total : <strong id="totalLigne">${fcfa(p.prix)}</strong></div>
+            </div>
+          ` : ''}
+        </div>
+
+        <div class="cta-bloc">
+          ${isGratuit
+            ? `<button class="btn-cta btn-primary" onclick="commanderGratuit('${p.slug}')">🎁 Obtenir l'accès gratuit</button>`
+            : `<a class="btn-cta btn-primary" href="/checkout/${p.slug}${!isVirtuel?'?q='+1:''}" id="lienCheckout">
+                 ${isVirtuel ? '💳 Payer & accéder' : '🛒 Commander maintenant'}
+               </a>`
+          }
+          ${!isVirtuel && !isGratuit ? `
+            <a class="btn-cta btn-secondary" href="/checkout/${p.slug}?mode=livraison" id="lienCheckoutLivraison">
+              📍 Payer à la livraison
+            </a>
+          ` : ''}
+        </div>
+
+        <div class="trust-line">
+          <div class="ico">${isVirtuel?'⚡':'🔒'}</div>
+          <div>${isVirtuel
+            ? 'Accès immédiat après paiement Mobile Money / Carte. Pas de création de compte.'
+            : 'Paiement sécurisé FedaPay. Livraison rapide au Togo. Pas de création de compte.'
+          }</div>
+        </div>
+
+        <div class="partage">
+          <span>Partager :</span>
+          <button onclick="partagerWhatsApp('${p.slug}', '${escapeJs(p.titre)}')">WhatsApp</button>
+          <button onclick="copierLien()">📋 Copier le lien</button>
+        </div>
+      </div>
+    </div>
+
+    ${isVirtuel ? `
+      <div class="detail-extra">
+        <div class="detail-card">
+          <h3>📖 Comment ça marche ?</h3>
+          <ul>
+            <li>Cliquez sur « Payer & accéder » ci-dessus</li>
+            <li>Payez via Mobile Money (Flooz, T-Money) ou carte bancaire</li>
+            <li>Recevez un message WhatsApp d'ATM avec votre lien d'accès personnel</li>
+            <li>Le lien est valable à vie — gardez-le pour vous</li>
+          </ul>
+        </div>
+      </div>
+    ` : `
+      <div class="detail-extra">
+        <div class="detail-card">
+          <h3>🚚 Comment ça marche ?</h3>
+          <ul>
+            <li>Cliquez sur « Commander maintenant » et remplissez vos coordonnées</li>
+            <li>Choisissez : <strong>paiement immédiat</strong> par Mobile Money ou <strong>paiement à la livraison</strong></li>
+            <li>Notre équipe vous contacte sur WhatsApp pour confirmer le créneau de livraison</li>
+            <li>Livraison rapide au Togo (Lomé et province)</li>
+          </ul>
+        </div>
+      </div>
+    `}
+  `;
+
+  if(!isVirtuel) window._produitPrix = p.prix;
+}
+
+function majTotal(prix){
+  const q = +document.getElementById('quantite').value || 1;
+  document.getElementById('totalLigne').textContent = fcfa(prix * q);
+  const lien = document.getElementById('lienCheckout');
+  if(lien) lien.href = lien.href.split('?')[0] + '?q=' + q;
+  const lienL = document.getElementById('lienCheckoutLivraison');
+  if(lienL) lienL.href = lienL.href.split('?')[0] + '?mode=livraison&q=' + q;
+}
+
+async function commanderGratuit(slug){
+  const nom = prompt('Votre nom :');
+  if(!nom || nom.trim().length < 2){ alert('Nom requis (2 lettres min)'); return; }
+  const tel = prompt('Votre numéro WhatsApp (avec indicatif, ex: +228 90 12 34 56) :');
+  if(!tel || tel.trim().length < 6){ alert('Numéro WhatsApp requis'); return; }
+
+  location.href = '/checkout/' + slug + '?gratuit=1&nom=' + encodeURIComponent(nom.trim()) + '&tel=' + encodeURIComponent(tel.trim());
+}
+
+function partagerWhatsApp(slug, titre){
+  const url = location.origin + '/boutique/' + slug;
+  const msg = `Regarde ce que j'ai trouvé chez ATM Farm Village : ${titre}\n${url}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+function copierLien(){
+  navigator.clipboard.writeText(location.href).then(() => {
+    alert('Lien copié ! Tu peux le coller où tu veux.');
+  }).catch(() => {
+    prompt('Copiez ce lien :', location.href);
+  });
+}
+
+function escapeHtml(s){
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escapeJs(s){
+  return (s||'').replace(/['"\\]/g, '\\$&');
+}
+
+init();
+</script>
+</body>
+</html>

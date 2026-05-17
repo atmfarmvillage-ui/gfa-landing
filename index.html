@@ -192,6 +192,26 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
 .apercu-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:background .2s,width .2s}
 .apercu-dot.active{background:var(--bleu);width:24px;border-radius:4px}
 
+/* ── BOUTIQUE (aperçu home) ── */
+.boutique-section{padding:100px 60px;background:linear-gradient(135deg,#FFF7ED 0%,#FEF3C7 50%,#F0FDF4 100%);overflow:hidden}
+.boutique-track{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;max-width:1200px;margin:48px auto 0}
+.boutique-card{background:white;border-radius:14px;overflow:hidden;border:1px solid var(--border);transition:all .3s;text-decoration:none;color:inherit;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(15,43,107,.04)}
+.boutique-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(15,43,107,.12);border-color:var(--bleu3)}
+.boutique-img-wrap{aspect-ratio:16/10;background:linear-gradient(135deg,#F0F7FF,#EFF6FF);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.boutique-img-wrap img{width:100%;height:100%;object-fit:cover}
+.boutique-img-ph{font-size:48px;opacity:.3}
+.boutique-badge{position:absolute;top:8px;left:8px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);padding:3px 9px;border-radius:6px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
+.boutique-badge.virtuel{color:#ef4444}
+.boutique-badge.reel{color:#059669}
+.boutique-badge-gratuit{position:absolute;top:8px;right:8px;background:#22c55e;color:white;padding:3px 9px;border-radius:6px;font-size:9px;font-weight:800;letter-spacing:1px}
+.boutique-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.boutique-titre{font-size:13px;font-weight:700;color:var(--bleu-sombre);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
+.boutique-prix{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:var(--bleu);margin-top:auto}
+.boutique-prix.gratuit{color:var(--vert)}
+.empty-boutique{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--textl);font-size:14px}
+.btn-voir-boutique{display:inline-block;background:var(--bleu);color:white;padding:14px 32px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 4px 14px rgba(27,79,216,.35);transition:all .2s}
+.btn-voir-boutique:hover{background:var(--bleu-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,79,216,.4)}
+
 /* ── VIDÉO DÉMO ── */
 .video-section{padding:100px 60px;background:linear-gradient(135deg,#F0F7FF,#F0FDF4)}
 .video-wrap{max-width:920px;margin:48px auto 0;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(15,43,107,.18),0 4px 16px rgba(15,43,107,.08);position:relative;background:#0F2B6B;aspect-ratio:16/9}
@@ -269,6 +289,7 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
     <a href="#fonctionnalites">Fonctionnalités</a>
     <a href="#apercu">Aperçu</a>
     <a href="#plans">Tarifs</a>
+    <a href="#boutique">🛒 Boutique</a>
     <a href="#faq">FAQ</a>
     <a href="#contact">Contact</a>
   </div>
@@ -608,6 +629,21 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
   </div>
 </section>
 
+<!-- BOUTIQUE -->
+<section id="boutique" class="boutique-section">
+  <div class="section-header">
+    <div class="section-label">🛒 Boutique</div>
+    <div class="section-title">Formations, livres, aliments, intrants</div>
+    <p class="section-sub">Paiement Mobile Money sécurisé. Sans création de compte. Livraison rapide au Togo pour les produits réels.</p>
+  </div>
+  <div class="boutique-track" id="boutiqueTrack">
+    <div class="empty-boutique">⏳ Chargement des produits...</div>
+  </div>
+  <div style="text-align:center;margin-top:36px">
+    <a href="/boutique" class="btn-voir-boutique">Voir toute la boutique →</a>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section id="faq" class="faq-section">
   <div class="section-header">
@@ -796,6 +832,64 @@ function chargerScreenshots(){
   });
 }
 chargerScreenshots();
+
+// ── Aperçu boutique (chargement dynamique des produits actifs) ──
+async function chargerApercuBoutique(){
+  const track = document.getElementById('boutiqueTrack');
+  if(!track) return;
+  try {
+    const [formationsRes, marcheRes] = await Promise.all([
+      SB.from('formations').select('*').eq('actif', true).order('created_at',{ascending:false}).limit(8),
+      SB.from('prix_marche').select('*').eq('vendable', true).order('produit').limit(8),
+    ]);
+    const virtuels = (formationsRes.data || []).map(f => ({
+      titre: f.titre,
+      prix: f.gratuit ? 0 : (f.prix || 0),
+      gratuit: !!f.gratuit,
+      image_url: f.image_url || f.miniature || '',
+      type: 'virtuel',
+      sous_type: f.type,
+      slug: f.slug || slugifyMini(f.titre),
+    }));
+    const reels = (marcheRes.data || []).map(p => ({
+      titre: p.produit,
+      prix: p.prix_vente || 0,
+      gratuit: false,
+      image_url: p.image_url || '',
+      type: 'reel',
+      slug: p.slug || slugifyMini(p.produit),
+    }));
+    const tous = [...virtuels, ...reels].slice(0, 8);
+    if(tous.length === 0){
+      track.innerHTML = `<div class="empty-boutique">🛒 La boutique sera bientôt disponible. <a href="https://wa.me/22870992018" style="color:var(--bleu);font-weight:700">Contactez-nous</a> pour être informé.</div>`;
+      return;
+    }
+    track.innerHTML = tous.map(p => `
+      <a href="/boutique/${p.slug}" class="boutique-card">
+        <div class="boutique-img-wrap">
+          ${p.image_url ? `<img src="${p.image_url}" alt="${escapeHtmlMini(p.titre)}" loading="lazy" onerror="this.style.display='none'">` : ''}
+          ${!p.image_url ? `<div class="boutique-img-ph">${p.type==='virtuel'?'📚':'🌾'}</div>` : ''}
+          <div class="boutique-badge ${p.type}">${p.type==='virtuel'?(p.sous_type==='video'?'🎬 Vidéo':'📄 PDF'):'📦 Livré'}</div>
+          ${p.gratuit ? '<div class="boutique-badge-gratuit">GRATUIT</div>' : ''}
+        </div>
+        <div class="boutique-body">
+          <div class="boutique-titre">${escapeHtmlMini(p.titre)}</div>
+          <div class="boutique-prix ${p.gratuit?'gratuit':''}">${p.gratuit?'Gratuit':Number(p.prix).toLocaleString('fr-FR')+' FCFA'}</div>
+        </div>
+      </a>
+    `).join('');
+  } catch(e){
+    console.error('Erreur chargement boutique:', e);
+    track.innerHTML = `<div class="empty-boutique">⚠️ Erreur de chargement. <a href="/boutique" style="color:var(--bleu);font-weight:700">Réessayer</a></div>`;
+  }
+}
+function slugifyMini(s){
+  return (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,80);
+}
+function escapeHtmlMini(s){
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+chargerApercuBoutique();
 
 // ── Carousel aperçu (dots + scroll) ──
 function initApercuCarousel(){

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votre accès — ATM Farm Village</title>
+<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#F0FDF4 0%,#EFF6FF 100%);color:#0F172A;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.box{background:white;border-radius:16px;padding:48px 32px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(15,43,107,.10);text-align:center;border:1px solid #E2E8F0}
+.ico{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#dcfce7,#bbf7d0);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 20px}
+h1{font-family:'Fraunces',serif;font-size:26px;color:#0F2B6B;margin-bottom:10px}
+p{color:#475569;font-size:14px;line-height:1.6;margin-bottom:20px}
+.spinner{width:40px;height:40px;border:3px solid #E2E8F0;border-top-color:#1B4FD8;border-radius:50%;animation:spin 1s linear infinite;margin:20px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.btn{background:#1B4FD8;color:white;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;display:inline-block}
+.err-ico{background:linear-gradient(135deg,#fee2e2,#fecaca)}
+</style>
+</head>
+<body>
+<div class="box" id="contenu">
+  <div class="spinner"></div>
+  <h1>Vérification de votre accès...</h1>
+  <p>Patientez quelques secondes.</p>
+</div>
+
+<script>
+const SHOP_SUPA_URL = 'https://ikdzmzlleemkegnpqgvu.supabase.co';
+const SHOP_SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZHptemxsZWVta2VnbnBxZ3Z1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NjIxNDUsImV4cCI6MjA5MTIzODE0NX0.FYJrw4JfwFlbirITmX2f7Y_pixr7KdeMzRMNn_3k0d4';
+const SB = supabase.createClient(SHOP_SUPA_URL, SHOP_SUPA_KEY);
+
+(async () => {
+  const token = new URLSearchParams(location.search).get('t');
+  if(!token){
+    document.getElementById('contenu').innerHTML = `<div class="ico err-ico">⚠️</div><h1>Lien invalide</h1><p>Ce lien d'accès est incomplet.</p><a class="btn" href="/boutique">← Retour boutique</a>`;
+    return;
+  }
+
+  const { data, error } = await SB.from('acces_virtuels').select('*').eq('token', token).maybeSingle();
+
+  if(error || !data){
+    document.getElementById('contenu').innerHTML = `<div class="ico err-ico">🔒</div><h1>Accès introuvable</h1><p>Ce lien n'est pas reconnu. S'il provient d'un message WhatsApp d'ATM, contactez-nous directement.</p><a class="btn" href="https://wa.me/22870992018">💬 Contacter ATM</a>`;
+    return;
+  }
+
+  if(data.expire_le && new Date(data.expire_le) < new Date()){
+    document.getElementById('contenu').innerHTML = `<div class="ico err-ico">⏱️</div><h1>Lien expiré</h1><p>Ce lien d'accès n'est plus valable. Contactez ATM pour le renouveler.</p><a class="btn" href="https://wa.me/22870992018">💬 Contacter ATM</a>`;
+    return;
+  }
+
+  // Incrémenter le compteur (best-effort, non bloquant)
+  SB.from('acces_virtuels').update({
+    nb_clics: (data.nb_clics || 0) + 1,
+    dernier_clic: new Date().toISOString(),
+  }).eq('token', token).then(()=>{});
+
+  // Redirection
+  document.getElementById('contenu').innerHTML = `<div class="ico">✓</div><h1>Accès validé</h1><p>Redirection vers votre contenu...</p>`;
+  setTimeout(() => {
+    location.href = data.lien_reel;
+  }, 1200);
+})();
+</script>
+</body>
+</html>
