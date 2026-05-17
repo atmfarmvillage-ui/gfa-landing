@@ -6,6 +6,3 @@
 /checkout/:slug        /checkout.html?slug=:slug   200
 /merci                 /merci.html                 200
 /access/:token         /access.html?t=:token       200
-
-# Fallback SPA-style pour la home
-/*                     /index.html                 200
