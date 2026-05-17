@@ -891,6 +891,76 @@ function escapeHtmlMini(s){
 }
 chargerApercuBoutique();
 
+// ── Détection ?ref=CODE&t=ton_x sur la landing (parrainage) ──
+(function detecterParrainage(){
+  const params = new URLSearchParams(location.search);
+  let ref = params.get('ref');
+  let ton = params.get('t');
+
+  // Persister dans localStorage si présent dans l'URL
+  if(ref){
+    try {
+      localStorage.setItem('gfa_ref', ref);
+      if(ton) localStorage.setItem('gfa_ref_ton', ton);
+      else localStorage.removeItem('gfa_ref_ton');
+    } catch(e){}
+  } else {
+    try {
+      ref = localStorage.getItem('gfa_ref');
+      ton = localStorage.getItem('gfa_ref_ton');
+    } catch(e){}
+  }
+
+  if(!ref) return;
+
+  // 1. Modifier tous les liens vers app.avifarmer.net pour ajouter ?ref=CODE
+  document.querySelectorAll('a[href^="https://app.avifarmer.net"]').forEach(a => {
+    try {
+      const u = new URL(a.href);
+      u.searchParams.set('ref', ref);
+      a.href = u.toString();
+    } catch(e){}
+  });
+
+  // 2. Bandeau en haut de page (au-dessus de la nav)
+  if(!document.getElementById('parrainage-bandeau')){
+    const bandeau = document.createElement('div');
+    bandeau.id = 'parrainage-bandeau';
+    bandeau.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:200;background:linear-gradient(90deg,#22c55e,#059669);color:white;padding:10px 16px;text-align:center;font-size:13px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap';
+    bandeau.innerHTML = `
+      🎁 <span>Code parrain <strong style="background:rgba(255,255,255,.25);padding:2px 8px;border-radius:4px;font-family:monospace">${ref.replace(/[<>]/g,'')}</strong> activé : <b>-5% sur votre 1er paiement</b></span>
+      <button onclick="document.getElementById('parrainage-bandeau').remove();document.querySelector('nav').style.top='0'" style="background:rgba(0,0,0,.15);border:none;color:white;padding:2px 10px;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px">×</button>
+    `;
+    document.body.insertBefore(bandeau, document.body.firstChild);
+    const nav = document.querySelector('nav');
+    if(nav){
+      nav.style.top = bandeau.offsetHeight + 'px';
+      nav.style.transition = 'top .3s';
+    }
+  }
+
+  // 3. Enregistrer le clic dans parrain_clics (best-effort, seulement si vient d'un lien parrain)
+  if(params.get('ref')){
+    (async () => {
+      try {
+        let tonKey = null, varianteIdx = null;
+        if(ton){
+          const match = ton.match(/^([a-z]+)_(\d+)$/);
+          if(match){ tonKey = match[1]; varianteIdx = +match[2]; }
+        }
+        await SB.from('parrain_clics').insert({
+          code_parrain: ref,
+          ton: tonKey,
+          variante: varianteIdx,
+          source: 'landing',
+          user_agent: navigator.userAgent.slice(0, 200),
+          referer: document.referrer.slice(0, 200),
+        });
+      } catch(e){ /* silencieux */ }
+    })();
+  }
+})();
+
 // ── Carousel aperçu (dots + scroll) ──
 function initApercuCarousel(){
   const track = document.getElementById('apercuTrack');
