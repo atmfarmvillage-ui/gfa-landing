@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GFA — Gestion Ferme Avicole · ATM Farm Village</title>
+<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<link rel="apple-touch-icon" href="https://app.avifarmer.net/icons/apple-touch-icon.png">
+<meta name="description" content="GFA — Logiciel de gestion de ferme avicole conçu pour les éleveurs d'Afrique de l'Ouest. Rapports journaliers, gestion d'équipe, ventes, stock, parrainage. Essai 7 jours gratuit.">
+<meta property="og:title" content="GFA — Gestion Ferme Avicole">
+<meta property="og:description" content="Le logiciel de gestion avicole pour l'Afrique de l'Ouest. 7 jours d'essai gratuit, bonus -50% premier paiement.">
+<meta property="og:image" content="https://app.avifarmer.net/icons/icon-512.png">
+<meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 <style>
@@ -21,7 +28,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--blanc);color:va
 /* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 60px;height:68px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
 .nav-logo{display:flex;align-items:center;gap:10px}
-.nav-logo-icon{width:36px;height:36px;background:var(--bleu);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.nav-logo-icon{width:40px;height:40px;border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:white;box-shadow:0 2px 8px rgba(15,43,107,.10)}
+.nav-logo-icon img{width:100%;height:100%;object-fit:contain}
 .nav-logo-text{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--bleu-sombre);letter-spacing:-0.5px}
 .nav-logo-sub{font-size:11px;color:var(--textm);font-weight:500}
 .nav-links{display:flex;gap:32px;align-items:center}
@@ -252,13 +260,13 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">
-    <div class="nav-logo-icon">🐔</div>
+  <a href="/" class="nav-logo" style="text-decoration:none;color:inherit">
+    <div class="nav-logo-icon"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="GFA"></div>
     <div>
       <div class="nav-logo-text">GFA</div>
       <div class="nav-logo-sub">ATM Farm Village</div>
     </div>
-  </div>
+  </a>
   <div class="nav-links">
     <a href="#fonctionnalites">Fonctionnalités</a>
     <a href="#apercu">Aperçu</a>
@@ -384,44 +392,51 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
     <div class="section-title">Découvrez l'interface</div>
     <p class="section-sub">Une interface pensée pour les éleveurs, avec ou sans expérience numérique. Faites défiler ci-dessous pour explorer.</p>
   </div>
+  <!-- ═══ CAPTURES D'ÉCRAN ═══
+       Pour mettre les vraies captures de l'app :
+       1. Crée le dossier "screenshots/" à côté de ce fichier index.html
+       2. Place des PNG nommés : dashboard.png, rapport.png, bandes.png, ventes.png, equipe.png, licence.png
+       3. Commit + push. Le code détecte automatiquement les fichiers et remplace les placeholders.
+       Format conseillé : 1280×800px, ratio 16:10
+  ═══════════════════════════════════════════════ -->
   <div class="apercu-track" id="apercuTrack">
-    <div class="apercu-card fade-up" data-img="dashboard">
-      <div class="apercu-img-wrap"><div class="apercu-placeholder">📊<div>Tableau de bord</div></div></div>
+    <div class="apercu-card fade-up">
+      <div class="apercu-img-wrap" data-img="dashboard"><div class="apercu-placeholder">📊<div>Tableau de bord</div></div></div>
       <div class="apercu-caption">
         <div class="apercu-caption-title">Tableau de bord</div>
         <div class="apercu-caption-desc">Vue d'ensemble : taux de ponte, mortalité, marge, stocks. Mise à jour en temps réel.</div>
       </div>
     </div>
-    <div class="apercu-card fade-up" data-img="rapport">
-      <div class="apercu-img-wrap"><div class="apercu-placeholder">📝<div>Rapport journalier</div></div></div>
+    <div class="apercu-card fade-up">
+      <div class="apercu-img-wrap" data-img="rapport"><div class="apercu-placeholder">📝<div>Rapport journalier</div></div></div>
       <div class="apercu-caption">
         <div class="apercu-caption-title">Rapport journalier</div>
         <div class="apercu-caption-desc">Saisie en moins de 30 secondes par les techniciens. Détection auto de phase.</div>
       </div>
     </div>
-    <div class="apercu-card fade-up" data-img="bandes">
-      <div class="apercu-img-wrap"><div class="apercu-placeholder">🏷️<div>Gestion des bandes</div></div></div>
+    <div class="apercu-card fade-up">
+      <div class="apercu-img-wrap" data-img="bandes"><div class="apercu-placeholder">🏷️<div>Gestion des bandes</div></div></div>
       <div class="apercu-caption">
         <div class="apercu-caption-title">Bandes & Campagnes</div>
         <div class="apercu-caption-desc">Lancement de bande, suivi croissance/ponte, archivage des campagnes terminées.</div>
       </div>
     </div>
-    <div class="apercu-card fade-up" data-img="ventes">
-      <div class="apercu-img-wrap"><div class="apercu-placeholder">💰<div>Ventes & Caisse</div></div></div>
+    <div class="apercu-card fade-up">
+      <div class="apercu-img-wrap" data-img="ventes"><div class="apercu-placeholder">💰<div>Ventes & Caisse</div></div></div>
       <div class="apercu-caption">
         <div class="apercu-caption-title">Ventes & Caisse</div>
         <div class="apercu-caption-desc">Caisse journalière, suivi des œufs cassés, rapport WhatsApp automatique.</div>
       </div>
     </div>
-    <div class="apercu-card fade-up" data-img="equipe">
-      <div class="apercu-img-wrap"><div class="apercu-placeholder">👥<div>Équipe & rôles</div></div></div>
+    <div class="apercu-card fade-up">
+      <div class="apercu-img-wrap" data-img="equipe"><div class="apercu-placeholder">👥<div>Équipe & rôles</div></div></div>
       <div class="apercu-caption">
         <div class="apercu-caption-title">Équipe & rôles</div>
         <div class="apercu-caption-desc">4 rôles (Admin, Superviseur, Secrétaire, Technicien). Présence en ligne live.</div>
       </div>
     </div>
-    <div class="apercu-card fade-up" data-img="licence">
-      <div class="apercu-img-wrap"><div class="apercu-placeholder">🪪<div>Ma licence</div></div></div>
+    <div class="apercu-card fade-up">
+      <div class="apercu-img-wrap" data-img="licence"><div class="apercu-placeholder">🪪<div>Ma licence</div></div></div>
       <div class="apercu-caption">
         <div class="apercu-caption-title">Ma licence</div>
         <div class="apercu-caption-desc">Renouvellement Mobile Money, activation de clé, parrainage, historique paiements.</div>
@@ -570,7 +585,7 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
         <li>Support prioritaire</li>
         <li>Formation incluse</li>
       </ul>
-      <a href="#contact" class="btn-plan outline">Nous contacter →</a>
+      <a href="https://app.avifarmer.net" class="btn-plan outline">Démarrer →</a>
     </div>
   </div>
 
@@ -705,7 +720,10 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">GFA · ATM Farm Village</div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <img src="https://app.avifarmer.net/icons/icon-192.png" alt="GFA" style="width:36px;height:36px;border-radius:8px;background:white;padding:2px">
+    <div class="footer-logo">GFA · ATM Farm Village</div>
+  </div>
   <p>© 2026 ATM Farm Village · Lomé, Togo · Conçu pour les éleveurs africains</p>
 </footer>
 
@@ -756,6 +774,25 @@ function animateCounter(el, target, suffix=''){
   }
   requestAnimationFrame(tick);
 }
+
+// ── Auto-détection des screenshots placés dans screenshots/<nom>.png ──
+function chargerScreenshots(){
+  document.querySelectorAll('.apercu-img-wrap[data-img]').forEach(wrap => {
+    const name = wrap.getAttribute('data-img');
+    if(!name) return;
+    const img = new Image();
+    img.onload = () => {
+      // Image existe : remplace le placeholder
+      wrap.innerHTML = '';
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
+      img.alt = name;
+      wrap.appendChild(img);
+    };
+    img.onerror = () => {}; // Silencieux : placeholder reste
+    img.src = 'screenshots/' + name + '.png';
+  });
+}
+chargerScreenshots();
 
 // ── Carousel aperçu (dots + scroll) ──
 function initApercuCarousel(){
