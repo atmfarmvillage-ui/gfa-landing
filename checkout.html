@@ -227,9 +227,9 @@ async function finaliser(){
   const tel = document.getElementById('ck-tel').value.trim();
   const adresse = document.getElementById('ck-adresse')?.value.trim() || '';
 
-  if(nom.length < 2){ alert('Nom requis (2 lettres min)'); return; }
-  if(tel.length < 6){ alert('Numéro WhatsApp requis'); return; }
-  if(_produit.type === 'reel' && adresse.length < 5){ alert('Adresse de livraison requise'); return; }
+  if(nom.length < 2){ alert('Nom requis (2 lettres minimum)'); return; }
+  if(tel.length < 6){ alert('Numéro WhatsApp requis (avec indicatif)'); return; }
+  if(_produit.type === 'reel' && adresse.length < 2){ alert('Adresse de livraison requise (ville au minimum)'); return; }
 
   const isVirtuel = _produit.type === 'virtuel';
   const qte = isVirtuel ? 1 : qteInit;
