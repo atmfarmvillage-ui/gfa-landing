@@ -1,8 +1,6 @@
-# URLs propres pour la boutique
-/boutique              /boutique.html              200
-/boutique/             /boutique.html              200
+# URLs propres : CF Pages sert /boutique, /checkout, /merci automatiquement
+# depuis boutique.html, checkout.html, merci.html (clean URLs natifs).
+# On garde uniquement les regles dynamiques (slug/token).
 /boutique/:slug        /produit.html?slug=:slug    200
-/checkout              /checkout.html              200
 /checkout/:slug        /checkout.html?slug=:slug   200
-/merci                 /merci.html                 200
 /access/:token         /access.html?t=:token       200
