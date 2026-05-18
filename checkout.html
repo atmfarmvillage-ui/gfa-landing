@@ -285,29 +285,59 @@ async function finaliser(){
       phone_number: { number: tel, country: 'TG' },
     },
     onComplete: async (obj) => {
-      if(obj.reason === FedaPay.CHECKOUT_COMPLETED){
-        // Marquer comme payé
-        const ref = obj.transaction?.reference || obj.transaction?.id || '';
-        await SHOP_SB.from('commandes').update({
-          paye: true,
-          fedapay_ref: String(ref),
-          updated_at: new Date().toISOString(),
-        }).eq('id', data.id);
-
-        // Si virtuel : créer token d'accès
-        if(_produit.type === 'virtuel' && _produit.lien_contenu){
-          const token = genererToken(24);
-          await SHOP_SB.from('acces_virtuels').insert({
-            commande_id: data.id,
-            token: token,
-            lien_reel: _produit.lien_contenu,
-          });
-        }
-        location.href = `/merci?cmd=${data.id}&mode=fedapay`;
-      } else if(obj.reason === FedaPay.DIALOG_DISMISSED){
+      if(obj.reason === FedaPay.DIALOG_DISMISSED){
         btn.disabled = false;
         btn.textContent = `💳 Payer ${fcfa(montant)}`;
+        return;
       }
+      if(obj.reason !== FedaPay.CHECKOUT_COMPLETED){
+        btn.disabled = false;
+        btn.textContent = `💳 Payer ${fcfa(montant)}`;
+        return;
+      }
+
+      // Verification stricte du statut reel de la transaction
+      // (sinon CHECKOUT_COMPLETED se declenche meme sans paiement reel)
+      const tx = obj.transaction || {};
+      const status = (tx.status || '').toString().toLowerCase();
+      const ref = tx.reference || tx.id || '';
+
+      if(status !== 'approved'){
+        // Tracer l'echec pour audit, mais ne PAS marquer paye=true
+        await SHOP_SB.from('commandes').update({
+          paye: false,
+          fedapay_ref: String(ref),
+          mode_paiement: 'fedapay_echec_' + (status || 'inconnu'),
+          updated_at: new Date().toISOString(),
+        }).eq('id', data.id);
+        alert(
+          'Paiement non confirme.\n\n' +
+          'Statut FedaPay : ' + (status || 'inconnu') + '\n\n' +
+          'Si vous pensez avoir paye, contactez ATM sur WhatsApp +228 70 99 20 18 ' +
+          'avec votre reference : ' + (ref || 'aucune')
+        );
+        btn.disabled = false;
+        btn.textContent = `💳 Payer ${fcfa(montant)}`;
+        return;
+      }
+
+      // Status approved -> tout est OK, on marque paye + on cree le token
+      await SHOP_SB.from('commandes').update({
+        paye: true,
+        fedapay_ref: String(ref),
+        updated_at: new Date().toISOString(),
+      }).eq('id', data.id);
+
+      // Si virtuel : créer token d'accès
+      if(_produit.type === 'virtuel' && _produit.lien_contenu){
+        const token = genererToken(24);
+        await SHOP_SB.from('acces_virtuels').insert({
+          commande_id: data.id,
+          token: token,
+          lien_reel: _produit.lien_contenu,
+        });
+      }
+      location.href = `/merci?cmd=${data.id}&mode=fedapay`;
     },
   }).open();
 }

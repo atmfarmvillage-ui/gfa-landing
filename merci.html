@@ -132,6 +132,9 @@ function rendreMerci(cmd, acces){
 
   const lienWA = lienWhatsApp(messageWA);
 
+  // Flow en 2 etapes pour virtuel + paye : WhatsApp d'abord, puis lien
+  const aMontrerEnDeuxTemps = isVirtuel && isPaye && acces;
+
   document.getElementById('contenu').innerHTML = `
     <div class="merci-card">
       <div class="merci-ico-wrap">${isPaye ? '✅' : '📋'}</div>
@@ -140,25 +143,19 @@ function rendreMerci(cmd, acces){
       <p class="lead">
         ${isPaye
           ? (isVirtuel
-              ? 'Votre paiement de <b>'+cmd.montant.toLocaleString('fr-FR')+' FCFA</b> est confirmé. Envoyez maintenant un message WhatsApp à ATM pour recevoir votre accès personnel.'
+              ? 'Votre paiement de <b>'+cmd.montant.toLocaleString('fr-FR')+' FCFA</b> est confirmé.<br><br><b>Étape 1 :</b> envoyez le message WhatsApp ci-dessous à ATM. Votre lien de téléchargement apparaîtra juste après.'
               : 'Votre paiement de <b>'+cmd.montant.toLocaleString('fr-FR')+' FCFA</b> est confirmé. Envoyez maintenant un message WhatsApp à ATM pour organiser la livraison.')
           : (isLivraison
               ? 'Vous avez choisi le paiement à la livraison. <b>Cliquez ci-dessous pour envoyer votre commande à ATM via WhatsApp.</b> Sans cette étape, votre commande ne sera pas traitée.'
               : 'Réclamez maintenant votre accès gratuit en envoyant un message WhatsApp à ATM.')}
       </p>
 
-      ${!isPaye || isLivraison ? `
-        <div class="alerte">
+      ${(!isPaye || isLivraison || aMontrerEnDeuxTemps) ? `
+        <div class="alerte" id="alerteWA">
           <div class="alerte-titre">⚠️ Action requise</div>
-          <div class="alerte-texte">Votre commande n'est <b>PAS encore traitée</b>. Cliquez sur le bouton ci-dessous pour l'envoyer à ATM via WhatsApp. Sans cette étape, nous ne pourrons pas vous ${isVirtuel?'donner accès':'livrer'}.</div>
-        </div>
-      ` : ''}
-
-      ${acces ? `
-        <div class="lien-acces-box">
-          <div class="lien-acces-titre">⚡ Votre lien d'accès personnel</div>
-          <div class="lien-acces-url">${location.origin}/access/${acces.token}</div>
-          <a href="/access/${acces.token}" class="btn-acces" target="_blank">▶ Ouvrir le contenu maintenant</a>
+          <div class="alerte-texte">${aMontrerEnDeuxTemps
+            ? '<b>Cliquez sur le bouton WhatsApp ci-dessous</b> pour informer ATM. Votre bouton de téléchargement s\'affichera juste après le clic.'
+            : 'Votre commande n\'est <b>PAS encore traitée</b>. Cliquez sur le bouton ci-dessous pour l\'envoyer à ATM via WhatsApp. Sans cette étape, nous ne pourrons pas vous '+(isVirtuel?'donner accès':'livrer')+'.'}</div>
         </div>
       ` : ''}
 
@@ -166,6 +163,17 @@ function rendreMerci(cmd, acces){
         <span class="btn-wa-ico">📲</span>
         <span>Envoyer à ATM sur WhatsApp</span>
       </a>
+
+      ${acces ? `
+        <div class="lien-acces-box" id="boxAcces" style="${aMontrerEnDeuxTemps ? 'display:none' : ''}">
+          <div class="lien-acces-titre">⚡ Étape 2 : Téléchargement</div>
+          <button type="button" class="btn-acces" id="btnTelecharger">⬇ Télécharger maintenant</button>
+          <div style="font-size:11px;color:var(--textm);margin-top:10px;text-align:center;line-height:1.5">
+            <b>Conservez ce lien personnel</b> pour re-télécharger plus tard :<br>
+            <span style="font-family:monospace;font-size:11px;word-break:break-all;background:white;padding:6px 10px;border-radius:6px;display:inline-block;margin-top:6px;border:1px solid #BBF7D0">${location.origin}/access?t=${acces.token}</span>
+          </div>
+        </div>
+      ` : ''}
 
       <div class="detail-bloc" style="margin-top:24px">
         <div class="detail-line"><span>Commande</span><strong>#${cmd.id.slice(0,8)}</strong></div>
@@ -179,10 +187,99 @@ function rendreMerci(cmd, acces){
     </div>
   `;
 
-  // Marquer "wa_envoye" quand le user clique sur le bouton WhatsApp
+  // Marquer "wa_envoye" + reveler la box d'acces quand le user clique sur WhatsApp
   document.getElementById('btnWA').addEventListener('click', async () => {
     await SHOP_SB.from('commandes').update({wa_envoye: true, updated_at: new Date().toISOString()}).eq('id', cmd.id);
+    // Reveler la box d'acces si elle etait cachee (flow 2 etapes)
+    const box = document.getElementById('boxAcces');
+    if(box && box.style.display === 'none'){
+      box.style.display = 'block';
+      // Mettre a jour l'alerte
+      const alerte = document.getElementById('alerteWA');
+      if(alerte){
+        alerte.innerHTML = '<div class="alerte-titre" style="color:var(--vert)">✓ Message WhatsApp envoye</div><div class="alerte-texte">Cliquez maintenant sur le bouton vert ci-dessous pour telecharger votre contenu.</div>';
+        alerte.style.background = '#DCFCE7';
+        alerte.style.borderLeftColor = 'var(--vert)';
+      }
+    }
   });
+
+  // Bouton telechargement direct (sans page intermediaire)
+  if(acces){
+    const btnTel = document.getElementById('btnTelecharger');
+    if(btnTel){
+      btnTel.addEventListener('click', () => telechargerProduit(acces));
+    }
+  }
+}
+
+// Telechargement direct : genere signed URL puis declenche <a download>
+async function telechargerProduit(acces){
+  const btnTel = document.getElementById('btnTelecharger');
+  if(btnTel){
+    btnTel.disabled = true;
+    btnTel.textContent = '⏳ Preparation du telechargement...';
+  }
+
+  try {
+    const lienReel = acces.lien_reel || '';
+
+    if(lienReel.startsWith('storage:')){
+      const match = lienReel.match(/^storage:([^/]+)\/(.+)$/);
+      if(!match) throw new Error('Format de lien invalide');
+      const bucket = match[1];
+      const path = match[2];
+
+      // Generer signed URL (10 min) avec download=true (force telechargement)
+      const { data: signed, error } = await SHOP_SB.storage
+        .from(bucket)
+        .createSignedUrl(path, 600, { download: true });
+
+      if(error || !signed?.signedUrl){
+        throw new Error('Impossible de generer le lien : ' + (error?.message || 'inconnu'));
+      }
+
+      // Declencher le telechargement direct via <a download>
+      const filename = (path.split('/').pop() || 'fichier').replace(/^\d+-/, '');
+      const a = document.createElement('a');
+      a.href = signed.signedUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      if(btnTel){
+        btnTel.disabled = false;
+        btnTel.textContent = '✓ Telechargement lance — re-cliquer pour relancer';
+      }
+
+      // Tracer le clic en DB (best-effort)
+      SHOP_SB.from('acces_virtuels').update({
+        nb_clics: (acces.nb_clics || 0) + 1,
+        dernier_clic: new Date().toISOString(),
+      }).eq('token', acces.token).then(()=>{}).catch(()=>{});
+
+    } else if(lienReel) {
+      // Lien externe (YouTube, Google Drive, etc.) -> ouvre nouvel onglet
+      window.open(lienReel, '_blank');
+      if(btnTel){
+        btnTel.disabled = false;
+        btnTel.textContent = '✓ Ouvert dans un nouvel onglet';
+      }
+    } else {
+      throw new Error('Aucun lien associe a cet acces');
+    }
+  } catch(e){
+    alert(
+      'Erreur de telechargement : ' + e.message + '\n\n' +
+      'Vous pouvez utiliser votre lien d\'acces personnel :\n' +
+      location.origin + '/access?t=' + acces.token
+    );
+    if(btnTel){
+      btnTel.disabled = false;
+      btnTel.textContent = '⬇ Reessayer le telechargement';
+    }
+  }
 }
 
 function escapeHtml(s){
