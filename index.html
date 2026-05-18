@@ -875,7 +875,7 @@ async function chargerApercuBoutique(){
       return;
     }
     track.innerHTML = tous.map(p => `
-      <a href="/boutique/${p.slug}" class="boutique-card">
+      <a href="/produit?slug=${p.slug}" class="boutique-card">
         <div class="boutique-img-wrap">
           ${p.image_url ? `<img src="${p.image_url}" alt="${escapeHtmlMini(p.titre)}" loading="lazy" onerror="this.style.display='none'">` : ''}
           ${!p.image_url ? `<div class="boutique-img-ph">${p.type==='virtuel'?'📚':'🌾'}</div>` : ''}

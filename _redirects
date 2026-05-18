@@ -1,6 +1,5 @@
-# URLs propres : CF Pages sert /boutique, /checkout, /merci automatiquement
-# depuis boutique.html, checkout.html, merci.html (clean URLs natifs).
-# On garde uniquement les regles dynamiques (slug/token).
-/boutique/:slug        /produit.html?slug=:slug    200
-/checkout/:slug        /checkout.html?slug=:slug   200
-/access/:token         /access.html?t=:token       200
+# Anciens liens slug-dans-le-path -> redirection 301 vers la forme query string
+# (CF Pages clean URLs casse les rewrites internes vers .html ; on utilise des 301)
+/boutique/:slug        /produit?slug=:slug         301
+/checkout/:slug        /checkout?slug=:slug        301
+/access/:token         /access?t=:token            301

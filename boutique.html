@@ -171,7 +171,7 @@ function rendreProduits(){
   }
 
   grid.innerHTML = liste.map(p => `
-    <a href="/boutique/${p.slug}" class="produit-card">
+    <a href="/produit?slug=${p.slug}" class="produit-card">
       <div class="produit-img">
         ${p.image_url
           ? `<img src="${p.image_url}" alt="${p.titre}" loading="lazy" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=produit-img-placeholder>${p.type==='virtuel'?'📚':'🌾'}</div>'+this.parentElement.innerHTML">`

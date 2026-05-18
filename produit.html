@@ -195,12 +195,12 @@ function rendreProduit(p){
         <div class="cta-bloc">
           ${isGratuit
             ? `<button class="btn-cta btn-primary" onclick="commanderGratuit('${p.slug}')">🎁 Obtenir l'accès gratuit</button>`
-            : `<a class="btn-cta btn-primary" href="/checkout/${p.slug}${!isVirtuel?'?q='+1:''}" id="lienCheckout">
+            : `<a class="btn-cta btn-primary" href="/checkout?slug=${p.slug}${!isVirtuel?'&q='+1:''}" id="lienCheckout">
                  ${isVirtuel ? '💳 Payer & accéder' : '🛒 Commander maintenant'}
                </a>`
           }
           ${!isVirtuel && !isGratuit ? `
-            <a class="btn-cta btn-secondary" href="/checkout/${p.slug}?mode=livraison" id="lienCheckoutLivraison">
+            <a class="btn-cta btn-secondary" href="/checkout?slug=${p.slug}&mode=livraison" id="lienCheckoutLivraison">
               📍 Payer à la livraison
             </a>
           ` : ''}
@@ -256,9 +256,18 @@ function majTotal(prix){
   const q = +document.getElementById('quantite').value || 1;
   document.getElementById('totalLigne').textContent = fcfa(prix * q);
   const lien = document.getElementById('lienCheckout');
-  if(lien) lien.href = lien.href.split('?')[0] + '?q=' + q;
+  if(lien){
+    const u = new URL(lien.href, location.origin);
+    u.searchParams.set('q', q);
+    lien.href = u.pathname + u.search;
+  }
   const lienL = document.getElementById('lienCheckoutLivraison');
-  if(lienL) lienL.href = lienL.href.split('?')[0] + '?mode=livraison&q=' + q;
+  if(lienL){
+    const u = new URL(lienL.href, location.origin);
+    u.searchParams.set('mode', 'livraison');
+    u.searchParams.set('q', q);
+    lienL.href = u.pathname + u.search;
+  }
 }
 
 async function commanderGratuit(slug){
@@ -267,11 +276,11 @@ async function commanderGratuit(slug){
   const tel = prompt('Votre numéro WhatsApp (avec indicatif, ex: +228 90 12 34 56) :');
   if(!tel || tel.trim().length < 6){ alert('Numéro WhatsApp requis'); return; }
 
-  location.href = '/checkout/' + slug + '?gratuit=1&nom=' + encodeURIComponent(nom.trim()) + '&tel=' + encodeURIComponent(tel.trim());
+  location.href = '/checkout?slug=' + slug + '&gratuit=1&nom=' + encodeURIComponent(nom.trim()) + '&tel=' + encodeURIComponent(tel.trim());
 }
 
 function partagerWhatsApp(slug, titre){
-  const url = location.origin + '/boutique/' + slug;
+  const url = location.origin + '/produit?slug=' + slug;
   const msg = `Regarde ce que j'ai trouvé chez ATM Farm Village : ${titre}\n${url}`;
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
 }
