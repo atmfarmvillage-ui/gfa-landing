@@ -37,6 +37,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 60px;height:68px;d
 .nav-links a:hover{color:var(--bleu)}
 .btn-nav{background:var(--bleu);color:white;padding:9px 22px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(27,79,216,.3)}
 .btn-nav:hover{background:var(--bleu-mid);transform:translateY(-1px);box-shadow:0 4px 12px rgba(27,79,216,.4)}
+/* ── NAV MOBILE (hamburger) ── */
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;background:none;border:1.5px solid var(--border);border-radius:9px;cursor:pointer;padding:0}
+.nav-burger span{display:block;width:20px;height:2px;background:var(--bleu-sombre);border-radius:2px;transition:transform .25s,opacity .2s}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;z-index:99;background:white;border-bottom:1px solid var(--border);box-shadow:0 10px 28px rgba(15,43,107,.14);flex-direction:column;padding:8px 20px 18px}
+.mobile-menu a{padding:14px 6px;color:var(--textm);text-decoration:none;font-size:15px;font-weight:600;border-bottom:1px solid var(--gris2)}
+.mobile-menu a:hover{color:var(--bleu)}
+.mobile-menu .mobile-menu-cta{margin-top:12px;background:var(--bleu);color:white;text-align:center;border-bottom:none;border-radius:10px;padding:15px;font-weight:700;box-shadow:0 4px 12px rgba(27,79,216,.3)}
 
 /* ── HERO ── */
 .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:60px;padding:120px 60px 80px;background:linear-gradient(135deg,#F0F7FF 0%,#EFF6FF 50%,#F0FDF4 100%);position:relative;overflow:hidden}
@@ -256,6 +267,8 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
 @media(max-width:768px){
   nav{padding:0 16px}
   .nav-links{display:none}
+  .nav-burger{display:flex}
+  .mobile-menu.open{display:flex}
   .btn-nav{padding:8px 14px;font-size:12px}
   .trust-strip,.howit-section,.apercu-section,.video-section,.faq-section{padding:60px 20px}
   .trust-inner{gap:20px}
@@ -265,7 +278,7 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
   .hero{grid-template-columns:1fr;padding:100px 20px 60px;gap:40px}
   .hero-visual{display:none}
   .hero-stats{gap:20px}
-  .features-section,.plans-section,.avis-section,.contact-section{padding:70px 20px}
+  .features-section,.plans-section,.avis-section,.contact-section,.boutique-section{padding:70px 20px}
   .features-grid{grid-template-columns:1fr}
   .plans-grid{grid-template-columns:1fr}
   .avis-form-wrap{padding:32px 20px}
@@ -293,8 +306,24 @@ footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;
     <a href="#faq">FAQ</a>
     <a href="#contact">Contact</a>
   </div>
-  <a href="https://app.avifarmer.net" class="btn-nav">Accéder à l'app →</a>
+  <div class="nav-right">
+    <a href="https://app.avifarmer.net" class="btn-nav">Accéder à l'app →</a>
+    <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" onclick="toggleNavMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+
+<!-- MENU MOBILE -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#fonctionnalites" onclick="closeNavMenu()">Fonctionnalités</a>
+  <a href="#apercu" onclick="closeNavMenu()">Aperçu</a>
+  <a href="#plans" onclick="closeNavMenu()">Tarifs</a>
+  <a href="#boutique" onclick="closeNavMenu()">🛒 Boutique</a>
+  <a href="#faq" onclick="closeNavMenu()">FAQ</a>
+  <a href="#contact" onclick="closeNavMenu()">Contact</a>
+  <a href="https://app.avifarmer.net" class="mobile-menu-cta">Accéder à l'app →</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1107,6 +1136,21 @@ function setPeriode(p){
     const annuelEl = document.getElementById('price-'+k+'-annuel');
     if(annuelEl) annuelEl.style.display = mensuel?'none':'block';
   });
+}
+
+// ── Menu mobile (hamburger) ──
+function toggleNavMenu(){
+  const m=document.getElementById('mobileMenu');
+  const b=document.getElementById('navBurger');
+  const open=m.classList.toggle('open');
+  b.classList.toggle('open',open);
+  b.setAttribute('aria-expanded',open?'true':'false');
+}
+function closeNavMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+  const b=document.getElementById('navBurger');
+  b.classList.remove('open');
+  b.setAttribute('aria-expanded','false');
 }
 
 </script>
