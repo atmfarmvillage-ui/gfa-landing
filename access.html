@@ -29,8 +29,13 @@ p{color:#475569;font-size:14px;line-height:1.6;margin-bottom:20px}
 .player-head .info{font-size:11px;color:#64748b}
 .player-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:10px;overflow:hidden}
 .player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-/* Watermark dynamique : nom + tel en transparence, en bas à droite, anti-rotation */
-.watermark{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,.55);color:rgba(255,255,255,.85);padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;pointer-events:none;backdrop-filter:blur(2px);max-width:60%;text-align:right;line-height:1.4}
+/* Brand badge top-left (toujours visible, anti-fuite) */
+.brand-badge{position:absolute;top:12px;left:14px;background:rgba(27,79,216,.78);color:white;padding:5px 11px;border-radius:6px;font-size:10px;font-weight:800;pointer-events:none;backdrop-filter:blur(2px);letter-spacing:.4px;text-transform:uppercase;font-family:'Plus Jakarta Sans',sans-serif}
+/* Watermark acheteur : position cyclée toutes les 20s pour éviter screenshot "hors zone" */
+.watermark{position:absolute;background:rgba(0,0,0,.55);color:rgba(255,255,255,.85);padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;pointer-events:none;backdrop-filter:blur(2px);max-width:60%;line-height:1.4;transition:top .8s ease,bottom .8s ease,left .8s ease,right .8s ease}
+.watermark.pos-br{bottom:14px;right:14px;text-align:right}
+.watermark.pos-tr{top:14px;right:14px;text-align:right}
+.watermark.pos-bl{bottom:14px;left:14px;text-align:left}
 .watermark .tag{font-size:9px;opacity:.75;display:block;margin-bottom:2px}
 /* Anti-clic droit sur l'iframe wrapper */
 .player-frame{user-select:none;-webkit-user-select:none}
@@ -83,7 +88,8 @@ function renderYouTubePlayer({ videoId, titre, watermarkText }){
       </div>
       <div class="player-frame" oncontextmenu="return false">
         <iframe src="${src}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
-        <div class="watermark">
+        <div class="brand-badge">ATM Farm Village · GFA</div>
+        <div class="watermark pos-br" id="wmark">
           <span class="tag">ATM Farm Village</span>
           ${watermarkText || ''}
         </div>
@@ -92,6 +98,19 @@ function renderYouTubePlayer({ videoId, titre, watermarkText }){
         🔒 Cette vidéo vous est personnellement attribuée. Toute diffusion ou partage est interdite. Le watermark identifie l'acheteur d'origine.
       </div>
     </div>`;
+
+  // Cycle BR → TR → BL → BR toutes les 20s pour empêcher un screenshot
+  // de "cadrer hors zone" le watermark acheteur (top-left est réservé au brand badge).
+  const positions = ['pos-br', 'pos-tr', 'pos-bl'];
+  let posIdx = 0;
+  if(window._wmarkCycleId) clearInterval(window._wmarkCycleId);
+  window._wmarkCycleId = setInterval(() => {
+    const wm = document.getElementById('wmark');
+    if(!wm){ clearInterval(window._wmarkCycleId); window._wmarkCycleId = null; return; }
+    posIdx = (posIdx + 1) % positions.length;
+    wm.classList.remove('pos-br','pos-tr','pos-bl');
+    wm.classList.add(positions[posIdx]);
+  }, 20000);
 }
 
 (async () => {
