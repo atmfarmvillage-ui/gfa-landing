@@ -158,7 +158,9 @@ function renderYouTubePlayer({ videoId, titre, watermarkText }){
 
   // 6.0b. Si toujours pas de lien → message "contenu en cours de préparation"
   if(!urlFinale){
-    showCenter(`<div class="ico err-ico">📦</div><h1>Contenu en cours de préparation</h1><p>Votre achat est bien enregistré, mais le contenu n'est pas encore disponible. ATM va vous le faire parvenir manuellement très bientôt.</p><a class="btn" href="https://wa.me/${WHATSAPP_ATM}?text=${encodeURIComponent('Bonjour ATM, j\\'ai acheté ' + (titreFormation||'une formation') + ' (token: ' + token + ') mais le contenu n\\'est pas encore en ligne. Merci de me l\\'envoyer.')}">💬 Relancer ATM</a>`);
+    const msgRelance = `Bonjour ATM, j'ai acheté ${titreFormation || 'une formation'} (token: ${token}) mais le contenu n'est pas encore en ligne. Merci de me l'envoyer.`;
+    const waLien = `https://wa.me/${WHATSAPP_ATM}?text=${encodeURIComponent(msgRelance)}`;
+    showCenter(`<div class="ico err-ico">📦</div><h1>Contenu en cours de préparation</h1><p>Votre achat est bien enregistré, mais le contenu n'est pas encore disponible. ATM va vous le faire parvenir manuellement très bientôt.</p><a class="btn" href="${waLien}">💬 Relancer ATM</a>`);
     return;
   }
 
