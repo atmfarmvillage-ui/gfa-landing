@@ -328,13 +328,16 @@ async function finaliser(){
         updated_at: new Date().toISOString(),
       }).eq('id', data.id);
 
-      // Si virtuel : créer token d'accès
-      if(_produit.type === 'virtuel' && _produit.lien_contenu){
+      // Si virtuel : TOUJOURS créer le token (même si lien vide).
+      // Si l'admin upload le PDF/vidéo plus tard, access.html résoudra dynamiquement
+      // depuis formations.lien via commande.produit_id (fallback) — le token existant
+      // se mettra à fonctionner sans intervention manuelle.
+      if(_produit.type === 'virtuel'){
         const token = genererToken(24);
         await SHOP_SB.from('acces_virtuels').insert({
           commande_id: data.id,
           token: token,
-          lien_reel: _produit.lien_contenu,
+          lien_reel: _produit.lien_contenu || '',
         });
       }
       location.href = `/merci?cmd=${data.id}&mode=fedapay`;

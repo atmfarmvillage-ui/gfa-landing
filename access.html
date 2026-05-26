@@ -126,22 +126,41 @@ function renderYouTubePlayer({ videoId, titre, watermarkText }){
     dernier_clic: new Date().toISOString(),
   }).eq('token', token).then(()=>{});
 
-  // 5. Récupérer info commande (pour watermark)
-  let clientNom = '', clientTel = '', titreFormation = '';
+  // 5. Récupérer info commande (pour watermark + fallback lien si lien_reel vide)
+  let clientNom = '', clientTel = '', titreFormation = '', produitId = '';
   try {
     const { data: cmd } = await SB.from('commandes')
-      .select('client_nom,client_tel,produit_titre')
+      .select('client_nom,client_tel,produit_titre,produit_id')
       .eq('id', acces.commande_id)
       .maybeSingle();
     if(cmd){
       clientNom = cmd.client_nom || '';
       clientTel = cmd.client_tel || '';
       titreFormation = cmd.produit_titre || '';
+      produitId = cmd.produit_id || '';
     }
   } catch(e){ /* non bloquant */ }
 
   // 6. Déterminer le type de contenu
   let urlFinale = acces.lien_reel;
+
+  // 6.0. Fallback dynamique : si l'admin n'avait pas uploadé le PDF au moment de l'achat,
+  // acces_virtuels.lien_reel est vide. On résout alors depuis formations.lien via produit_id.
+  if(!urlFinale && produitId){
+    try {
+      const { data: form } = await SB.from('formations')
+        .select('lien')
+        .eq('id', produitId)
+        .maybeSingle();
+      if(form?.lien) urlFinale = form.lien;
+    } catch(e){ /* non bloquant */ }
+  }
+
+  // 6.0b. Si toujours pas de lien → message "contenu en cours de préparation"
+  if(!urlFinale){
+    showCenter(`<div class="ico err-ico">📦</div><h1>Contenu en cours de préparation</h1><p>Votre achat est bien enregistré, mais le contenu n'est pas encore disponible. ATM va vous le faire parvenir manuellement très bientôt.</p><a class="btn" href="https://wa.me/${WHATSAPP_ATM}?text=${encodeURIComponent('Bonjour ATM, j\\'ai acheté ' + (titreFormation||'une formation') + ' (token: ' + token + ') mais le contenu n\\'est pas encore en ligne. Merci de me l\\'envoyer.')}">💬 Relancer ATM</a>`);
+    return;
+  }
 
   // 6a. Stockage : PDF → Edge Function watermark-pdf (nom+tel acheteur sur chaque page)
   //                Autre fichier → URL signée 10 min (legacy)

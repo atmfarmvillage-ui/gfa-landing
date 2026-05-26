@@ -56,25 +56,35 @@ serve(async (req) => {
       return errPage('Lien expiré', 410)
     }
 
-    if (!acces.lien_reel || typeof acces.lien_reel !== 'string' || !acces.lien_reel.startsWith('storage:')) {
-      return errPage('Format de contenu invalide', 400)
-    }
-
-    const m = acces.lien_reel.match(/^storage:([^/]+)\/(.+)$/)
-    if (!m) return errPage('Chemin storage invalide', 400)
-    const [, bucket, path] = m
-
-    // 2. Récupérer info acheteur (pour watermark)
-    let clientNom = '', clientTel = ''
+    // 2. Récupérer info acheteur + produit_id (pour watermark + fallback lien)
+    let clientNom = '', clientTel = '', produitId = ''
     if (acces.commande_id) {
       const { data: cmd } = await sb.from('commandes')
-        .select('client_nom,client_tel')
+        .select('client_nom,client_tel,produit_id')
         .eq('id', acces.commande_id as string).maybeSingle()
       if (cmd) {
         clientNom = (cmd.client_nom as string) || ''
         clientTel = (cmd.client_tel as string) || ''
+        produitId = (cmd.produit_id as string) || ''
       }
     }
+
+    // 2b. Lien_reel : si vide (admin a uploadé le PDF après l'achat) → fallback formations.lien
+    let lienReel = (acces.lien_reel as string) || ''
+    if (!lienReel && produitId) {
+      const { data: form } = await sb.from('formations')
+        .select('lien')
+        .eq('id', produitId).maybeSingle()
+      if (form?.lien) lienReel = String(form.lien)
+    }
+
+    if (!lienReel || !lienReel.startsWith('storage:')) {
+      return errPage('Format de contenu invalide', 400)
+    }
+
+    const m = lienReel.match(/^storage:([^/]+)\/(.+)$/)
+    if (!m) return errPage('Chemin storage invalide', 400)
+    const [, bucket, path] = m
 
     // 3. Télécharger le PDF d'origine
     const { data: blob, error: e2 } = await sb.storage.from(bucket).download(path)
