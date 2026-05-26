@@ -18,7 +18,7 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
 }
 
-function errPage(msg: string, code = 400) {
+function errPage(msg: string, _code = 400) {
   const html = `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><title>Erreur</title>
 <style>body{font-family:system-ui,sans-serif;background:#F8FAFC;color:#0F172A;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px;text-align:center}
 .b{background:white;border-radius:14px;padding:36px;max-width:420px;box-shadow:0 14px 40px rgba(15,43,107,.10);border:1px solid #E2E8F0}
@@ -26,7 +26,14 @@ h1{color:#dc2626;margin:0 0 10px;font-size:22px}p{color:#475569;line-height:1.6;
 a{background:#1B4FD8;color:white;padding:10px 22px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px}</style>
 </head><body><div class="b"><h1>⚠️ ${msg}</h1><p>Si ce lien provient d'un message ATM, contactez-nous directement.</p>
 <a href="https://wa.me/22870992018">💬 Contacter ATM</a></div></body></html>`
-  return new Response(html, { status: code, headers: { ...corsHeaders, 'Content-Type': 'text/html; charset=utf-8' } })
+  // Supabase Edge override le Content-Type sur les réponses non-2xx → on renvoie 200 + body HTML.
+  // C'est une page UX (pas une API REST), donc le code HTTP importe peu.
+  const body = new TextEncoder().encode(html)
+  const headers = new Headers(corsHeaders)
+  headers.set('Content-Type', 'text/html; charset=utf-8')
+  headers.set('Content-Length', String(body.byteLength))
+  headers.set('X-Content-Type-Options', 'nosniff')
+  return new Response(body, { status: 200, headers })
 }
 
 serve(async (req) => {
