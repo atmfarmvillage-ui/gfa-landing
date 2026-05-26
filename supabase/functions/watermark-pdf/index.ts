@@ -105,11 +105,14 @@ serve(async (req) => {
     const footer = `ATM Farm Village · Diffusion privée · ${acheteur}`
     const dateStr = new Date().toISOString().slice(0, 10)
 
+    // Couleur marque ATM (#1B4FD8 normalisé)
+    const ATM_BLUE = rgb(0.105, 0.31, 0.85)
+
     // 4. Watermark sur chaque page
     for (const page of pdf.getPages()) {
       const { width, height } = page.getSize()
 
-      // Watermark diagonal central (gros, transparent)
+      // ── A) Watermark acheteur diagonal central (anti-piratage, gros + transparent) ──
       const acheteurWidth = font.widthOfTextAtSize(acheteur, 42)
       page.drawText(acheteur, {
         x: width / 2 - acheteurWidth / 2 * 0.7,
@@ -121,7 +124,29 @@ serve(async (req) => {
         rotate: degrees(-30),
       })
 
-      // Footer discret en bas
+      // ── B) Branding "ATM Farm Village · GFA" en haut à gauche ──
+      page.drawText('ATM Farm Village · GFA', {
+        x: 30,
+        y: height - 30,
+        size: 9,
+        font,
+        color: ATM_BLUE,
+        opacity: 0.85,
+      })
+
+      // ── C) Bande verticale "ATM Farm Village" répétée sur le bord gauche (filigrane brand) ──
+      const brandStrip = 'ATM Farm Village  ·  ATM Farm Village  ·  ATM Farm Village  ·  ATM Farm Village'
+      page.drawText(brandStrip, {
+        x: 14,
+        y: 40,
+        size: 7,
+        font,
+        color: ATM_BLUE,
+        opacity: 0.18,
+        rotate: degrees(90),
+      })
+
+      // ── D) Footer (traçabilité, déjà là) ──
       page.drawText(footer, {
         x: 30,
         y: 18,
@@ -131,7 +156,7 @@ serve(async (req) => {
         opacity: 0.65,
       })
 
-      // Date d'accès en haut à droite (preuve)
+      // ── E) Date d'accès en haut à droite (preuve) ──
       const dateText = `Téléchargé le ${dateStr}`
       const dateWidth = font.widthOfTextAtSize(dateText, 7)
       page.drawText(dateText, {
