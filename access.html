@@ -10,80 +10,180 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#F0FDF4 0%,#EFF6FF 100%);color:#0F172A;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:linear-gradient(135deg,#F0FDF4 0%,#EFF6FF 100%);color:#0F172A;min-height:100vh;padding:20px}
+.center{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 40px)}
 .box{background:white;border-radius:16px;padding:48px 32px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(15,43,107,.10);text-align:center;border:1px solid #E2E8F0}
 .ico{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#dcfce7,#bbf7d0);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 20px}
 h1{font-family:'Fraunces',serif;font-size:26px;color:#0F2B6B;margin-bottom:10px}
 p{color:#475569;font-size:14px;line-height:1.6;margin-bottom:20px}
 .spinner{width:40px;height:40px;border:3px solid #E2E8F0;border-top-color:#1B4FD8;border-radius:50%;animation:spin 1s linear infinite;margin:20px auto}
 @keyframes spin{to{transform:rotate(360deg)}}
-.btn{background:#1B4FD8;color:white;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;display:inline-block}
+.btn{background:#1B4FD8;color:white;padding:12px 28px;border-radius:10px;text-decoration:none;font-weight:700;font-size:14px;display:inline-block;cursor:pointer;border:none;font-family:inherit}
+.btn-out{background:transparent;color:#1B4FD8;border:1.5px solid #1B4FD8}
 .err-ico{background:linear-gradient(135deg,#fee2e2,#fecaca)}
+
+/* Player wrapper */
+.player-wrap{max-width:1100px;margin:0 auto;background:white;border-radius:14px;padding:18px;box-shadow:0 12px 40px rgba(15,43,107,.08);border:1px solid #E2E8F0}
+.player-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.player-head h2{font-family:'Fraunces',serif;font-size:20px;color:#0F2B6B}
+.player-head .info{font-size:11px;color:#64748b}
+.player-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:10px;overflow:hidden}
+.player-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+/* Watermark dynamique : nom + tel en transparence, en bas à droite, anti-rotation */
+.watermark{position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,.55);color:rgba(255,255,255,.85);padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;pointer-events:none;backdrop-filter:blur(2px);max-width:60%;text-align:right;line-height:1.4}
+.watermark .tag{font-size:9px;opacity:.75;display:block;margin-bottom:2px}
+/* Anti-clic droit sur l'iframe wrapper */
+.player-frame{user-select:none;-webkit-user-select:none}
+.note-protect{margin-top:14px;font-size:11px;color:#64748b;text-align:center;line-height:1.6;background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:10px 14px}
 </style>
 </head>
 <body>
-<div class="box" id="contenu">
-  <div class="spinner"></div>
-  <h1>Vérification de votre accès...</h1>
-  <p>Patientez quelques secondes.</p>
-</div>
+<div id="contenu"></div>
 
 <script>
 const SHOP_SUPA_URL = 'https://ikdzmzlleemkegnpqgvu.supabase.co';
 const SHOP_SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZHptemxsZWVta2VnbnBxZ3Z1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NjIxNDUsImV4cCI6MjA5MTIzODE0NX0.FYJrw4JfwFlbirITmX2f7Y_pixr7KdeMzRMNn_3k0d4';
 const SB = supabase.createClient(SHOP_SUPA_URL, SHOP_SUPA_KEY);
 
+const WHATSAPP_ATM = '22870992018';
+
+// Affiche un message centré (loading / erreur)
+function showCenter(html){
+  document.getElementById('contenu').innerHTML = `<div class="center"><div class="box">${html}</div></div>`;
+}
+
+// Extrait l'ID YouTube d'une URL (formats variés)
+function extractYouTubeId(url){
+  if(!url) return null;
+  const patterns = [
+    /youtube\.com\/watch\?v=([^&]+)/,
+    /youtu\.be\/([^?]+)/,
+    /youtube\.com\/embed\/([^?]+)/,
+    /youtube\.com\/shorts\/([^?]+)/,
+    /youtube\.com\/live\/([^?]+)/,
+  ];
+  for(const p of patterns){
+    const m = url.match(p);
+    if(m) return m[1];
+  }
+  return null;
+}
+
+// Rendu du player YouTube intégré avec watermark
+function renderYouTubePlayer({ videoId, titre, watermarkText }){
+  // origin = restriction de domaine côté YouTube
+  const origin = encodeURIComponent(location.origin);
+  // Paramètres : rel=0 (pas de suggestions externes), modestbranding=1, playsinline, hl=fr
+  const src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&hl=fr&origin=${origin}`;
+  document.getElementById('contenu').innerHTML = `
+    <div class="player-wrap">
+      <div class="player-head">
+        <h2>🎬 ${titre || 'Votre formation'}</h2>
+        <div class="info">© ATM Farm Village · Diffusion privée</div>
+      </div>
+      <div class="player-frame" oncontextmenu="return false">
+        <iframe src="${src}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+        <div class="watermark">
+          <span class="tag">ATM Farm Village</span>
+          ${watermarkText || ''}
+        </div>
+      </div>
+      <div class="note-protect">
+        🔒 Cette vidéo vous est personnellement attribuée. Toute diffusion ou partage est interdite. Le watermark identifie l'acheteur d'origine.
+      </div>
+    </div>`;
+}
+
 (async () => {
+  // Loading initial
+  showCenter('<div class="spinner"></div><h1>Vérification de votre accès...</h1><p>Patientez quelques secondes.</p>');
+
+  // 1. Lire le token depuis l'URL
   const token = new URLSearchParams(location.search).get('t')
     || decodeURIComponent(location.pathname.replace(/^\/access\/?/, '').replace(/\/$/, ''))
     || '';
   if(!token){
-    document.getElementById('contenu').innerHTML = `<div class="ico err-ico">⚠️</div><h1>Lien invalide</h1><p>Ce lien d'accès est incomplet.</p><a class="btn" href="/boutique">← Retour boutique</a>`;
+    showCenter(`<div class="ico err-ico">⚠️</div><h1>Lien invalide</h1><p>Ce lien d'accès est incomplet.</p><a class="btn" href="/boutique">← Retour boutique</a>`);
     return;
   }
 
-  const { data, error } = await SB.from('acces_virtuels').select('*').eq('token', token).maybeSingle();
-
-  if(error || !data){
-    document.getElementById('contenu').innerHTML = `<div class="ico err-ico">🔒</div><h1>Accès introuvable</h1><p>Ce lien n'est pas reconnu. S'il provient d'un message WhatsApp d'ATM, contactez-nous directement.</p><a class="btn" href="https://wa.me/22870992018">💬 Contacter ATM</a>`;
+  // 2. Récupérer la ligne d'accès
+  const { data: acces, error } = await SB.from('acces_virtuels').select('*').eq('token', token).maybeSingle();
+  if(error || !acces){
+    showCenter(`<div class="ico err-ico">🔒</div><h1>Accès introuvable</h1><p>Ce lien n'est pas reconnu. S'il provient d'un message WhatsApp d'ATM, contactez-nous directement.</p><a class="btn" href="https://wa.me/${WHATSAPP_ATM}">💬 Contacter ATM</a>`);
     return;
   }
 
-  if(data.expire_le && new Date(data.expire_le) < new Date()){
-    document.getElementById('contenu').innerHTML = `<div class="ico err-ico">⏱️</div><h1>Lien expiré</h1><p>Ce lien d'accès n'est plus valable. Contactez ATM pour le renouveler.</p><a class="btn" href="https://wa.me/22870992018">💬 Contacter ATM</a>`;
+  // 3. Vérifier expiration
+  if(acces.expire_le && new Date(acces.expire_le) < new Date()){
+    showCenter(`<div class="ico err-ico">⏱️</div><h1>Lien expiré</h1><p>Ce lien d'accès n'est plus valable. Contactez ATM pour le renouveler.</p><a class="btn" href="https://wa.me/${WHATSAPP_ATM}">💬 Contacter ATM</a>`);
     return;
   }
 
-  // Incrémenter le compteur (best-effort, non bloquant)
+  // 4. Compteur (best-effort, non bloquant)
   SB.from('acces_virtuels').update({
-    nb_clics: (data.nb_clics || 0) + 1,
+    nb_clics: (acces.nb_clics || 0) + 1,
     dernier_clic: new Date().toISOString(),
   }).eq('token', token).then(()=>{});
 
-  // Déterminer l'URL finale
-  let urlFinale = data.lien_reel;
+  // 5. Récupérer info commande (pour watermark)
+  let clientNom = '', clientTel = '', titreFormation = '';
+  try {
+    const { data: cmd } = await SB.from('commandes')
+      .select('client_nom,client_tel,produit_titre')
+      .eq('id', acces.commande_id)
+      .maybeSingle();
+    if(cmd){
+      clientNom = cmd.client_nom || '';
+      clientTel = cmd.client_tel || '';
+      titreFormation = cmd.produit_titre || '';
+    }
+  } catch(e){ /* non bloquant */ }
 
-  // Si le lien commence par "storage:<bucket>/<path>", générer une URL signée (10 min)
+  // 6. Déterminer le type de contenu
+  let urlFinale = acces.lien_reel;
+
+  // 6a. Stockage : PDF → Edge Function watermark-pdf (nom+tel acheteur sur chaque page)
+  //                Autre fichier → URL signée 10 min (legacy)
   if(urlFinale && urlFinale.startsWith('storage:')){
     const match = urlFinale.match(/^storage:([^/]+)\/(.+)$/);
     if(match){
-      const bucket = match[1];
-      const path = match[2];
-      document.getElementById('contenu').innerHTML = `<div class="spinner"></div><h1>Génération du lien sécurisé...</h1><p>Cette opération prend quelques secondes.</p>`;
-      const { data: signed, error: errSign } = await SB.storage.from(bucket).createSignedUrl(path, 600); // 10 min
+      const bucket = match[1], path = match[2];
+      const isPdf = /\.pdf$/i.test(path);
+
+      if(isPdf){
+        // PDF : on délègue à l'Edge Function qui watermarque dynamiquement
+        showCenter(`<div class="ico">✓</div><h1>Accès validé</h1><p>Ouverture de votre document personnalisé...</p><p style="font-size:11px;color:#94a3b8;margin-top:8px">🔒 Watermark : ${[clientNom, clientTel].filter(Boolean).join(' · ') || 'votre nom + tel'}</p>`);
+        const fnUrl = `${SHOP_SUPA_URL}/functions/v1/watermark-pdf?t=${encodeURIComponent(token)}`;
+        setTimeout(() => { location.href = fnUrl; }, 1200);
+        return;
+      }
+
+      // Fichier non-PDF (audio, image, archive...) : URL signée directe
+      showCenter('<div class="spinner"></div><h1>Génération du lien sécurisé...</h1><p>Cette opération prend quelques secondes.</p>');
+      const { data: signed, error: errSign } = await SB.storage.from(bucket).createSignedUrl(path, 600);
       if(errSign || !signed?.signedUrl){
-        document.getElementById('contenu').innerHTML = `<div class="ico err-ico">⚠️</div><h1>Erreur d'accès</h1><p>Impossible de générer votre lien d'accès. Contactez ATM.</p><a class="btn" href="https://wa.me/22870992018">💬 Contacter ATM</a>`;
+        showCenter(`<div class="ico err-ico">⚠️</div><h1>Erreur d'accès</h1><p>Impossible de générer votre lien d'accès. Contactez ATM.</p><a class="btn" href="https://wa.me/${WHATSAPP_ATM}">💬 Contacter ATM</a>`);
         return;
       }
       urlFinale = signed.signedUrl;
+      showCenter(`<div class="ico">✓</div><h1>Accès validé</h1><p>Téléchargement / ouverture en cours...</p>`);
+      setTimeout(() => { location.href = urlFinale; }, 1200);
+      return;
     }
   }
 
-  // Redirection
-  document.getElementById('contenu').innerHTML = `<div class="ico">✓</div><h1>Accès validé</h1><p>Redirection vers votre contenu...</p>`;
-  setTimeout(() => {
-    location.href = urlFinale;
-  }, 1200);
+  // 6b. Vidéo YouTube → player embarqué + watermark
+  const ytId = extractYouTubeId(urlFinale);
+  if(ytId){
+    const watermarkText = [clientNom, clientTel].filter(Boolean).join(' · ') || '—';
+    renderYouTubePlayer({ videoId: ytId, titre: titreFormation, watermarkText });
+    return;
+  }
+
+  // 6c. Autre URL → comportement legacy (redirect)
+  showCenter(`<div class="ico">✓</div><h1>Accès validé</h1><p>Redirection vers votre contenu...</p>`);
+  setTimeout(() => { location.href = urlFinale; }, 1200);
 })();
 </script>
 </body>

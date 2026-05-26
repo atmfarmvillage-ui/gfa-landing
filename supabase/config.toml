@@ -1,0 +1,8 @@
+# Supabase config (CLI). Ne contient que les overrides nécessaires.
+# Doc : https://supabase.com/docs/guides/cli/config
+
+project_id = "ikdzmzlleemkegnpqgvu"
+
+[functions.watermark-pdf]
+# Auth = token dans acces_virtuels (pas JWT Supabase). On désactive verify_jwt.
+verify_jwt = false
