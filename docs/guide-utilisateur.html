@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide utilisateur / User Manual — GFA · ATM Farm Village</title>
+<meta name="description" content="Guide complet de GFA — Gestion de Ferme Avicole — Complete User Manual for ATM Farm Village's poultry farm management app.">
+<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bleu:#1B4FD8;--bleu-sombre:#0F2B6B;--bleu-clair:#EFF6FF;
+  --vert:#059669;--vert-clair:#DCFCE7;
+  --or:#F59E0B;--rouge:#EF4444;--rouge-clair:#FEF2F2;
+  --texte:#0F172A;--textm:#475569;--textl:#94A3B8;
+  --gris:#F8FAFC;--gris2:#F1F5F9;--border:#E2E8F0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--texte);line-height:1.6;font-size:11pt;background:#fff;-webkit-font-smoothing:antialiased}
+
+/* Language switching */
+.lang-en{display:none}
+body.lang-active-en .lang-fr{display:none}
+body.lang-active-en .lang-en{display:block}
+
+/* Print */
+@page{size:A4;margin:18mm 16mm 20mm 16mm}
+@media print{
+  body{font-size:10.5pt;background:white}
+  .no-print{display:none !important}
+  h1,h2,h3,h4{page-break-after:avoid}
+  .section{page-break-before:always}
+  .cover{page-break-after:always}
+  .toc{page-break-after:always}
+  .capture,.tip,.warn,.step{page-break-inside:avoid}
+  a{color:var(--bleu) !important;text-decoration:none}
+  a[href^="http"]:after{content:" (" attr(href) ")";font-size:.85em;color:var(--textl)}
+  a[href^="https://wa.me"]:after{content:""}
+}
+
+.wrap{max-width:780px;margin:0 auto;padding:30px 28px 60px}
+
+/* Toggle bar (top, fixed, screen only) */
+.lang-bar{position:fixed;top:14px;right:14px;background:white;border-radius:99px;box-shadow:0 6px 20px rgba(15,43,107,.15);padding:4px;display:flex;gap:2px;z-index:200;border:1px solid var(--border)}
+.lang-bar button{background:transparent;border:none;padding:7px 14px;border-radius:99px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;color:var(--textm);transition:.2s}
+.lang-bar button.active{background:var(--bleu);color:white}
+.lang-bar a{padding:7px 14px;border-radius:99px;font-size:12px;font-weight:700;color:var(--vert);text-decoration:none;margin-left:4px;border-left:1px solid var(--border)}
+.lang-bar a:hover{background:var(--vert-clair)}
+
+/* Cover */
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:60px 30px;text-align:center;background:linear-gradient(135deg,#F0FDF4 0%,#EFF6FF 50%,#FFF7ED 100%)}
+.cover-logo{width:130px;height:130px;border-radius:24px;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 50px rgba(15,43,107,.15);margin-bottom:30px}
+.cover-logo img{width:100%;height:100%;object-fit:contain;border-radius:24px}
+.cover h1{font-family:'Fraunces',serif;font-size:48px;font-weight:900;color:var(--bleu-sombre);margin-bottom:14px;letter-spacing:-1px}
+.cover .tagline{font-size:18px;color:var(--bleu);font-weight:600;margin-bottom:8px}
+.cover .sub{font-size:14px;color:var(--textm);margin-bottom:30px;max-width:480px;line-height:1.6}
+.cover .badge{background:var(--bleu);color:white;padding:8px 18px;border-radius:99px;font-size:12px;font-weight:700;display:inline-block;margin-bottom:24px;letter-spacing:.5px;text-transform:uppercase}
+.cover .meta{font-size:11px;color:var(--textm);margin-top:40px}
+.cover .meta strong{color:var(--bleu-sombre)}
+
+/* TOC */
+.toc{padding:50px 30px}
+.toc h2{font-family:'Fraunces',serif;font-size:32px;font-weight:800;color:var(--bleu-sombre);margin-bottom:24px;text-align:center;letter-spacing:-.5px}
+.toc ol{list-style:none;counter-reset:tocCounter;max-width:560px;margin:0 auto}
+.toc ol li{counter-increment:tocCounter;padding:12px 0;border-bottom:1px dotted var(--border);display:flex;align-items:baseline;font-size:14px}
+.toc ol li:before{content:counter(tocCounter,decimal-leading-zero);font-family:'Fraunces',serif;font-size:20px;color:var(--bleu);font-weight:700;margin-right:14px;min-width:36px}
+.toc ol li a{color:var(--texte);text-decoration:none;flex:1;font-weight:500}
+.toc ol li a:hover{color:var(--bleu)}
+
+/* Sections */
+.section{padding:30px 0}
+.section-num{font-family:'Fraunces',serif;font-size:14px;color:var(--bleu);letter-spacing:2px;font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.section h2{font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--bleu-sombre);margin-bottom:18px;letter-spacing:-.5px;line-height:1.15}
+.section .intro{font-size:14px;color:var(--textm);margin-bottom:24px;line-height:1.7;padding:14px 18px;background:var(--bleu-clair);border-left:4px solid var(--bleu);border-radius:0 8px 8px 0}
+h3{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--bleu-sombre);margin:26px 0 12px;letter-spacing:-.2px}
+h4{font-size:14px;font-weight:700;margin:18px 0 8px;text-transform:uppercase;letter-spacing:1px;color:var(--bleu)}
+p{margin-bottom:12px}
+ul,ol{padding-left:22px;margin-bottom:14px}
+ul li,ol li{margin-bottom:6px}
+strong{color:var(--bleu-sombre);font-weight:700}
+em{font-style:italic;color:var(--textm)}
+code{background:var(--gris2);padding:2px 7px;border-radius:4px;font-family:'SF Mono',Consolas,monospace;font-size:.9em;color:var(--bleu-sombre)}
+
+/* Steps */
+.steps{counter-reset:stepCounter;margin:18px 0}
+.step{position:relative;padding:14px 16px 14px 60px;background:var(--gris);border-radius:10px;margin-bottom:10px;counter-increment:stepCounter}
+.step:before{content:counter(stepCounter);position:absolute;left:14px;top:14px;width:34px;height:34px;background:var(--bleu);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.step .step-title{font-weight:700;margin-bottom:4px;color:var(--bleu-sombre);font-size:13px}
+.step .step-body{font-size:12.5px;color:var(--textm);line-height:1.55}
+
+/* Captures */
+.capture{background:white;border:2px dashed var(--bleu);border-radius:12px;padding:20px;margin:18px 0;text-align:center;color:var(--textm)}
+.capture-icon{font-size:32px;margin-bottom:8px;opacity:.6}
+.capture-title{font-size:11px;font-weight:700;color:var(--bleu);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.capture-desc{font-size:12px;color:var(--textm);line-height:1.5;max-width:480px;margin:0 auto}
+
+/* Tips/Warnings */
+.tip{background:var(--vert-clair);border-left:4px solid var(--vert);padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:12.5px;color:#065F46;line-height:1.6}
+.tip-title{font-weight:700;margin-bottom:4px;color:var(--vert)}
+.warn{background:var(--rouge-clair);border-left:4px solid var(--rouge);padding:14px 18px;border-radius:0 8px 8px 0;margin:14px 0;font-size:12.5px;color:#7F1D1D;line-height:1.6}
+.warn-title{font-weight:700;margin-bottom:4px;color:var(--rouge)}
+
+/* Tables */
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:12.5px}
+th{background:var(--bleu-sombre);color:white;padding:10px 12px;text-align:left;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:nth-child(even) td{background:var(--gris)}
+
+/* Badges */
+.key{display:inline-block;background:white;border:1px solid var(--border);border-bottom-width:2px;border-radius:4px;padding:1px 7px;font-family:Consolas,monospace;font-size:11px;color:var(--bleu-sombre);font-weight:600}
+.badge-role{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.badge-role.admin{background:rgba(245,158,11,.15);color:#92400E;border:1px solid rgba(245,158,11,.4)}
+.badge-role.sec{background:rgba(59,130,246,.15);color:#1E40AF;border:1px solid rgba(59,130,246,.4)}
+.badge-role.tech{background:rgba(16,185,129,.15);color:#065F46;border:1px solid rgba(16,185,129,.4)}
+
+/* Footer */
+.footer{margin-top:60px;padding-top:24px;border-top:2px solid var(--border);text-align:center;font-size:11px;color:var(--textm)}
+.footer a{color:var(--bleu);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body class="lang-active-fr">
+
+<!-- ═══ TOGGLE BAR (screen only) ═══ -->
+<div class="lang-bar no-print">
+  <button id="btn-fr" class="active" onclick="setLang('fr')">🇫🇷 FR</button>
+  <button id="btn-en" onclick="setLang('en')">🇬🇧 EN</button>
+  <a href="javascript:window.print()">🖨 PDF</a>
+</div>
+
+<!-- ═════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════ VERSION FRANÇAISE ═════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════ -->
+<div class="lang-fr">
+
+<section class="cover">
+  <div class="cover-logo"><img src="https://app.avifarmer.net/icons/icon-512.png" alt="GFA logo"></div>
+  <span class="badge">Guide officiel · 2026</span>
+  <h1>Guide utilisateur GFA</h1>
+  <p class="tagline">Gestion de Ferme Avicole — du démarrage à la rentabilité</p>
+  <p class="sub">Tout ce qu'un aviculteur doit savoir pour utiliser GFA au quotidien : créer un compte, monter son équipe, suivre ses bandes, gérer ses ventes et piloter ses bénéfices — directement depuis son téléphone ou son ordinateur.</p>
+  <div class="meta"><strong>ATM Farm Village</strong><br>Version 2.16.66 · Mise à jour : Mai 2026<br><a href="https://avifarmer.net">avifarmer.net</a> · <a href="https://app.avifarmer.net">app.avifarmer.net</a></div>
+</section>
+
+<section class="toc">
+  <h2>Sommaire</h2>
+  <ol>
+    <li><a href="#s1-fr">Bienvenue sur GFA</a></li>
+    <li><a href="#s2-fr">Installer GFA sur ton appareil</a></li>
+    <li><a href="#s3-fr">Créer ton compte</a></li>
+    <li><a href="#s4-fr">Configurer ta ferme</a></li>
+    <li><a href="#s5-fr">Inviter ton équipe</a></li>
+    <li><a href="#s6-fr">Créer ta première bande / campagne</a></li>
+    <li><a href="#s7-fr">Tenir le rapport quotidien</a></li>
+    <li><a href="#s8-fr">Gérer les ventes</a></li>
+    <li><a href="#s9-fr">Suivre la santé financière</a></li>
+    <li><a href="#s10-fr">Outils avancés</a></li>
+    <li><a href="#s11-fr">Boutique &amp; formations</a></li>
+    <li><a href="#s12-fr">Élevage prévisionnel</a></li>
+    <li><a href="#s13-fr">Discussion d'équipe</a></li>
+    <li><a href="#annexe-fr">Annexe : FAQ &amp; contact</a></li>
+  </ol>
+</section>
+
+<div class="wrap">
+
+<section class="section" id="s1-fr">
+<div class="section-num">Section 01</div>
+<h2>Bienvenue sur GFA</h2>
+<div class="intro">GFA (Gestion de Ferme Avicole) est une application conçue par <strong>ATM Farm Village</strong> pour tous les aviculteurs d'Afrique francophone, du débutant qui démarre 50 poussins au professionnel qui gère 10 000 pondeuses.</div>
+
+<h3>Pour qui ?</h3>
+<p>Tu fais de l'aviculture — peu importe ta taille, ton type d'élevage (chair, ponte, mixte, géniteurs) ou ton niveau d'expérience ? GFA est fait pour toi. L'application a été pensée pour fonctionner même avec une connexion internet faible, sur un téléphone basique.</p>
+
+<h3>Ce que GFA fait pour toi</h3>
+<ul>
+<li><strong>Tenir tes rapports quotidiens</strong> sans cahier : ponte, mortalité, aliment, eau, médicaments — saisis en moins de 2 minutes</li>
+<li><strong>Calculer automatiquement</strong> ton FCR, ta consommation par sujet, ton taux de mortalité, ton bénéfice net</li>
+<li><strong>Gérer ton équipe</strong> avec des rôles (admin, secrétaire, technicien)</li>
+<li><strong>Vendre et tracer</strong> tes œufs, volailles et sous-produits avec un workflow technicien → secrétaire</li>
+<li><strong>Anticiper la prophylaxie</strong> via notifications J-5/J-3/J-1 avant chaque vaccin</li>
+<li><strong>Comparer tes campagnes</strong> entre elles et avec d'autres fermes (anonymisées)</li>
+</ul>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : page d'accueil avifarmer.net</div><div class="capture-desc">Bannière "Gérez votre ferme avicole intelligemment" + bouton "Démarrer gratuitement" + 3 captures dashboard, bandes et rapport quotidien</div></div>
+
+<h3>Les formules disponibles</h3>
+<table>
+<thead><tr><th>Formule</th><th>Pour qui</th><th>Fermes max</th><th>Membres max</th></tr></thead>
+<tbody>
+<tr><td><strong>Essai gratuit</strong></td><td>Découverte (14 jours)</td><td>1</td><td>1</td></tr>
+<tr><td><strong>Démarreur</strong></td><td>Petite ferme familiale</td><td>1</td><td>3</td></tr>
+<tr><td><strong>Entrepreneur</strong></td><td>Ferme professionnelle</td><td>2</td><td>8</td></tr>
+<tr><td><strong>Pro</strong></td><td>Multi-sites + analyse poussée</td><td>5</td><td>20</td></tr>
+</tbody>
+</table>
+<p>Prix et avantages détaillés sur <a href="https://avifarmer.net/tarifs">avifarmer.net/tarifs</a>. Changement de formule possible à tout moment depuis la page <em>Licence</em>.</p>
+
+<div class="tip"><div class="tip-title">💡 Bon à savoir</div>Tu peux tester l'application gratuitement pendant 14 jours, sans carte bancaire.</div>
+</section>
+
+<section class="section" id="s2-fr">
+<div class="section-num">Section 02</div>
+<h2>Installer GFA sur ton appareil</h2>
+<div class="intro">GFA est une <strong>application web progressive (PWA)</strong> : pas besoin du Play Store ni de l'App Store. Tu l'installes directement depuis ton navigateur, et elle se met à jour automatiquement.</div>
+
+<h3>Sur Android (Chrome, Samsung Internet)</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Ouvrir le navigateur</div><div class="step-body">Lance Chrome ou Samsung Internet.</div></div>
+<div class="step"><div class="step-title">Aller sur app.avifarmer.net</div><div class="step-body">Tape l'adresse dans la barre du navigateur.</div></div>
+<div class="step"><div class="step-title">Cliquer "Installer l'application"</div><div class="step-body">Bannière en bas de l'écran. Sinon menu ⋮ → "Ajouter à l'écran d'accueil".</div></div>
+<div class="step"><div class="step-title">Confirmer</div><div class="step-body">L'icône GFA apparaît sur ton écran d'accueil. Tu peux la lancer même hors-ligne.</div></div>
+</div>
+
+<h3>Sur iPhone / iPad (Safari)</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Ouvrir Safari</div><div class="step-body">Safari obligatoire sur iOS (Chrome iOS ne le permet pas).</div></div>
+<div class="step"><div class="step-title">Aller sur app.avifarmer.net</div><div class="step-body">Saisis l'adresse dans Safari.</div></div>
+<div class="step"><div class="step-title">Toucher l'icône Partager</div><div class="step-body">Le carré avec une flèche vers le haut, en bas du navigateur.</div></div>
+<div class="step"><div class="step-title">"Sur l'écran d'accueil"</div><div class="step-body">Fais défiler → "Sur l'écran d'accueil" → "Ajouter".</div></div>
+</div>
+
+<h3>Sur ordinateur (Windows, Mac, Linux)</h3>
+<p>Utilise GFA directement dans Chrome/Edge/Firefox via <code>app.avifarmer.net</code>, ou installe-la comme app desktop :</p>
+<ol>
+<li>Ouvre Chrome ou Edge</li>
+<li>Va sur <code>app.avifarmer.net</code></li>
+<li>Une icône d'installation apparaît dans la barre d'adresse</li>
+<li>Clique → "Installer"</li>
+<li>GFA s'ouvre dans sa propre fenêtre</li>
+</ol>
+
+<div class="tip"><div class="tip-title">✅ Avantages</div><strong>Mode hors-ligne</strong> : saisis un rapport sans réseau, synchronisé dès que la connexion revient. <strong>Notifications push</strong> directement sur l'écran d'accueil. <strong>Plein écran</strong> sans barre d'adresse.</div>
+
+<div class="warn"><div class="warn-title">⚠️ À la première utilisation</div>Autorise les <strong>notifications</strong> quand le navigateur le demande, pour recevoir les rappels prophylaxie et messages d'équipe.</div>
+</section>
+
+<section class="section" id="s3-fr">
+<div class="section-num">Section 03</div>
+<h2>Créer ton compte</h2>
+<div class="intro">L'inscription se fait depuis avifarmer.net. Tu auras automatiquement <strong>14 jours d'essai gratuit</strong> de la formule Pro.</div>
+
+<h3>Étapes</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Aller sur avifarmer.net</div><div class="step-body">Page d'accueil qui présente GFA, ses fonctionnalités et les témoignages d'aviculteurs.</div></div>
+<div class="step"><div class="step-title">Cliquer "Démarrer gratuitement"</div><div class="step-body">Bouton bleu en haut à droite → page d'inscription.</div></div>
+<div class="step"><div class="step-title">Remplir le formulaire</div><div class="step-body">Email, mot de passe (8+ caractères, 1 chiffre), nom complet, téléphone avec indicatif (ex: +228 90 12 34 56).</div></div>
+<div class="step"><div class="step-title">Valider</div><div class="step-body">Email de confirmation envoyé. Clique sur le lien pour activer le compte.</div></div>
+<div class="step"><div class="step-title">Se connecter</div><div class="step-body">Retourne sur <code>app.avifarmer.net</code> avec tes identifiants.</div></div>
+</div>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : écran de connexion GFA</div><div class="capture-desc">Formulaire centré avec champs Email / Mot de passe, bouton "Se connecter" et lien "Mot de passe oublié ?"</div></div>
+
+<div class="tip"><div class="tip-title">💡 Mot de passe oublié</div>Lien "Mot de passe oublié ?" sur l'écran de connexion → email avec lien valable 1h pour en définir un nouveau.</div>
+</section>
+
+<section class="section" id="s4-fr">
+<div class="section-num">Section 04</div>
+<h2>Configurer ta ferme</h2>
+<div class="intro">Avant de saisir tes premières données, prends 5 minutes pour configurer ta ferme. Ces informations s'affichent partout dans l'app.</div>
+
+<h3>Renseigner les infos</h3>
+<p>Menu → <strong>⚙️ Paramètres</strong> → section <em>Ma ferme</em>.</p>
+
+<h4>Champs à remplir</h4>
+<ul>
+<li><strong>Nom de la ferme</strong> — ex: "Ferme Avicole d'Adidogomé"</li>
+<li><strong>Localisation</strong> — ville + GPS (bouton "📍 Utiliser ma position actuelle")</li>
+<li><strong>Type d'élevage principal</strong> — Ponte / Chair / Mixte / Géniteurs</li>
+<li><strong>Photo de la ferme</strong> — JPG/PNG, max 5 Mo</li>
+<li><strong>Téléphone de contact</strong> — pour clients et rapports imprimés</li>
+</ul>
+
+<h3>Choisir tes unités</h3>
+<ul>
+<li><strong>Devise</strong> — FCFA par défaut (Euro, USD, NGN, GHS… disponibles)</li>
+<li><strong>Unité de poids</strong> — kg ou g</li>
+<li><strong>Unité de surface</strong> — m² ou pieds²</li>
+<li><strong>Fuseau horaire</strong> — vérifie qu'il correspond à ton pays</li>
+</ul>
+
+<div class="tip"><div class="tip-title">💡 Pourquoi c'est important</div>Toutes les statistiques (FCR, mortalité, prix de revient au kg…) sont calculées dans tes unités.</div>
+
+<h3>Plusieurs fermes (formules Entrepreneur+)</h3>
+<p>Si tu as plusieurs sites : <strong>Équipe → Mes fermes</strong> → "+ Nouvelle ferme". Chaque ferme a ses propres bandes, son stock et son ROI, mais peut être comparée aux autres.</p>
+</section>
+
+<section class="section" id="s5-fr">
+<div class="section-num">Section 05</div>
+<h2>Inviter ton équipe</h2>
+<div class="intro">Jusqu'à 20 personnes (selon ta formule) peuvent collaborer sur ta ferme. Chaque personne a un <strong>rôle</strong> qui définit ce qu'elle peut voir et faire.</div>
+
+<h3>Les 3 rôles</h3>
+<table>
+<thead><tr><th>Rôle</th><th>Voit</th><th>Peut modifier</th></tr></thead>
+<tbody>
+<tr><td><span class="badge-role admin">Admin</span></td><td>Tout</td><td>Tout (équipe, prix, paiements)</td></tr>
+<tr><td><span class="badge-role sec">Secrétaire</span></td><td>Tout sauf équipe + licences</td><td>Rapports, ventes, dépenses</td></tr>
+<tr><td><span class="badge-role tech">Technicien</span></td><td>Rapports, stock</td><td>Rapports quotidiens, déchargements</td></tr>
+</tbody>
+</table>
+
+<h3>Inviter une personne</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Ouvrir Équipe</div><div class="step-body">Menu → <strong>👥 Équipe</strong>.</div></div>
+<div class="step"><div class="step-title">"+ Inviter un membre"</div><div class="step-body">Bouton en haut à droite.</div></div>
+<div class="step"><div class="step-title">Choisir le rôle</div><div class="step-body">Admin, Secrétaire ou Technicien. Modifiable plus tard.</div></div>
+<div class="step"><div class="step-title">Saisir téléphone OU email</div><div class="step-body">Numéro WhatsApp recommandé : la personne reçoit un lien à cliquer.</div></div>
+<div class="step"><div class="step-title">Envoyer</div><div class="step-body">Lien magique généré → la personne clique → page d'inscription pré-remplie → rejoint ta ferme.</div></div>
+</div>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : page Équipe</div><div class="capture-desc">Liste des membres avec photo, nom, badge rôle coloré, date d'activité, boutons ✏️/🗑. Bouton "+ Inviter" en haut</div></div>
+
+<h3>Modifier un membre</h3>
+<p>Clique sur ✏️ : changer rôle, rattacher à une ferme, désactiver l'accès, ou retirer définitivement.</p>
+
+<div class="tip"><div class="tip-title">💡 Plan partagé automatiquement</div>Quand l'admin paie une formule, <strong>tous les membres invités héritent</strong> de la même formule + date d'expiration.</div>
+</section>
+
+<section class="section" id="s6-fr">
+<div class="section-num">Section 06</div>
+<h2>Créer ta première bande / campagne</h2>
+<div class="intro">Une <strong>bande</strong> (ou campagne) regroupe tous les sujets démarrés ensemble. C'est l'unité de base de GFA — tous les rapports, ventes et dépenses y sont rattachés.</div>
+
+<h3>Préparer avant de créer</h3>
+<ul>
+<li><strong>Type</strong> : poussin chair, poussinette pondeuse, pondeuse, géniteur, dindon, pintade, caille, lapin, Goliath…</li>
+<li><strong>Effectif</strong>, <strong>date d'arrivée</strong>, <strong>souche/race</strong>, <strong>prix unitaire</strong>, <strong>bâtiment</strong></li>
+</ul>
+
+<h3>Cas 1 — Poulets de chair</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Menu → 🐔 Bandes</div><div class="step-body">"+ Nouvelle bande".</div></div>
+<div class="step"><div class="step-title">"Poussin de chair"</div><div class="step-body">Liste déroulante avec icônes.</div></div>
+<div class="step"><div class="step-title">Renseigner les infos</div><div class="step-body">Nom, date, effectif, souche, prix, bâtiment.</div></div>
+<div class="step"><div class="step-title">Durée prévue</div><div class="step-body">42 jours par défaut.</div></div>
+<div class="step"><div class="step-title">Créer</div><div class="step-body">La bande apparaît avec son compteur à J0.</div></div>
+</div>
+
+<h3>Cas 2 — Pondeuses</h3>
+<ul>
+<li><strong>Type</strong> : "Poussinette pondeuse" (J1) ou "Pondeuse en production"</li>
+<li><strong>Durée</strong> : 72-80 semaines</li>
+<li><strong>Phase</strong> : élevage / pré-ponte / ponte (bascule auto)</li>
+<li><strong>Pic de ponte attendu</strong> : pour comparer le réel vs prévisionnel (90-95% Isa Brown)</li>
+</ul>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : création de bande</div><div class="capture-desc">Carte avec sélecteur type (icônes 🐔🥚🦃), champs nom/date/effectif/prix/bâtiment, bouton vert "Créer la bande"</div></div>
+
+<h3>Ce qui se passe automatiquement</h3>
+<ul>
+<li>Fiche bande créée avec ID unique</li>
+<li>Compteur de jours démarré</li>
+<li>Programme de prophylaxie standard pré-chargé</li>
+<li>Effectif vivant = effectif initial (diminue avec les mortalités)</li>
+<li>Dépense initiale créée (coût d'achat des sujets)</li>
+</ul>
+
+<h3>Clôturer une bande</h3>
+<p><strong>Bandes</strong> → bande → "✓ Clôturer" → date de fin + motif. GFA fige les stats et calcule le ROI final.</p>
+</section>
+
+<section class="section" id="s7-fr">
+<div class="section-num">Section 07</div>
+<h2>Tenir le rapport quotidien</h2>
+<div class="intro">Le rapport quotidien est le <strong>cœur de GFA</strong>. C'est lui qui alimente toutes les statistiques. 2 minutes par bande, il remplace ton cahier.</div>
+
+<h3>Ouvrir le rapport</h3>
+<p>Menu → <strong>📝 Rapport</strong>. Date du jour en haut, liste des bandes actives en bas.</p>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : rapport quotidien</div><div class="capture-desc">En-tête avec date, sélecteur de bande, formulaire structuré (Œufs / Mortalité / Aliment / Eau / Médicaments / Notes)</div></div>
+
+<h4>🥚 Production d'œufs (pondeuses)</h4>
+<ul>
+<li>Œufs ramassés, bons à la vente, cassés/fissurés, 2 jaunes/déformés, couvés</li>
+</ul>
+
+<h4>💀 Mortalité</h4>
+<ul>
+<li>Nombre du jour, cause probable (maladie, stress thermique, prédateur, inconnu), photo possible</li>
+</ul>
+
+<h4>🌾 Aliment</h4>
+<ul>
+<li>Type (démarrage, croissance, finition, ponte 1, ponte 2), quantité en kg ou sacs</li>
+<li>Sortie automatique du stock</li>
+</ul>
+
+<h4>💧 Eau</h4>
+<ul>
+<li>Volume en litres. Détecte les chutes (signe précoce de maladie).</li>
+</ul>
+
+<h4>💊 Médicaments / vaccins</h4>
+<ul>
+<li>Produit, dose, motif (prophylaxie, traitement, post-stress), sortie auto du stock</li>
+</ul>
+
+<h4>📝 Notes</h4>
+<p>Champ libre : "Bâtiment chaud", "Visite véto", "Coupure 3h cette nuit"…</p>
+
+<h3>Enregistrer</h3>
+<p>Bouton <strong>"💾 Enregistrer le rapport"</strong>. GFA calcule auto : consommation/sujet, FCR cumulé, taux mortalité, taux de ponte vs pic, déduction stock.</p>
+
+<div class="tip"><div class="tip-title">💡 Hors-ligne</div>Saisie possible sans réseau → synchro automatique au retour. Aucune perte.</div>
+
+<div class="warn"><div class="warn-title">⚠️ Saisis tous les jours</div>Sinon stats peu fiables. Si tu sautes des jours, badge rouge sur la bande.</div>
+
+<h3>Historique &amp; rapport mensuel</h3>
+<ul>
+<li>Menu → <strong>📂 Historique</strong> : tous les rapports passés, filtres + export PDF/Excel</li>
+<li>Bouton <strong>"🖨 Rapport mensuel"</strong> : PDF synthétique des 30 derniers jours + courbes + bilan</li>
+</ul>
+</section>
+
+<section class="section" id="s8-fr">
+<div class="section-num">Section 08</div>
+<h2>Gérer les ventes</h2>
+<div class="intro">GFA gère toutes les ventes : œufs, volailles vivantes, carcasses, sous-produits (fientes, plumes). Avec un workflow strict pour éviter erreurs et vols.</div>
+
+<h3>Vue d'ensemble</h3>
+<p>Menu → <strong>🛒 Ventes</strong>. Layout 2 colonnes :</p>
+<ul>
+<li><strong>Gauche</strong> : Stock vendable + 5 collapsibles (par bande, par état…)</li>
+<li><strong>Droite</strong> : Formulaire de vente</li>
+<li><strong>En haut</strong> : Déchargements à confirmer</li>
+</ul>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : page Ventes</div><div class="capture-desc">2 colonnes : Stock vendable à gauche (cartes vertes), formulaire à droite (produit/qte/client/prix). Section haut "Déchargements en attente"</div></div>
+
+<h3>Workflow œufs (strict)</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Technicien — déchargement</div><div class="step-body"><strong>Stock Technicien → Œufs envoyés</strong> → bande, nombre de plateaux.</div></div>
+<div class="step"><div class="step-title">Secrétaire — confirmation</div><div class="step-body">Voit le déchargement → compte physique → "✓ Reçus 50" ou "⚠ Reçus 48" (écart → notif admin).</div></div>
+<div class="step"><div class="step-title">Secrétaire — vente</div><div class="step-body">Une fois confirmé, les œufs sont vendables. Client, qté, prix, mode paiement.</div></div>
+</div>
+
+<div class="tip"><div class="tip-title">💡 Pourquoi</div>Tant qu'un œuf n'est pas <strong>déchargé puis confirmé</strong>, il ne peut être vendu. Empêche ventes fantômes et trace l'origine.</div>
+
+<h3>Saisir une vente d'œufs</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Produit</div><div class="step-body">Plateau 30, alvéole 12, unité.</div></div>
+<div class="step"><div class="step-title">Quantité</div><div class="step-body">GFA bloque si supérieur au stock vendable.</div></div>
+<div class="step"><div class="step-title">Client</div><div class="step-body">Choisir ou créer.</div></div>
+<div class="step"><div class="step-title">Prix</div><div class="step-body">Pré-rempli depuis le marché ferme, modifiable.</div></div>
+<div class="step"><div class="step-title">Remise éventuelle</div><div class="step-body">Tracée pour validation admin (case à cocher, sans blocage).</div></div>
+<div class="step"><div class="step-title">Mode paiement</div><div class="step-body">Cash / Mobile Money / Crédit / Mixte.</div></div>
+<div class="step"><div class="step-title">Enregistrer</div><div class="step-body">Apparaît dans l'historique. Si crédit → "À recouvrer".</div></div>
+</div>
+
+<h3>Volailles</h3>
+<ul>
+<li><strong>Vivante</strong> : prix unitaire + poids moyen. Sort du stock vivant.</li>
+<li><strong>Abattue</strong> : prix au kg + poids total. Idéal gros.</li>
+<li><strong>Réforme</strong> : pondeuses fin de cycle, au kilo ou au sujet.</li>
+</ul>
+
+<h3>Sous-produits</h3>
+<p>Fientes (fertilisant), plumes, œufs cassés (transformateurs), coquilles. Tous alimentent ton bilan.</p>
+
+<h3>Clients &amp; factures</h3>
+<ul>
+<li><strong>👤 Clients</strong> : liste avec historique, encours, bouton WhatsApp.</li>
+<li>Depuis une vente : <strong>"🖨 Facture"</strong> → PDF avec logo, détail, total, coordonnées.</li>
+</ul>
+</section>
+
+<section class="section" id="s9-fr">
+<div class="section-num">Section 09</div>
+<h2>Suivre la santé financière</h2>
+<div class="intro">Sans rentabilité, l'élevage n'est qu'un hobby. GFA calcule en temps réel coût, CA et bénéfice — par bande et global.</div>
+
+<h3>Enregistrer les dépenses</h3>
+<p>Menu → <strong>💸 Dépenses</strong>. Catégories : Aliment, Médicaments &amp; vaccins, Énergie, Eau, Main d'œuvre, Maintenance, Transport, Frais admin, Autres.</p>
+<p>Pour chaque dépense : montant, catégorie, bande (optionnel), description, photo du reçu.</p>
+
+<h3>Suivre le ROI</h3>
+<p>Menu → <strong>💰 ROI</strong>. Pour chaque bande :</p>
+<ul>
+<li><strong>Coût total</strong> (achat + aliment + médic + main d'œuvre + énergie + autres)</li>
+<li><strong>Chiffre d'affaires</strong> (ventes œufs + volailles + sous-produits)</li>
+<li><strong>Bénéfice net</strong> = CA − Coût</li>
+<li><strong>ROI %</strong> = (Bénéfice / Coût) × 100</li>
+<li><strong>Prix de revient unitaire</strong> (kg pour chair, plateau pour œufs)</li>
+</ul>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : page ROI</div><div class="capture-desc">Tableau par bande (Coût/CA/Bénéfice/ROI%) + grand chiffre "ROI moyen" + camembert répartition coûts</div></div>
+
+<h3>Graphiques</h3>
+<p>Menu → <strong>📊 Graphiques</strong> : Courbe de ponte vs prévisionnel, FCR cumulé, mortalité, consommation, bénéfice.</p>
+
+<h3>Salaires (Pro)</h3>
+<p>Menu → <strong>💼 Salaires</strong>. Définis le salaire mensuel par employé → fiches de paie auto + impact ROI par bande.</p>
+</section>
+
+<section class="section" id="s10-fr">
+<div class="section-num">Section 10</div>
+<h2>Outils avancés</h2>
+<div class="intro">Modules pour anticiper, comparer et optimiser ton exploitation.</div>
+
+<h3>💉 Prophylaxie</h3>
+<p>Calendrier de vaccins/traitements préventifs pré-chargé par type d'élevage. Personnalisable, imprimable, et :</p>
+<ul>
+<li>Notifications auto <strong>J-5, J-3, J-1</strong> avant chaque vaccin</li>
+<li><strong>J-1 pour autres produits</strong> (vitamines, anti-stress)</li>
+<li>Envoyées <strong>8h-10h ou 12h-14h</strong> à tous les membres</li>
+<li>Idempotent (pas de doublons)</li>
+</ul>
+<p>"✓ Réalisé" → GFA enlève le rappel.</p>
+
+<h3>⚖️ Pesée</h3>
+<p>Poids moyen d'un échantillon (10-20 sujets) → GFA calcule <strong>GMQ</strong> et compare au standard de la souche. Graphique "Pesée vs Standard".</p>
+
+<h3>💀 Mortalité (vue dédiée)</h3>
+<p>Agrégation par cause, par bande, par période. Identifie les problèmes récurrents.</p>
+
+<h3>📊 Comparaison de fermes (Pro)</h3>
+<p>Sélectionne 2-5 fermes (les tiennes ou anonymisées d'autres aviculteurs ATM) → FCR, mortalité, ROI, ponte côte à côte.</p>
+
+<h3>🧠 Conseil IA</h3>
+<p>Pose une question en langage naturel ("Pourquoi mes Isa Brown ne dépassent pas 88% de ponte ?") → analyse de tes données + base de connaissances → recommandations concrètes.</p>
+
+<h3>📷 Photos &amp; 📓 Journal</h3>
+<ul>
+<li><strong>Photos</strong> : galerie géolocalisée et horodatée</li>
+<li><strong>Journal</strong> : carnet libre pour événements importants</li>
+</ul>
+
+<h3>📋 Documents d'exploitation</h3>
+<p>Stocke attestations, autorisations sanitaires, contrats fournisseurs. Consultable hors-ligne et exportable.</p>
+</section>
+
+<section class="section" id="s11-fr">
+<div class="section-num">Section 11</div>
+<h2>Boutique &amp; formations</h2>
+<div class="intro">Boutique intégrée pour acheter produits avicoles et formations (PDF + vidéo) ATM Farm Village.</div>
+
+<h3>Accéder à la boutique</h3>
+<p>Menu → <strong>📚 Ressources → onglet 🛒 Boutique</strong>. Produits (œufs à couver, poussins, aliment, médicaments) + formations (PDF et vidéos).</p>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : Boutique</div><div class="capture-desc">Onglets (Formation/Marché/Météo/Boutique), grille produits avec miniatures et prix, bouton "+ Panier", section "Formations"</div></div>
+
+<h3>Acheter un produit</h3>
+<ol>
+<li>Choisir → ajouter au panier</li>
+<li>Panier flottant → "Voir le panier"</li>
+<li>Confirmer quantités, adresse</li>
+<li>Mobile Money (FedaPay) ou paiement livraison</li>
+<li>Confirmation + ATM notifié</li>
+</ol>
+
+<h3>Acheter une formation</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Choisir</div><div class="step-body">PDF ou vidéo — titre, description, prix.</div></div>
+<div class="step"><div class="step-title">Payer</div><div class="step-body">"💳 Payer" → Mobile Money FedaPay. Diaspora/hors zone : "📱 WhatsApp" → contact ATM (Wise, Western Union…).</div></div>
+<div class="step"><div class="step-title">Accès immédiat</div><div class="step-body">Vidéo → ouvre dans l'app avec player intégré. PDF → téléchargement avec ton nom+tel en watermark sur chaque page.</div></div>
+</div>
+
+<div class="tip"><div class="tip-title">🔒 Protection anti-piratage</div>PDF avec <strong>nom + téléphone</strong> en watermark diagonal sur chaque page. Vidéos : watermark mobile permanent. Partage → tout le monde voit que c'est toi.</div>
+
+<h3>Retrouver tes achats</h3>
+<p><strong>Ressources → Boutique</strong> : formations achetées listées en haut avec "▶ Revoir" / "⬇ Re-télécharger". Lien valable 1 an.</p>
+
+<h3>Marché &amp; Météo</h3>
+<ul>
+<li><strong>📈 Marché</strong> : prix de référence œufs/volailles/aliments dans ta région</li>
+<li><strong>🌡️ Météo</strong> : prévisions 7 jours sur ta ferme (GPS)</li>
+</ul>
+</section>
+
+<section class="section" id="s12-fr">
+<div class="section-num">Section 12</div>
+<h2>Élevage prévisionnel</h2>
+<div class="intro">Simule la rentabilité d'une bande <strong>avant</strong> de la démarrer. Tu sauras combien dépenser, vendre et gagner.</div>
+
+<h3>À quoi ça sert</h3>
+<ul>
+<li>Décider si une bande est rentable avant d'investir</li>
+<li>Comparer scénarios (500 Cobb 500 vs 800 Ross 308)</li>
+<li>Convaincre banquier/investisseur avec business plan chiffré</li>
+<li>Identifier ton seuil de rentabilité</li>
+</ul>
+
+<h3>Ouvrir</h3>
+<p>Menu → <strong>🐔 Pondeuse</strong> ou <strong>🐔 Chair</strong> : calculatrices spécifiques par type d'élevage.</p>
+
+<h3>Calcul pondeuse</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Paramètres</div><div class="step-body">Souche, effectif, prix achat, durée élevage (sem), durée production (52-60 sem).</div></div>
+<div class="step"><div class="step-title">Consommations</div><div class="step-body">Pré-remplies (aliment, eau), ajustables.</div></div>
+<div class="step"><div class="step-title">Prix vente prévisionnels</div><div class="step-body">Plateau et réforme, basés sur le marché.</div></div>
+<div class="step"><div class="step-title">Coûts annexes</div><div class="step-body">Médicaments, main d'œuvre, énergie.</div></div>
+<div class="step"><div class="step-title">Résultats</div><div class="step-body">Coût, CA, bénéfice, ROI%, prix de revient/plateau, graphique trésorerie mensuelle.</div></div>
+</div>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : calculatrice prévisionnelle</div><div class="capture-desc">Champs à gauche, résultats à droite (Coût/CA/Bénéfice/ROI%), graphique trésorerie en bas</div></div>
+
+<h3>Calcul chair</h3>
+<ul>
+<li>Durée 42j</li>
+<li>Poids vif visé</li>
+<li>Prix au kg vif (ou abattu)</li>
+<li>FCR prévisionnel (1.6-1.8 chair moderne)</li>
+</ul>
+<p>Donne ton <strong>coût de production au kg vif</strong>. Très utile pour négocier avec acheteurs.</p>
+
+<div class="tip"><div class="tip-title">💡 Sans engagement</div>Simulations illimitées, sans créer de bande réelle. Scénario validé → un clic pour le transformer en bande réelle.</div>
+</section>
+
+<section class="section" id="s13-fr">
+<div class="section-num">Section 13</div>
+<h2>Discussion d'équipe</h2>
+<div class="intro">Un mini-WhatsApp interne à ta ferme. Plus de mélange entre messages perso et conversations pro.</div>
+
+<h3>Ouvrir</h3>
+<p>Menu → <strong>💬 Discussion</strong>.</p>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Capture : Discussion</div><div class="capture-desc">Interface chat : messages avec photo, nom, horodatage, ajout de photo, indicateur "en ligne"</div></div>
+
+<h3>Ce qu'on peut faire</h3>
+<ul>
+<li>Envoyer texte à toute l'équipe</li>
+<li>Joindre une photo (sujet malade, dégât…)</li>
+<li>Mentionner avec <code>@prénom</code> → notification ciblée</li>
+<li>Historique complet (rétention illimitée)</li>
+<li>Lien direct vers bande / vente / dépense via URL collée</li>
+</ul>
+
+<h3>Notifications</h3>
+<p>Push si : tu es <code>@mentionné</code>, ou si tu as activé "Tout suivre" (utile pour admin). Sinon : compteur de non-lus.</p>
+
+<h3>Activer/désactiver</h3>
+<p><strong>Paramètres → 🔔 Notifications</strong> : discussion, prophylaxie, paiements, équipe.</p>
+
+<div class="tip"><div class="tip-title">💡 Cas d'usage</div><strong>Technicien</strong> : "Bâtiment B, perte d'eau, je m'en occupe à 14h" + photo. <strong>Secrétaire</strong> : "Client Adjogan veut 50 plateaux demain". <strong>Admin</strong> : "Réunion samedi 9h".</div>
+</section>
+
+<section class="section" id="annexe-fr">
+<div class="section-num">Annexe</div>
+<h2>FAQ &amp; contact</h2>
+<div class="intro">Questions fréquentes et comment nous joindre.</div>
+
+<h3>Foire aux questions</h3>
+
+<h4>L'app fonctionne-t-elle sans internet ?</h4>
+<p>Oui, partiellement. Installée → consultation et saisie hors-ligne. Synchro auto au retour. Boutique/marché/météo nécessitent du réseau.</p>
+
+<h4>Mes données sont-elles en sécurité ?</h4>
+<p>Oui. Serveurs Supabase (certifié SOC2). Chaque ferme est isolée. ATM n'utilise pas tes chiffres sans consentement (comparaisons anonymisées désactivables).</p>
+
+<h4>Si je ne paie pas ?</h4>
+<p>14 jours essai gratuit → puis <strong>lecture seule</strong>. Tu consultes toujours mais ne peux plus ajouter. Réactivation possible à tout moment.</p>
+
+<h4>Changer de formule ?</h4>
+<p>Menu → <strong>🔑 Licence</strong> → "Changer de formule". Immédiat. Prorata à l'upgrade, fin de période payée au downgrade.</p>
+
+<h4>Exporter mes données ?</h4>
+<p>Oui. Bouton <strong>"⬇ Exporter"</strong> sur chaque page (Excel/PDF). Extraction complète RGPD via Paramètres.</p>
+
+<h4>Supprimer mon compte ?</h4>
+<p><strong>Paramètres → Compte → Supprimer</strong>. Irréversible (destruction sous 30j RGPD). Exporte avant.</p>
+
+<h4>En cas de bug ?</h4>
+<ol>
+<li>Recharger la page (Ctrl+R / fermer-rouvrir l'app)</li>
+<li>WhatsApp <a href="https://wa.me/22870992018">+228 70 99 20 18</a> avec capture d'écran</li>
+<li>Bugs critiques : intervention &lt; 24h ouvrées</li>
+</ol>
+
+<h3>Nous contacter</h3>
+<table>
+<thead><tr><th>Canal</th><th>Pour quoi</th><th>Délai</th></tr></thead>
+<tbody>
+<tr><td><strong>WhatsApp</strong><br><a href="https://wa.me/22870992018">+228 70 99 20 18</a></td><td>Support, urgences, paiements</td><td>&lt; 2h jour</td></tr>
+<tr><td><strong>Email</strong><br><a href="mailto:contact@avifarmer.net">contact@avifarmer.net</a></td><td>Commercial, partenariats, docs</td><td>&lt; 24h</td></tr>
+<tr><td><strong>Web</strong><br><a href="https://avifarmer.net">avifarmer.net</a></td><td>Inscription, infos, formations</td><td>Instantané</td></tr>
+<tr><td><strong>Bureau</strong></td><td>RDV à Lomé (Togo)</td><td>Confirmé WA</td></tr>
+</tbody>
+</table>
+
+<h3>Raccourcis clavier (ordinateur)</h3>
+<table>
+<thead><tr><th>Raccourci</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td><span class="key">Ctrl</span> + <span class="key">K</span></td><td>Recherche rapide</td></tr>
+<tr><td><span class="key">Ctrl</span> + <span class="key">N</span></td><td>Nouveau rapport</td></tr>
+<tr><td><span class="key">Ctrl</span> + <span class="key">B</span></td><td>Nouvelle bande</td></tr>
+<tr><td><span class="key">Ctrl</span> + <span class="key">P</span></td><td>Imprimer</td></tr>
+<tr><td><span class="key">Esc</span></td><td>Fermer modal</td></tr>
+</tbody>
+</table>
+
+<div class="footer">
+<p><strong>ATM Farm Village</strong> · Lomé, Togo</p>
+<p>Guide rédigé en mai 2026 · Version 2.16.66</p>
+<p><a href="https://avifarmer.net">avifarmer.net</a> · <a href="https://app.avifarmer.net">app.avifarmer.net</a> · <a href="https://wa.me/22870992018">WhatsApp +228 70 99 20 18</a></p>
+<p style="margin-top:14px;color:var(--textl);font-size:10px">Tous droits réservés · GFA est une marque déposée d'ATM Farm Village</p>
+</div>
+</section>
+
+</div><!-- /.wrap FR -->
+</div><!-- /.lang-fr -->
+
+
+<!-- ═════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════ ENGLISH VERSION ═══════════════════════ -->
+<!-- ═════════════════════════════════════════════════════════ -->
+<div class="lang-en">
+
+<section class="cover">
+  <div class="cover-logo"><img src="https://app.avifarmer.net/icons/icon-512.png" alt="GFA logo"></div>
+  <span class="badge">Official Guide · 2026</span>
+  <h1>GFA User Manual</h1>
+  <p class="tagline">Poultry Farm Management — from start-up to profitability</p>
+  <p class="sub">Everything a poultry farmer needs to use GFA every day: create an account, build your team, track flocks, manage sales and steer profits — straight from your phone or computer.</p>
+  <div class="meta"><strong>ATM Farm Village</strong><br>Version 2.16.66 · Updated: May 2026<br><a href="https://avifarmer.net">avifarmer.net</a> · <a href="https://app.avifarmer.net">app.avifarmer.net</a></div>
+</section>
+
+<section class="toc">
+  <h2>Table of Contents</h2>
+  <ol>
+    <li><a href="#s1-en">Welcome to GFA</a></li>
+    <li><a href="#s2-en">Install GFA on your device</a></li>
+    <li><a href="#s3-en">Create your account</a></li>
+    <li><a href="#s4-en">Configure your farm</a></li>
+    <li><a href="#s5-en">Invite your team</a></li>
+    <li><a href="#s6-en">Create your first flock / batch</a></li>
+    <li><a href="#s7-en">Daily report</a></li>
+    <li><a href="#s8-en">Manage sales</a></li>
+    <li><a href="#s9-en">Track financial health</a></li>
+    <li><a href="#s10-en">Advanced tools</a></li>
+    <li><a href="#s11-en">Shop &amp; trainings</a></li>
+    <li><a href="#s12-en">Forecast farming</a></li>
+    <li><a href="#s13-en">Team discussion</a></li>
+    <li><a href="#annexe-en">Appendix: FAQ &amp; contact</a></li>
+  </ol>
+</section>
+
+<div class="wrap">
+
+<section class="section" id="s1-en">
+<div class="section-num">Section 01</div>
+<h2>Welcome to GFA</h2>
+<div class="intro">GFA (Gestion de Ferme Avicole — Poultry Farm Management) is an app built by <strong>ATM Farm Village</strong> for every poultry farmer in West Africa, from the beginner starting 50 chicks to the professional running 10,000 laying hens.</div>
+
+<h3>Who is it for?</h3>
+<p>Any poultry farmer — whatever your size, breed type (broiler, layer, mixed, breeder) or experience level. The app was designed to work even on a weak connection and a basic phone.</p>
+
+<h3>What GFA does for you</h3>
+<ul>
+<li><strong>Track daily reports</strong> without paper: eggs, mortality, feed, water, medicines — under 2 minutes</li>
+<li><strong>Auto-calculate</strong> FCR, intake per bird, mortality rate, net profit</li>
+<li><strong>Manage your team</strong> with roles (admin, secretary, technician)</li>
+<li><strong>Sell and trace</strong> eggs, birds and by-products with a technician → secretary workflow</li>
+<li><strong>Anticipate prophylaxis</strong> via D-5/D-3/D-1 push notifications before every vaccine</li>
+<li><strong>Benchmark your flocks</strong> against your other batches and anonymised farms</li>
+</ul>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: avifarmer.net homepage</div><div class="capture-desc">"Run your poultry farm smartly" hero + "Start free" button + 3 dashboard, flocks and daily report screenshots</div></div>
+
+<h3>Available plans</h3>
+<table>
+<thead><tr><th>Plan</th><th>For who</th><th>Max farms</th><th>Max members</th></tr></thead>
+<tbody>
+<tr><td><strong>Free trial</strong></td><td>Discovery (14 days)</td><td>1</td><td>1</td></tr>
+<tr><td><strong>Starter</strong></td><td>Small family farm</td><td>1</td><td>3</td></tr>
+<tr><td><strong>Entrepreneur</strong></td><td>Professional farm</td><td>2</td><td>8</td></tr>
+<tr><td><strong>Pro</strong></td><td>Multi-site + deep analysis</td><td>5</td><td>20</td></tr>
+</tbody>
+</table>
+<p>Pricing on <a href="https://avifarmer.net/tarifs">avifarmer.net/tarifs</a>. Switch plans anytime from the <em>Licence</em> page.</p>
+
+<div class="tip"><div class="tip-title">💡 Good to know</div>Try the app free for 14 days, no credit card required.</div>
+</section>
+
+<section class="section" id="s2-en">
+<div class="section-num">Section 02</div>
+<h2>Install GFA on your device</h2>
+<div class="intro">GFA is a <strong>Progressive Web App (PWA)</strong>: no Play Store, no App Store. Install it straight from your browser and it updates itself.</div>
+
+<h3>Android (Chrome, Samsung Internet)</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Open browser</div><div class="step-body">Launch Chrome or Samsung Internet.</div></div>
+<div class="step"><div class="step-title">Go to app.avifarmer.net</div><div class="step-body">Type the URL in the address bar.</div></div>
+<div class="step"><div class="step-title">"Install app"</div><div class="step-body">Banner at bottom. Otherwise menu ⋮ → "Add to Home screen".</div></div>
+<div class="step"><div class="step-title">Confirm</div><div class="step-body">GFA icon appears on your home screen. Works offline too.</div></div>
+</div>
+
+<h3>iPhone / iPad (Safari)</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Open Safari</div><div class="step-body">Safari is required on iOS (Chrome iOS can't install PWAs).</div></div>
+<div class="step"><div class="step-title">Go to app.avifarmer.net</div><div class="step-body">Type URL in Safari.</div></div>
+<div class="step"><div class="step-title">Tap Share icon</div><div class="step-body">Square with up-arrow at bottom.</div></div>
+<div class="step"><div class="step-title">"Add to Home screen"</div><div class="step-body">Scroll → "Add to Home screen" → "Add".</div></div>
+</div>
+
+<h3>Computer (Windows, Mac, Linux)</h3>
+<p>Use GFA directly in Chrome/Edge/Firefox at <code>app.avifarmer.net</code>, or install as a desktop app:</p>
+<ol>
+<li>Open Chrome or Edge</li>
+<li>Go to <code>app.avifarmer.net</code></li>
+<li>Install icon appears in the address bar</li>
+<li>Click → "Install"</li>
+<li>GFA opens in its own window</li>
+</ol>
+
+<div class="tip"><div class="tip-title">✅ Benefits</div><strong>Offline mode</strong>: enter reports without network, syncs when back online. <strong>Push notifications</strong> on home screen. <strong>Full screen</strong> without address bar.</div>
+
+<div class="warn"><div class="warn-title">⚠️ First time</div>Allow <strong>notifications</strong> when the browser asks — that's what enables prophylaxis reminders and team messages.</div>
+</section>
+
+<section class="section" id="s3-en">
+<div class="section-num">Section 03</div>
+<h2>Create your account</h2>
+<div class="intro">Sign up at avifarmer.net. You automatically get <strong>14 days free</strong> of the Pro plan.</div>
+
+<h3>Steps</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Go to avifarmer.net</div><div class="step-body">Homepage showing GFA, features and testimonials.</div></div>
+<div class="step"><div class="step-title">Click "Start free"</div><div class="step-body">Blue button top-right → sign-up page.</div></div>
+<div class="step"><div class="step-title">Fill the form</div><div class="step-body">Email, password (8+ chars, 1 digit), full name, phone with country code (e.g. +228 90 12 34 56).</div></div>
+<div class="step"><div class="step-title">Validate</div><div class="step-body">Confirmation email sent. Click the link to activate.</div></div>
+<div class="step"><div class="step-title">Log in</div><div class="step-body">Go to <code>app.avifarmer.net</code> with your credentials.</div></div>
+</div>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: GFA login screen</div><div class="capture-desc">Centered form with Email / Password fields, "Log in" button and "Forgot password?" link</div></div>
+
+<div class="tip"><div class="tip-title">💡 Forgot password</div>"Forgot password?" link on login → email with link valid 1h to set a new one.</div>
+</section>
+
+<section class="section" id="s4-en">
+<div class="section-num">Section 04</div>
+<h2>Configure your farm</h2>
+<div class="intro">Before entering data, spend 5 minutes setting up your farm. This info shows everywhere in the app.</div>
+
+<h3>Fill in farm info</h3>
+<p>Menu → <strong>⚙️ Settings</strong> → <em>My farm</em>.</p>
+
+<h4>Fields</h4>
+<ul>
+<li><strong>Farm name</strong> — e.g. "Adidogomé Poultry Farm"</li>
+<li><strong>Location</strong> — city + GPS ("📍 Use my current position" button)</li>
+<li><strong>Main breed type</strong> — Layer / Broiler / Mixed / Breeder</li>
+<li><strong>Farm photo</strong> — JPG/PNG, max 5 MB</li>
+<li><strong>Contact phone</strong> — for shop customers and printed reports</li>
+</ul>
+
+<h3>Choose your units</h3>
+<ul>
+<li><strong>Currency</strong> — XOF default (EUR, USD, NGN, GHS… available)</li>
+<li><strong>Weight unit</strong> — kg or g</li>
+<li><strong>Area unit</strong> — m² or ft²</li>
+<li><strong>Time zone</strong> — make sure it matches your country</li>
+</ul>
+
+<div class="tip"><div class="tip-title">💡 Important</div>All stats (FCR, mortality, cost per kg…) are computed in your units. Wrong currency skews all your costs.</div>
+
+<h3>Multiple farms (Entrepreneur+)</h3>
+<p>Multiple sites: <strong>Team → My farms</strong> → "+ New farm". Each farm has its own flocks, stock and ROI, with cross-comparison.</p>
+</section>
+
+<section class="section" id="s5-en">
+<div class="section-num">Section 05</div>
+<h2>Invite your team</h2>
+<div class="intro">Up to 20 people (per plan) can collaborate on your farm. Each person has a <strong>role</strong> that defines what they see and do.</div>
+
+<h3>The 3 roles</h3>
+<table>
+<thead><tr><th>Role</th><th>Sees</th><th>Can edit</th></tr></thead>
+<tbody>
+<tr><td><span class="badge-role admin">Admin</span></td><td>Everything</td><td>All (team, prices, payments)</td></tr>
+<tr><td><span class="badge-role sec">Secretary</span></td><td>All except team + licences</td><td>Reports, sales, expenses</td></tr>
+<tr><td><span class="badge-role tech">Technician</span></td><td>Reports, stock</td><td>Daily reports, egg deliveries</td></tr>
+</tbody>
+</table>
+
+<h3>Invite someone</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Open Team</div><div class="step-body">Menu → <strong>👥 Team</strong>.</div></div>
+<div class="step"><div class="step-title">"+ Invite member"</div><div class="step-body">Button top-right.</div></div>
+<div class="step"><div class="step-title">Pick role</div><div class="step-body">Admin, Secretary or Technician. Editable later.</div></div>
+<div class="step"><div class="step-title">Enter phone OR email</div><div class="step-body">WhatsApp number recommended: they get an invite link.</div></div>
+<div class="step"><div class="step-title">Send</div><div class="step-body">Magic link generated → they click → pre-filled sign-up → joins your farm.</div></div>
+</div>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: Team page</div><div class="capture-desc">Members list with photo, name, coloured role badge, activity date, edit/remove buttons. "+ Invite" button on top</div></div>
+
+<h3>Edit a member</h3>
+<p>Click ✏️: change role, attach to a specific farm, deactivate access, or remove permanently.</p>
+
+<div class="tip"><div class="tip-title">💡 Plan auto-shared</div>When the admin pays a plan, <strong>all invited members inherit</strong> the same plan + expiry.</div>
+</section>
+
+<section class="section" id="s6-en">
+<div class="section-num">Section 06</div>
+<h2>Create your first flock / batch</h2>
+<div class="intro">A <strong>flock</strong> (or batch) groups all birds started together. It's GFA's core unit — all reports, sales and expenses are tied to a flock.</div>
+
+<h3>Prepare</h3>
+<ul>
+<li><strong>Type</strong>: broiler chick, pullet, layer, breeder, turkey, guinea fowl, quail, rabbit, Goliath…</li>
+<li><strong>Size</strong>, <strong>arrival date</strong>, <strong>breed</strong>, <strong>unit price</strong>, <strong>building</strong></li>
+</ul>
+
+<h3>Case 1 — Broilers</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Menu → 🐔 Flocks</div><div class="step-body">"+ New flock".</div></div>
+<div class="step"><div class="step-title">"Broiler chick"</div><div class="step-body">Dropdown with icons.</div></div>
+<div class="step"><div class="step-title">Fill info</div><div class="step-body">Name, date, size, breed, price, building.</div></div>
+<div class="step"><div class="step-title">Expected duration</div><div class="step-body">42 days default.</div></div>
+<div class="step"><div class="step-title">Create</div><div class="step-body">Flock appears with day counter at D0.</div></div>
+</div>
+
+<h3>Case 2 — Layers</h3>
+<ul>
+<li><strong>Type</strong>: "Pullet" (day-old) or "Layer in production"</li>
+<li><strong>Duration</strong>: 72-80 weeks</li>
+<li><strong>Phase</strong>: rearing / pre-lay / lay (auto switch)</li>
+<li><strong>Expected peak</strong>: real vs forecast (90-95% Isa Brown)</li>
+</ul>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: flock creation</div><div class="capture-desc">Card with type selector (🐔🥚🦃 icons), name/date/size/price/building fields, green "Create" button</div></div>
+
+<h3>Happens automatically</h3>
+<ul>
+<li>Flock card created with unique ID</li>
+<li>Day counter starts</li>
+<li>Standard prophylaxis schedule pre-loaded</li>
+<li>Live count = initial (decreases with mortality)</li>
+<li>Initial expense created (chick purchase)</li>
+</ul>
+
+<h3>Close a flock</h3>
+<p><strong>Flocks</strong> → flock → "✓ Close" → end date + reason. GFA freezes stats and computes final ROI.</p>
+</section>
+
+<section class="section" id="s7-en">
+<div class="section-num">Section 07</div>
+<h2>Daily report</h2>
+<div class="intro">The daily report is the <strong>heart of GFA</strong>. It feeds all stats. 2 minutes per flock, replaces your paper notebook.</div>
+
+<h3>Open the report</h3>
+<p>Menu → <strong>📝 Report</strong>. Today's date on top, active flocks below.</p>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: daily report</div><div class="capture-desc">Header with date, flock selector, sectioned form (Eggs / Mortality / Feed / Water / Medicines / Notes)</div></div>
+
+<h4>🥚 Egg production (layers)</h4>
+<ul>
+<li>Eggs collected, sellable, cracked/fissured, double-yolk/deformed, hatched</li>
+</ul>
+
+<h4>💀 Mortality</h4>
+<ul>
+<li>Daily count, probable cause (disease, heat stress, predator, unknown), optional photo</li>
+</ul>
+
+<h4>🌾 Feed</h4>
+<ul>
+<li>Type (starter, grower, finisher, layer 1, layer 2), quantity in kg or bags</li>
+<li>Auto-deducted from stock</li>
+</ul>
+
+<h4>💧 Water</h4>
+<ul>
+<li>Volume in litres. Detects drops (early disease sign).</li>
+</ul>
+
+<h4>💊 Medicines / vaccines</h4>
+<ul>
+<li>Product, dose, reason (prophylaxis, treatment, post-stress), auto-deducted</li>
+</ul>
+
+<h4>📝 Notes</h4>
+<p>Free-text: "Hot building", "Vet visit", "3h power cut tonight"…</p>
+
+<h3>Save</h3>
+<p>Button <strong>"💾 Save report"</strong>. GFA auto-computes: intake/bird, cumulative FCR, mortality rate, lay rate vs peak, stock deduction.</p>
+
+<div class="tip"><div class="tip-title">💡 Offline</div>Save without network → auto-sync when back. Nothing lost.</div>
+
+<div class="warn"><div class="warn-title">⚠️ Daily entry</div>Stats only reliable if entered daily. Missed days → red badge on the flock.</div>
+
+<h3>History &amp; monthly report</h3>
+<ul>
+<li>Menu → <strong>📂 History</strong>: all past reports, filters + PDF/Excel export</li>
+<li><strong>"🖨 Monthly report"</strong>: synthesised 30-day PDF with curves and financial summary</li>
+</ul>
+</section>
+
+<section class="section" id="s8-en">
+<div class="section-num">Section 08</div>
+<h2>Manage sales</h2>
+<div class="intro">GFA handles all sales: eggs, live birds, carcasses, by-products (manure, feathers). Strict workflow to prevent errors and theft.</div>
+
+<h3>Overview</h3>
+<p>Menu → <strong>🛒 Sales</strong>. 2-column layout:</p>
+<ul>
+<li><strong>Left</strong>: Sellable stock + 5 collapsibles (by flock, by state…)</li>
+<li><strong>Right</strong>: Sale form</li>
+<li><strong>Top</strong>: Deliveries to confirm</li>
+</ul>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: Sales page</div><div class="capture-desc">2 columns: Sellable stock left (green cards), sale form right (product/qty/customer/price). Top section "Pending deliveries"</div></div>
+
+<h3>Egg workflow (strict)</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Technician — delivery</div><div class="step-body"><strong>Tech Stock → Eggs delivered</strong> → flock, number of trays.</div></div>
+<div class="step"><div class="step-title">Secretary — confirm</div><div class="step-body">Sees delivery → physical count → "✓ Received 50" or "⚠ Received 48" (gap → admin notif).</div></div>
+<div class="step"><div class="step-title">Secretary — sell</div><div class="step-body">Once confirmed, eggs are sellable. Customer, qty, price, payment mode.</div></div>
+</div>
+
+<div class="tip"><div class="tip-title">💡 Why</div>Until eggs are <strong>delivered and confirmed</strong>, they can't be sold. Prevents ghost sales and traces origin.</div>
+
+<h3>Egg sale entry</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Product</div><div class="step-body">Tray of 30, half-tray of 12, single.</div></div>
+<div class="step"><div class="step-title">Quantity</div><div class="step-body">GFA blocks if above sellable stock.</div></div>
+<div class="step"><div class="step-title">Customer</div><div class="step-body">Pick or create.</div></div>
+<div class="step"><div class="step-title">Price</div><div class="step-body">Pre-filled from farm market, editable.</div></div>
+<div class="step"><div class="step-title">Optional discount</div><div class="step-body">Tracked for admin review (checkbox, non-blocking).</div></div>
+<div class="step"><div class="step-title">Payment mode</div><div class="step-body">Cash / Mobile Money / Credit / Mixed.</div></div>
+<div class="step"><div class="step-title">Save</div><div class="step-body">Appears in history. Credit → "To collect".</div></div>
+</div>
+
+<h3>Live birds</h3>
+<ul>
+<li><strong>Live</strong>: unit price + avg weight. Removed from live stock.</li>
+<li><strong>Slaughtered</strong>: price/kg + total weight. Ideal for bulk.</li>
+<li><strong>Spent layers</strong>: end of cycle, by kilo or per bird.</li>
+</ul>
+
+<h3>By-products</h3>
+<p>Manure (fertilizer), feathers, cracked eggs (processors), shells. All count toward your P&amp;L.</p>
+
+<h3>Customers &amp; invoices</h3>
+<ul>
+<li><strong>👤 Customers</strong>: list with history, outstanding balances, WhatsApp button.</li>
+<li>From any sale: <strong>"🖨 Invoice"</strong> → PDF with logo, details, total, contact.</li>
+</ul>
+</section>
+
+<section class="section" id="s9-en">
+<div class="section-num">Section 09</div>
+<h2>Track financial health</h2>
+<div class="intro">Without profitability, farming is just a hobby. GFA computes cost, revenue and profit in real time — per flock and total.</div>
+
+<h3>Record expenses</h3>
+<p>Menu → <strong>💸 Expenses</strong>. Categories: Feed, Medicines &amp; vaccines, Energy, Water, Labour, Maintenance, Transport, Admin fees, Other.</p>
+<p>Per expense: amount, category, flock (optional), description, receipt photo.</p>
+
+<h3>Track ROI</h3>
+<p>Menu → <strong>💰 ROI</strong>. Per flock:</p>
+<ul>
+<li><strong>Total cost</strong> (chicks + feed + meds + labour + energy + other)</li>
+<li><strong>Revenue</strong> (eggs + birds + by-products)</li>
+<li><strong>Net profit</strong> = Rev − Cost</li>
+<li><strong>ROI %</strong> = (Profit / Cost) × 100</li>
+<li><strong>Unit cost</strong> (per kg for broilers, per tray for eggs)</li>
+</ul>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: ROI page</div><div class="capture-desc">Table per flock (Cost/Rev/Profit/ROI%) + "Average ROI" big number + cost breakdown pie chart</div></div>
+
+<h3>Charts</h3>
+<p>Menu → <strong>📊 Charts</strong>: lay curve vs forecast, cumulative FCR, mortality, intake, profit.</p>
+
+<h3>Salaries (Pro)</h3>
+<p>Menu → <strong>💼 Salaries</strong>. Set monthly salary per employee → auto payslips + ROI impact pro-rated by flock.</p>
+</section>
+
+<section class="section" id="s10-en">
+<div class="section-num">Section 10</div>
+<h2>Advanced tools</h2>
+<div class="intro">Modules to anticipate, compare and optimise your operation.</div>
+
+<h3>💉 Prophylaxis</h3>
+<p>Standard vaccine/preventive schedule pre-loaded per breed type. Customisable, printable, and:</p>
+<ul>
+<li>Auto notifications <strong>D-5, D-3, D-1</strong> before each vaccine</li>
+<li><strong>D-1 for other products</strong> (vitamins, anti-stress)</li>
+<li>Sent <strong>8-10am or 12-2pm</strong> to all members</li>
+<li>Idempotent (no duplicates)</li>
+</ul>
+<p>"✓ Done" → GFA removes the reminder.</p>
+
+<h3>⚖️ Weighing</h3>
+<p>Sample average weight (10-20 birds) → GFA computes <strong>ADG</strong> (Average Daily Gain) vs breed standard. "Weight vs Standard" chart.</p>
+
+<h3>💀 Mortality (dedicated view)</h3>
+<p>Aggregated by cause, flock, period. Spots recurring problems.</p>
+
+<h3>📊 Farm comparison (Pro)</h3>
+<p>Select 2-5 farms (yours or anonymised peers) → FCR, mortality, ROI, lay rate side by side.</p>
+
+<h3>🧠 AI advisor</h3>
+<p>Natural-language Q&amp;A ("Why can't my Isa Brown exceed 88% lay?") → analyses your data + knowledge base → concrete recommendations.</p>
+
+<h3>📷 Photos &amp; 📓 Journal</h3>
+<ul>
+<li><strong>Photos</strong>: geo-tagged, timestamped gallery</li>
+<li><strong>Journal</strong>: free notebook for key events</li>
+</ul>
+
+<h3>📋 Farm documents</h3>
+<p>Store certificates, sanitary permits, supplier contracts. Offline-readable and exportable.</p>
+</section>
+
+<section class="section" id="s11-en">
+<div class="section-num">Section 11</div>
+<h2>Shop &amp; trainings</h2>
+<div class="intro">Built-in shop to buy poultry products and trainings (PDF + video) from ATM Farm Village.</div>
+
+<h3>Access</h3>
+<p>Menu → <strong>📚 Resources → 🛒 Shop tab</strong>. Products (hatching eggs, chicks, feed, meds) + trainings (PDF and videos).</p>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: Shop</div><div class="capture-desc">Tabs (Training/Market/Weather/Shop), product grid with thumbnails and prices, "+ Cart" button, "Trainings" section</div></div>
+
+<h3>Buy a product</h3>
+<ol>
+<li>Pick → add to cart</li>
+<li>Floating cart → "View cart"</li>
+<li>Confirm qty, address</li>
+<li>Mobile Money (FedaPay) or cash-on-delivery</li>
+<li>Confirmation + ATM notified</li>
+</ol>
+
+<h3>Buy a training</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Pick</div><div class="step-body">PDF or video — title, description, price.</div></div>
+<div class="step"><div class="step-title">Pay</div><div class="step-body">"💳 Pay" → Mobile Money FedaPay. Diaspora/outside Mobile Money zone: "📱 WhatsApp" → contact ATM (Wise, Western Union…).</div></div>
+<div class="step"><div class="step-title">Instant access</div><div class="step-body">Video → opens in the app's player. PDF → downloads with your name+phone watermark on every page.</div></div>
+</div>
+
+<div class="tip"><div class="tip-title">🔒 Anti-piracy</div>PDFs with <strong>name + phone</strong> diagonal watermark on every page. Videos: moving permanent watermark. Share it → everyone sees it was you.</div>
+
+<h3>Find your purchases</h3>
+<p><strong>Resources → Shop</strong>: bought trainings listed on top with "▶ Watch" / "⬇ Re-download". Link valid 1 year.</p>
+
+<h3>Market &amp; Weather</h3>
+<ul>
+<li><strong>📈 Market</strong>: reference prices for eggs/birds/feed in your area</li>
+<li><strong>🌡️ Weather</strong>: 7-day forecast for your farm (GPS)</li>
+</ul>
+</section>
+
+<section class="section" id="s12-en">
+<div class="section-num">Section 12</div>
+<h2>Forecast farming</h2>
+<div class="intro">Simulate flock profitability <strong>before</strong> starting it. Know what you'll spend, sell and earn.</div>
+
+<h3>Why</h3>
+<ul>
+<li>Decide if a flock is profitable before investing</li>
+<li>Compare scenarios (500 Cobb 500 vs 800 Ross 308)</li>
+<li>Win over banker/investor with a costed business plan</li>
+<li>Identify your break-even</li>
+</ul>
+
+<h3>Open</h3>
+<p>Menu → <strong>🐔 Layer</strong> or <strong>🐔 Broiler</strong>: forecast calculators per breed type.</p>
+
+<h3>Layer forecast</h3>
+<div class="steps">
+<div class="step"><div class="step-title">Parameters</div><div class="step-body">Breed, size, purchase price, rearing weeks, production weeks (52-60).</div></div>
+<div class="step"><div class="step-title">Intakes</div><div class="step-body">Pre-filled (feed, water), adjustable.</div></div>
+<div class="step"><div class="step-title">Forecast prices</div><div class="step-body">Tray and spent-layer, based on market.</div></div>
+<div class="step"><div class="step-title">Other costs</div><div class="step-body">Meds, labour, energy.</div></div>
+<div class="step"><div class="step-title">Results</div><div class="step-body">Cost, revenue, profit, ROI%, cost/tray, monthly cash chart.</div></div>
+</div>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: forecast calculator</div><div class="capture-desc">Fields left, results right (Cost/Rev/Profit/ROI%), monthly cash chart bottom</div></div>
+
+<h3>Broiler forecast</h3>
+<ul>
+<li>42-day cycle</li>
+<li>Target live weight</li>
+<li>Live (or slaughtered) price/kg</li>
+<li>Forecast FCR (1.6-1.8 modern broiler)</li>
+</ul>
+<p>Gives your <strong>live-weight production cost</strong>. Great for buyer negotiations.</p>
+
+<div class="tip"><div class="tip-title">💡 No commitment</div>Unlimited simulations without creating real flocks. Validated scenario → one click to turn it into a real flock.</div>
+</section>
+
+<section class="section" id="s13-en">
+<div class="section-num">Section 13</div>
+<h2>Team discussion</h2>
+<div class="intro">A mini-WhatsApp inside your farm. No more mixing personal chats and pro conversations.</div>
+
+<h3>Open</h3>
+<p>Menu → <strong>💬 Discussion</strong>.</p>
+
+<div class="capture"><div class="capture-icon">📸</div><div class="capture-title">Screenshot: Discussion</div><div class="capture-desc">Chat UI: messages with photo, name, timestamp, photo attach, "online" indicator</div></div>
+
+<h3>You can</h3>
+<ul>
+<li>Send text to the whole team</li>
+<li>Attach a photo (sick bird, damage…)</li>
+<li>Mention with <code>@name</code> → targeted notification</li>
+<li>Full history (unlimited retention)</li>
+<li>Direct link to flock / sale / expense via pasted URL</li>
+</ul>
+
+<h3>Notifications</h3>
+<p>Push if: you're <code>@mentioned</code>, or you enabled "Follow all" (admin). Otherwise: unread counter.</p>
+
+<h3>Toggle</h3>
+<p><strong>Settings → 🔔 Notifications</strong>: discussion, prophylaxis, payments, team.</p>
+
+<div class="tip"><div class="tip-title">💡 Use cases</div><strong>Tech</strong>: "Building B, drinker leak, fixing at 2pm" + photo. <strong>Sec</strong>: "Customer Adjogan wants 50 trays tomorrow". <strong>Admin</strong>: "Meeting Sat 9am".</div>
+</section>
+
+<section class="section" id="annexe-en">
+<div class="section-num">Appendix</div>
+<h2>FAQ &amp; contact</h2>
+<div class="intro">Common questions and how to reach us.</div>
+
+<h3>FAQ</h3>
+
+<h4>Does the app work without internet?</h4>
+<p>Yes, partially. Once installed → consultation and entry offline. Auto-sync when back. Shop/market/weather need network.</p>
+
+<h4>Is my data safe?</h4>
+<p>Yes. Supabase servers (SOC2-certified). Each farm is isolated. ATM doesn't use your numbers without consent (anonymised comparisons can be turned off).</p>
+
+<h4>What if I don't pay?</h4>
+<p>14-day free trial → then <strong>read-only</strong>. You still see everything but can't add. Reactivate anytime.</p>
+
+<h4>Change plan?</h4>
+<p>Menu → <strong>🔑 Licence</strong> → "Change plan". Immediate. Pro-rated on upgrade, end-of-period on downgrade.</p>
+
+<h4>Export my data?</h4>
+<p>Yes. <strong>"⬇ Export"</strong> button on every page (Excel/PDF). Full GDPR extraction via Settings.</p>
+
+<h4>Delete my account?</h4>
+<p><strong>Settings → Account → Delete</strong>. Irreversible (data destroyed within 30 days, GDPR). Export first.</p>
+
+<h4>Got a bug?</h4>
+<ol>
+<li>Reload page (Ctrl+R / close-reopen app)</li>
+<li>WhatsApp <a href="https://wa.me/22870992018">+228 70 99 20 18</a> with screenshot</li>
+<li>Critical bugs: response &lt; 24h working hours</li>
+</ol>
+
+<h3>Contact</h3>
+<table>
+<thead><tr><th>Channel</th><th>For what</th><th>Response</th></tr></thead>
+<tbody>
+<tr><td><strong>WhatsApp</strong><br><a href="https://wa.me/22870992018">+228 70 99 20 18</a></td><td>Support, urgent, payments</td><td>&lt; 2h daytime</td></tr>
+<tr><td><strong>Email</strong><br><a href="mailto:contact@avifarmer.net">contact@avifarmer.net</a></td><td>Sales, partnerships, docs</td><td>&lt; 24h</td></tr>
+<tr><td><strong>Web</strong><br><a href="https://avifarmer.net">avifarmer.net</a></td><td>Sign-up, info, trainings</td><td>Instant</td></tr>
+<tr><td><strong>Office</strong></td><td>By appt. in Lomé (Togo)</td><td>Confirmed via WA</td></tr>
+</tbody>
+</table>
+
+<h3>Keyboard shortcuts (desktop)</h3>
+<table>
+<thead><tr><th>Shortcut</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td><span class="key">Ctrl</span> + <span class="key">K</span></td><td>Quick search</td></tr>
+<tr><td><span class="key">Ctrl</span> + <span class="key">N</span></td><td>New report</td></tr>
+<tr><td><span class="key">Ctrl</span> + <span class="key">B</span></td><td>New flock</td></tr>
+<tr><td><span class="key">Ctrl</span> + <span class="key">P</span></td><td>Print</td></tr>
+<tr><td><span class="key">Esc</span></td><td>Close modal</td></tr>
+</tbody>
+</table>
+
+<div class="footer">
+<p><strong>ATM Farm Village</strong> · Lomé, Togo</p>
+<p>Guide written in May 2026 · Version 2.16.66</p>
+<p><a href="https://avifarmer.net">avifarmer.net</a> · <a href="https://app.avifarmer.net">app.avifarmer.net</a> · <a href="https://wa.me/22870992018">WhatsApp +228 70 99 20 18</a></p>
+<p style="margin-top:14px;color:var(--textl);font-size:10px">All rights reserved · GFA is a registered trademark of ATM Farm Village</p>
+</div>
+</section>
+
+</div><!-- /.wrap EN -->
+</div><!-- /.lang-en -->
+
+
+<script>
+function setLang(l){
+  document.documentElement.lang = l;
+  document.body.className = 'lang-active-' + l;
+  document.getElementById('btn-fr').classList.toggle('active', l === 'fr');
+  document.getElementById('btn-en').classList.toggle('active', l === 'en');
+  try { localStorage.setItem('gfa-guide-lang', l); } catch(e){}
+}
+try {
+  const saved = localStorage.getItem('gfa-guide-lang');
+  if(saved === 'en') setLang('en');
+} catch(e){}
+</script>
+
+</body>
+</html>
