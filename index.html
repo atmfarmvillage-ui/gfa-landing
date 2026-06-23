@@ -69,7 +69,7 @@ h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(40px,5.4vw,68px)
 h1 .grad{background:linear-gradient(120deg,var(--green),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .hero p.sub{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:30px}
 .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
-.hero-meta{display:flex;gap:28px;margin-top:38px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:26px;margin-top:38px}
 .hero-meta .n{font-family:'Fraunces',serif;font-weight:900;font-size:26px}
 .hero-meta .l{font-size:12px;color:var(--muted);font-weight:600}
 
@@ -334,9 +334,10 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
       <a href="#cabinet" class="btn btn-ghost" data-i18n="hero_cta2">Découvrir le Cabinet IA</a>
     </div>
     <div class="hero-meta">
-      <div><div class="n" data-count="1200">0</div><div class="l" data-i18n="meta_eleveurs">Éleveurs</div></div>
-      <div><div class="n" data-count="38">0</div><div class="l" data-i18n="meta_filieres">Filières &amp; cultures</div></div>
-      <div><div class="n">24/7</div><div class="l" data-i18n="meta_experts">Experts IA</div></div>
+      <div id="metaEleveurs"><div class="n" id="statEleveurs">—</div><div class="l" data-i18n="meta_eleveurs">Éleveurs</div></div>
+      <div><div class="n" data-i18n="meta_free_n">Gratuit</div><div class="l" data-i18n="meta_free_l">à vie</div></div>
+      <div><div class="n" data-count="3">0</div><div class="l" data-i18n="meta_experts">Experts IA</div></div>
+      <div><div class="n">24/7</div><div class="l" data-i18n="meta_dispo">Disponibilité</div></div>
     </div>
   </div>
 
@@ -665,6 +666,18 @@ async function chargerApercuBoutique(){
   }
 }
 chargerApercuBoutique();
+// ── Chiffre éleveurs en direct (RPC publique agrégée gfa-prod) ──
+(async function(){
+  const el=document.getElementById('statEleveurs'); const box=document.getElementById('metaEleveurs');
+  if(!el||!SHOP_SB) return;
+  try{
+    const {data,error}=await SHOP_SB.rpc('get_public_stats');
+    if(error||!data) throw error||new Error('no data');
+    const n=Number(data.eleveurs||data.fermes||0);
+    if(!n){ if(box) box.style.display='none'; return; }
+    el.dataset.count=n; if(typeof count==='function') count(el); else el.textContent=n.toLocaleString('fr-FR');
+  }catch(e){ if(box) box.style.display='none'; }
+})();
 // thème clair / sombre (mémorisé)
 function toggleTheme(){const d=document.documentElement;const isDark=d.getAttribute('data-theme')==='dark';const next=isDark?'light':'dark';d.setAttribute('data-theme',next);try{localStorage.setItem('agrix_theme',next)}catch(e){}const _tb=document.getElementById('themeBtn');if(_tb)_tb.textContent=next==='dark'?'☀️':'🌙'}
 window.toggleTheme=toggleTheme;
@@ -678,7 +691,7 @@ const I18N={
     hero_h1:`Entrez dans l'ère <span class="grad">AGRI-X</span><br>— l'IA prend les commandes.`,
     hero_sub:`AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie</b>, vous payez seulement quand vous voulez plus.`,
     hero_cta1:`🚀 Commencer gratuitement`,hero_cta2:`Découvrir le Cabinet IA`,
-    meta_eleveurs:`Éleveurs`,meta_filieres:`Filières &amp; cultures`,meta_experts:`Experts IA`,
+    meta_eleveurs:`Éleveurs`,meta_filieres:`Filières &amp; cultures`,meta_experts:`Experts IA`,meta_dispo:`Disponibilité`,meta_free_n:`Gratuit`,meta_free_l:`à vie`,
     dash_title:`📊 Tableau de bord — Ferme Espoir`,dash_live:`● en direct`,dash_ponte:`Taux de ponte`,dash_mais:`Maïs en culture`,dash_marge:`Marge FCFA`,dash_filieres:`Filières actives`,
     day_mon:`Lun`,day_tue:`Mar`,day_wed:`Mer`,day_thu:`Jeu`,
     chip_sankara:`diagnostic en 30s`,chip_savana:`conseil cultures`,chip_yayra:`sur WhatsApp`,
@@ -729,10 +742,10 @@ const I18N={
     nav_cabinet:`AI Clinic`,nav_features:`Features`,nav_pricing:`Pricing`,cta_start:`Start for free`,
     brand_sub:`Smart Farm Management`,
     hero_badge:`Livestock &amp; crops · AI Clinic`,
-    hero_h1:`Enter the <span class="grad">AGRI-X</span> era<br>— AI takes command.`,
+    hero_h1:`Enter the <span class="grad">AGRI-X</span> era<br>— AI takes control of your farm.`,
     hero_sub:`AGRI-X manages your <b>animals</b> (poultry, rabbit, pig, goat…) <b>and your crops</b> — with Dr&nbsp;SANKARA (vet) &amp; Dr&nbsp;SAVANA (agronomist). <b>Free forever</b>, pay only when you want more.`,
     hero_cta1:`🚀 Start for free`,hero_cta2:`Explore the AI Clinic`,
-    meta_eleveurs:`Farmers`,meta_filieres:`Sectors &amp; crops`,meta_experts:`AI experts`,
+    meta_eleveurs:`Farmers`,meta_filieres:`Sectors &amp; crops`,meta_experts:`AI experts`,meta_dispo:`Availability`,meta_free_n:`Free`,meta_free_l:`forever`,
     dash_title:`📊 Dashboard — Espoir Farm`,dash_live:`● live`,dash_ponte:`Laying rate`,dash_mais:`Maize grown`,dash_marge:`Margin FCFA`,dash_filieres:`Active sectors`,
     day_mon:`Mon`,day_tue:`Tue`,day_wed:`Wed`,day_thu:`Thu`,
     chip_sankara:`diagnosis in 30s`,chip_savana:`crop advice`,chip_yayra:`on WhatsApp`,
