@@ -9,7 +9,7 @@ const SHOP_SB = (typeof supabase !== 'undefined') ? supabase.createClient(SHOP_S
 const ATM_WHATSAPP = '+22870992018';
 const ATM_WHATSAPP_E164 = '22870992018';
 
-const FEDAPAY_PUBLIC_KEY = 'pk_live_sl8rovKwBzuvqQc1LWRNLIPl';
+const FEDAPAY_PUBLIC_KEY = 'pk_live_HUvvTGFP85dL3ChsGeRf0PCp';
 
 // ── Slugification ──
 function slugify(s){

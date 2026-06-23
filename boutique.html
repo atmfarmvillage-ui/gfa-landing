@@ -31,8 +31,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:68px;d
 .nav-logo-text{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--bleu-sombre);letter-spacing:-0.5px}
 .nav-logo-sub{font-size:11px;color:var(--textm);font-weight:500}
 .nav-links{display:flex;gap:24px;align-items:center}
-.nav-links a{color:var(--textm);text-decoration:none;font-size:13px;font-weight:600;transition:color .2s}
-.nav-links a:hover{color:var(--bleu)}
+.nav-links a:not(.btn-nav){color:var(--textm);text-decoration:none;font-size:13px;font-weight:600;transition:color .2s}
+.nav-links a:not(.btn-nav):hover{color:var(--bleu)}
 .btn-nav{background:var(--bleu);color:white;padding:9px 22px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(27,79,216,.3)}
 .btn-nav:hover{background:var(--bleu-mid);transform:translateY(-1px)}
 
@@ -133,7 +133,7 @@ footer a{color:white;text-decoration:none;font-weight:600}
   <a href="/conditions.html">Conditions d'utilisation</a> · <a href="/confidentialite.html">Politique de confidentialité</a>
 </footer>
 
-<script src="/js/shop-common.js"></script>
+<script src="js/shop-common.js"></script>
 <script>
 let _produits = [];
 let _filtre = 'tous';
