@@ -124,8 +124,8 @@ serve(async (req) => {
         rotate: degrees(-30),
       })
 
-      // ── B) Branding "ATM Farm Village · GFA" en haut à gauche ──
-      page.drawText('ATM Farm Village · GFA', {
+      // ── B) Branding "ATM Farm Village · AGRI-X" en haut à gauche ──
+      page.drawText('ATM Farm Village · AGRI-X', {
         x: 30,
         y: height - 30,
         size: 9,
