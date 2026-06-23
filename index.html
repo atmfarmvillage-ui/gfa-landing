@@ -16,7 +16,8 @@
 <meta name="twitter:title" content="AGRI-X — toute votre ferme, avec vos experts IA dans la poche">
 <meta name="twitter:description" content="Élevage & cultures + cabinet IA (Dr SANKARA, Dr SAVANA, YAYRA). Gratuit à vie.">
 <meta name="twitter:image" content="https://app.avifarmer.net/icons/icon-512.png">
-<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
 <link rel="apple-touch-icon" href="https://app.avifarmer.net/icons/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
 <style>
@@ -47,9 +48,9 @@ a{text-decoration:none;color:inherit}
 nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(250,252,251,.7);border-bottom:1px solid var(--border)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
 .logo{display:flex;align-items:center;gap:11px}
-.logo img{width:40px;height:40px;border-radius:11px;box-shadow:0 6px 16px -4px rgba(6,103,74,.5)}
-.logo b{font-family:'Fraunces',serif;font-weight:900;font-size:21px;letter-spacing:-.5px}
-.logo small{display:block;font-size:10.5px;color:var(--muted);font-weight:600;margin-top:-2px}
+.logo b{font-family:'Fraunces',serif;font-weight:900;font-size:21px;letter-spacing:-.5px;display:inline-flex;align-items:center;line-height:1}
+.logo .bx{width:1.5em;height:1.5em;margin-left:-.05em}
+.logo small{display:block;font-size:10.5px;color:var(--muted);font-weight:600;margin-top:1px}
 .nav-links{display:flex;gap:28px;align-items:center}
 .nav-links a:not(.btn){font-size:14px;font-weight:600;color:var(--muted);transition:color .2s}
 .nav-links a:not(.btn):hover{color:var(--green-d)}
@@ -311,7 +312,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <div class="mesh"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 
 <nav><div class="wrap nav-in">
-  <a class="logo" href="#"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="AGRI-X"><div><b>AGRI-X</b><small data-i18n="brand_sub">Gestion d'une Ferme Agricole</small></div></a>
+  <a class="logo" href="#"><div><b>AGRI-<svg class="bx" viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(50 50)"><g transform="rotate(45)"><path d="M0,-44 C8,-25 8,25 0,44 C-8,25 -8,-25 0,-44 Z" fill="#C49A3C"/></g><g transform="rotate(-45)"><path fill-rule="evenodd" fill="#0E9F6E" d="M0,-44 C8,-25 8,25 0,44 C-8,25 -8,-25 0,-44 Z M0,-38 C4.6,-22 4.6,22 0,38 C-4.6,22 -4.6,-22 0,-38 Z"/></g></g></svg></b><small data-i18n="brand_sub">Gestion d'une Ferme Agricole</small></div></a>
   <div class="nav-links">
     <a href="#cabinet" data-i18n="nav_cabinet">Cabinet IA</a>
     <a href="#fonctions" data-i18n="nav_features">Fonctionnalités</a>
