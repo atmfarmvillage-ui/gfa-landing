@@ -4,7 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AGRI-X — Gestion d'une Ferme Agricole · élevage & cultures, augmentés par l'IA</title>
+<meta name="description" content="AGRI-X gère toute votre ferme — élevage (volaille, lapin, porc, caprin…) ET cultures — avec un cabinet IA : Dr SANKARA (vétérinaire), Dr SAVANA (agronome) et l'assistante YAYRA. Gratuit à vie, payez seulement quand vous voulez plus.">
+<link rel="canonical" href="https://avifarmer.net/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AGRI-X · ATM Farm Village">
+<meta property="og:title" content="AGRI-X — toute votre ferme, avec vos experts IA dans la poche">
+<meta property="og:description" content="Élevage & cultures gérés depuis votre téléphone, avec Dr SANKARA (véto) & Dr SAVANA (agronome). Gratuit à vie.">
+<meta property="og:image" content="https://app.avifarmer.net/icons/icon-512.png">
+<meta property="og:url" content="https://avifarmer.net/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AGRI-X — toute votre ferme, avec vos experts IA dans la poche">
+<meta name="twitter:description" content="Élevage & cultures + cabinet IA (Dr SANKARA, Dr SAVANA, YAYRA). Gratuit à vie.">
+<meta name="twitter:image" content="https://app.avifarmer.net/icons/icon-512.png">
 <link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<link rel="apple-touch-icon" href="https://app.avifarmer.net/icons/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -298,7 +311,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <div class="mesh"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 
 <nav><div class="wrap nav-in">
-  <a class="logo" href="#"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="AGRI-X"><div><b>AGRI-X</b><small>Gestion d'une Ferme Agricole</small></div></a>
+  <a class="logo" href="#"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="AGRI-X"><div><b>AGRI-X</b><small data-i18n="brand_sub">Gestion d'une Ferme Agricole</small></div></a>
   <div class="nav-links">
     <a href="#cabinet" data-i18n="nav_cabinet">Cabinet IA</a>
     <a href="#fonctions" data-i18n="nav_features">Fonctionnalités</a>
@@ -328,42 +341,42 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 
   <div class="stage rv in">
     <div class="card3d" id="card3d">
-      <div class="row"><b>📊 Tableau de bord — Ferme Espoir</b><span>● en direct</span></div>
+      <div class="row"><b data-i18n="dash_title">📊 Tableau de bord — Ferme Espoir</b><span data-i18n="dash_live">● en direct</span></div>
       <div class="kpis">
-        <div class="kpi g"><div class="v">94%</div><div class="k">Taux de ponte</div></div>
-        <div class="kpi b"><div class="v">12 ha</div><div class="k">Maïs en culture</div></div>
-        <div class="kpi o"><div class="v">2.8M</div><div class="k">Marge FCFA</div></div>
-        <div class="kpi p"><div class="v">3</div><div class="k">Filières actives</div></div>
+        <div class="kpi g"><div class="v">94%</div><div class="k" data-i18n="dash_ponte">Taux de ponte</div></div>
+        <div class="kpi b"><div class="v">12 ha</div><div class="k" data-i18n="dash_mais">Maïs en culture</div></div>
+        <div class="kpi o"><div class="v">2.8M</div><div class="k" data-i18n="dash_marge">Marge FCFA</div></div>
+        <div class="kpi p"><div class="v">3</div><div class="k" data-i18n="dash_filieres">Filières actives</div></div>
       </div>
       <div class="bars">
-        <div class="bar"><i>Lun</i><div class="t"><div class="f" style="width:88%"></div></div></div>
-        <div class="bar"><i>Mar</i><div class="t"><div class="f" style="width:92%"></div></div></div>
-        <div class="bar"><i>Mer</i><div class="t"><div class="f" style="width:95%"></div></div></div>
-        <div class="bar"><i>Jeu</i><div class="t"><div class="f" style="width:90%"></div></div></div>
+        <div class="bar"><i data-i18n="day_mon">Lun</i><div class="t"><div class="f" style="width:88%"></div></div></div>
+        <div class="bar"><i data-i18n="day_tue">Mar</i><div class="t"><div class="f" style="width:92%"></div></div></div>
+        <div class="bar"><i data-i18n="day_wed">Mer</i><div class="t"><div class="f" style="width:95%"></div></div></div>
+        <div class="bar"><i data-i18n="day_thu">Jeu</i><div class="t"><div class="f" style="width:90%"></div></div></div>
       </div>
     </div>
-    <div class="chip c1"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-sankara"/></svg><div>Dr SANKARA<small>diagnostic en 30s</small></div></div>
-    <div class="chip c2"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-savana"/></svg><div>Dr SAVANA<small>conseil cultures</small></div></div>
-    <div class="chip c3"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-yayra"/></svg><div>YAYRA<small>sur WhatsApp</small></div></div>
+    <div class="chip c1"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-sankara"/></svg><div>Dr SANKARA<small data-i18n="chip_sankara">diagnostic en 30s</small></div></div>
+    <div class="chip c2"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-savana"/></svg><div>Dr SAVANA<small data-i18n="chip_savana">conseil cultures</small></div></div>
+    <div class="chip c3"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-yayra"/></svg><div>YAYRA<small data-i18n="chip_yayra">sur WhatsApp</small></div></div>
   </div>
 </header>
 
 <!-- TRUST -->
 <div class="wrap rv"><div class="trust">
-  <div class="t">🆓 Gratuit à vie</div>
-  <div class="t">📶 Marche hors-ligne</div>
-  <div class="t">📱 Mobile Money · FedaPay</div>
-  <div class="t">🌍 Pensé pour l'Afrique</div>
+  <div class="t" data-i18n="trust_free">🆓 Gratuit à vie</div>
+  <div class="t" data-i18n="trust_offline">📶 Marche hors-ligne</div>
+  <div class="t" data-i18n="trust_pay">📱 Mobile Money · FedaPay</div>
+  <div class="t" data-i18n="trust_africa">🌍 Pensé pour l'Afrique</div>
 </div></div>
 
 <!-- CABINET IA -->
 <section class="blk" id="cabinet">
   <div class="wrap">
-    <div class="head rv"><div class="lbl">Cabinet IA</div><h2>Vos experts, dans votre poche</h2><p>Un vétérinaire et un agronome, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.</p></div>
+    <div class="head rv"><div class="lbl" data-i18n="cab_lbl">Cabinet IA</div><h2 data-i18n="cab_h2">Vos experts, dans votre poche</h2><p data-i18n="cab_p">Un vétérinaire et un agronome, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.</p></div>
     <div class="grid3">
-      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-sankara"/></svg></div><h3>Dr SANKARA — Vétérinaire</h3><p>Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.</p><span class="pill">2 consultations offertes</span></div>
-      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-savana"/></svg></div><h3>Dr SAVANA — Agronome</h3><p>Maladies des plantes, fertilisation, calendrier cultural : votre conseiller cultures, adapté à votre région.</p></div>
-      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-yayra"/></svg></div><h3>YAYRA — Assistante</h3><p>Elle connaît vos bandes et vos chiffres, saisit vos rapports, vous alerte, et vous passe le bon expert. Aussi sur WhatsApp.</p></div>
+      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-sankara"/></svg></div><h3 data-i18n="cab_sankara_t">Dr SANKARA — Vétérinaire</h3><p data-i18n="cab_sankara_p">Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.</p><span class="pill" data-i18n="cab_sankara_pill">2 consultations offertes</span></div>
+      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-savana"/></svg></div><h3 data-i18n="cab_savana_t">Dr SAVANA — Agronome</h3><p data-i18n="cab_savana_p">Maladies des plantes, fertilisation, calendrier cultural : votre conseiller cultures, adapté à votre région.</p></div>
+      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-yayra"/></svg></div><h3 data-i18n="cab_yayra_t">YAYRA — Assistante</h3><p data-i18n="cab_yayra_p">Elle connaît vos bandes et vos chiffres, saisit vos rapports, vous alerte, et vous passe le bon expert. Aussi sur WhatsApp.</p></div>
     </div>
   </div>
 </section>
@@ -371,16 +384,16 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <!-- FONCTIONNALITÉS -->
 <section class="blk" id="fonctions">
   <div class="wrap">
-    <div class="head rv"><div class="lbl">Fonctionnalités</div><h2>Tout pour gérer votre exploitation</h2><p>Élevage multi-espèce <em>et</em> cultures, dans un seul outil pensé pour le terrain.</p></div>
+    <div class="head rv"><div class="lbl" data-i18n="feat_lbl">Fonctionnalités</div><h2 data-i18n="feat_h2">Tout pour gérer votre exploitation</h2><p data-i18n="feat_p">Élevage multi-espèce <em>et</em> cultures, dans un seul outil pensé pour le terrain.</p></div>
     <div class="grid4">
-      <div class="fcard rv"><div class="fic"><i data-lucide="bird"></i></div><h4>Élevage multi-espèce</h4><p>Volaille, lapin, porc, caprin… avec reproduction.</p></div>
-      <div class="fcard rv"><div class="fic"><i data-lucide="wheat"></i></div><h4>Agriculture</h4><p>Parcelles, campagnes, intrants, ventes, bilan par culture.</p></div>
-      <div class="fcard rv"><div class="fic"><i data-lucide="layout-dashboard"></i></div><h4>Tableau de bord</h4><p>Ponte, mortalité, marge, stock — en temps réel.</p></div>
-      <div class="fcard rv"><div class="fic"><i data-lucide="wallet"></i></div><h4>Finances</h4><p>Ventes, dépenses, ROI, factures, salaires.</p></div>
-      <div class="fcard rv"><div class="fic"><i data-lucide="users"></i></div><h4>Équipe</h4><p>Rôles, présence en ligne, discussion.</p></div>
-      <div class="fcard rv"><div class="fic"><i data-lucide="syringe"></i></div><h4>Prophylaxie</h4><p>Calendriers de vaccination + rappels.</p></div>
-      <div class="fcard rv"><div class="fic"><i data-lucide="wifi-off"></i></div><h4>Hors-ligne</h4><p>Saisie sans réseau, synchro auto.</p></div>
-      <div class="fcard rv"><div class="fic"><i data-lucide="building-2"></i></div><h4>Multi-fermes</h4><p>Comparez vos sites d'un coup d'œil.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="bird"></i></div><h4 data-i18n="feat1_t">Élevage multi-espèce</h4><p data-i18n="feat1_p">Volaille, lapin, porc, caprin… avec reproduction.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="wheat"></i></div><h4 data-i18n="feat2_t">Agriculture</h4><p data-i18n="feat2_p">Parcelles, campagnes, intrants, ventes, bilan par culture.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="layout-dashboard"></i></div><h4 data-i18n="feat3_t">Tableau de bord</h4><p data-i18n="feat3_p">Ponte, mortalité, marge, stock — en temps réel.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="wallet"></i></div><h4 data-i18n="feat4_t">Finances</h4><p data-i18n="feat4_p">Ventes, dépenses, ROI, factures, salaires.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="users"></i></div><h4 data-i18n="feat5_t">Équipe</h4><p data-i18n="feat5_p">Rôles, présence en ligne, discussion.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="syringe"></i></div><h4 data-i18n="feat6_t">Prophylaxie</h4><p data-i18n="feat6_p">Calendriers de vaccination + rappels.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="wifi-off"></i></div><h4 data-i18n="feat7_t">Hors-ligne</h4><p data-i18n="feat7_p">Saisie sans réseau, synchro auto.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="building-2"></i></div><h4 data-i18n="feat8_t">Multi-fermes</h4><p data-i18n="feat8_p">Comparez vos sites d'un coup d'œil.</p></div>
     </div>
   </div>
 </section>
@@ -388,157 +401,157 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <!-- PLANS -->
 <section class="blk" id="plans">
   <div class="wrap">
-    <div class="head rv"><div class="lbl">Tarifs</div><h2>Un plan pour chaque taille</h2><p>Le cœur est gratuit, à vie. Les prix affichés démarrent au plus petit palier et s'adaptent à la taille de votre exploitation.</p></div>
+    <div class="head rv"><div class="lbl" data-i18n="plans_lbl">Tarifs</div><h2 data-i18n="plans_h2">Un plan pour chaque taille</h2><p data-i18n="plans_p">Le cœur est gratuit, à vie. Les prix affichés démarrent au plus petit palier et s'adaptent à la taille de votre exploitation.</p></div>
 
-    <div class="welcome rv">🎁 <b>Bienvenue</b> — votre 1ᵉʳ paiement bénéficie de <b>−50 %</b> sur 1 mois équivalent.</div>
+    <div class="welcome rv" data-i18n="plans_welcome">🎁 <b>Bienvenue</b> — votre 1ᵉʳ paiement bénéficie de <b>−50 %</b> sur 1 mois équivalent.</div>
 
     <div class="pgrid5">
       <!-- GRATUIT -->
       <div class="pcard free-card rv">
-        <div class="pname" style="color:var(--green-d)">Gratuit</div>
-        <div class="pprice" style="color:var(--green-d)">Gratuit <span>· à vie</span></div>
-        <div class="pdesc">Pour démarrer, sans limite de temps</div>
+        <div class="pname" style="color:var(--green-d)" data-i18n="pn_free">Gratuit</div>
+        <div class="pprice" style="color:var(--green-d)" data-i18n="pprice_free">Gratuit <span>· à vie</span></div>
+        <div class="pdesc" data-i18n="pd_free">Pour démarrer, sans limite de temps</div>
         <ul class="pf">
-          <li>Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
-          <li>Rappels vaccins / prophylaxie</li>
-          <li>Conseils éleveur + YAYRA</li>
-          <li class="val">🩺 Dr SANKARA <b>2 à vie</b></li>
-          <li class="val">Filières (élevage + agri) <b>2</b></li>
-          <li class="val">Historique <b>7 j</b></li>
-          <li class="val">Bandes max <b>1</b></li>
-          <li class="no">Bilan cumulé, évolution pesées</li>
-          <li class="no">Prophylaxie custom, corbeille, stock technicien</li>
-          <li class="no">Équipe &amp; discussion</li>
-          <li class="no">Dépenses, Ventes, Clients, Stock</li>
-          <li class="no">ROI / Rentabilité</li>
-          <li class="no">Factures, Employés &amp; Salaires, Journal</li>
-          <li class="no">Graphiques &amp; Comparaisons</li>
-          <li class="no">Autopsie guidée (Dr SANKARA)</li>
-          <li class="no">Pondeuse / Chair — prévisionnel</li>
-          <li class="val">Multi-fermes / multi-sites <b>1</b></li>
-          <li class="val">Membres équipe <b>1</b></li>
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>2 <span data-i18n="u_avie">à vie</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>2</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>7 <span data-i18n="u_jours">j</span></b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>1</b></li>
+          <li class="no" data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li class="no" data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li class="no" data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li class="no" data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li class="no" data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li class="no" data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li class="no" data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li class="no" data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li class="no" data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>1</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>1</b></li>
         </ul>
-        <a href="https://app.avifarmer.net" class="pcta line">Toujours gratuit</a>
+        <a href="https://app.avifarmer.net" class="pcta line" data-i18n="pcta_free">Toujours gratuit</a>
       </div>
 
       <!-- STARTER -->
       <div class="pcard rv">
         <div class="pname">Starter</div>
-        <div class="pfrom">À partir de</div>
-        <div class="pprice">2 000 <span>F/mois</span></div>
-        <div class="pbadge">−50 % le 1ᵉʳ mois</div>
-        <div class="pdesc">Le suivi avancé de votre exploitation</div>
+        <div class="pfrom" data-i18n="p_from">À partir de</div>
+        <div class="pprice">2 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
+        <div class="pdesc" data-i18n="pd_starter">Le suivi avancé de votre exploitation</div>
         <ul class="pf">
-          <li>Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
-          <li>Rappels vaccins / prophylaxie</li>
-          <li>Conseils éleveur + YAYRA</li>
-          <li class="val">🩺 Dr SANKARA <b>3 / mois</b></li>
-          <li class="val">Filières (élevage + agri) <b>4</b></li>
-          <li class="val">Historique <b>15 j</b></li>
-          <li class="val">Bandes max <b>2</b></li>
-          <li>Bilan cumulé, évolution pesées</li>
-          <li>Prophylaxie custom, corbeille, stock technicien</li>
-          <li>Équipe &amp; discussion</li>
-          <li class="no">Dépenses, Ventes, Clients, Stock</li>
-          <li class="no">ROI / Rentabilité</li>
-          <li class="no">Factures, Employés &amp; Salaires, Journal</li>
-          <li class="no">Graphiques &amp; Comparaisons</li>
-          <li>Autopsie guidée (Dr SANKARA)</li>
-          <li class="no">Pondeuse / Chair — prévisionnel</li>
-          <li class="val">Multi-fermes / multi-sites <b>1</b></li>
-          <li class="val">Membres équipe <b>3</b></li>
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>3 <span data-i18n="u_mois">/ mois</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>4</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>15 <span data-i18n="u_jours">j</span></b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>2</b></li>
+          <li data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li class="no" data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li class="no" data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li class="no" data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li class="no" data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li class="no" data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>1</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>3</b></li>
         </ul>
-        <a href="https://app.avifarmer.net" class="pcta line">Choisir Starter →</a>
+        <a href="https://app.avifarmer.net" class="pcta line" data-i18n="pcta_starter">Choisir Starter →</a>
       </div>
 
       <!-- ÉLITE -->
       <div class="pcard rv">
         <div class="pname">Élite</div>
-        <div class="pfrom">À partir de</div>
-        <div class="pprice">4 000 <span>F/mois</span></div>
-        <div class="pbadge">−50 % le 1ᵉʳ mois</div>
-        <div class="pdesc">L'argent de votre exploitation</div>
+        <div class="pfrom" data-i18n="p_from">À partir de</div>
+        <div class="pprice">4 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
+        <div class="pdesc" data-i18n="pd_elite">L'argent de votre exploitation</div>
         <ul class="pf">
-          <li>Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
-          <li>Rappels vaccins / prophylaxie</li>
-          <li>Conseils éleveur + YAYRA</li>
-          <li class="val">🩺 Dr SANKARA <b>6 / mois</b></li>
-          <li class="val">Filières (élevage + agri) <b>8</b></li>
-          <li class="val">Historique <b>1 an</b></li>
-          <li class="val">Bandes max <b>10</b></li>
-          <li>Bilan cumulé, évolution pesées</li>
-          <li>Prophylaxie custom, corbeille, stock technicien</li>
-          <li>Équipe &amp; discussion</li>
-          <li>Dépenses, Ventes, Clients, Stock</li>
-          <li>ROI / Rentabilité</li>
-          <li class="no">Factures, Employés &amp; Salaires, Journal</li>
-          <li class="no">Graphiques &amp; Comparaisons</li>
-          <li>Autopsie guidée (Dr SANKARA)</li>
-          <li class="no">Pondeuse / Chair — prévisionnel</li>
-          <li class="val">Multi-fermes / multi-sites <b>2</b></li>
-          <li class="val">Membres équipe <b>5</b></li>
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>6 <span data-i18n="u_mois">/ mois</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>8</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>1 <span data-i18n="u_an">an</span></b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>10</b></li>
+          <li data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li class="no" data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li class="no" data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li class="no" data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>2</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>5</b></li>
         </ul>
-        <a href="https://app.avifarmer.net" class="pcta line">Choisir Élite →</a>
+        <a href="https://app.avifarmer.net" class="pcta line" data-i18n="pcta_elite">Choisir Élite →</a>
       </div>
 
       <!-- PRO -->
       <div class="pcard pop rv">
         <div class="pname">Pro</div>
-        <div class="pfrom">À partir de</div>
-        <div class="pprice">7 000 <span>F/mois</span></div>
-        <div class="pbadge">−50 % le 1ᵉʳ mois</div>
-        <div class="pdesc">La gestion complète + l'analyse</div>
+        <div class="pfrom" data-i18n="p_from">À partir de</div>
+        <div class="pprice">7 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
+        <div class="pdesc" data-i18n="pd_pro">La gestion complète + l'analyse</div>
         <ul class="pf">
-          <li>Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
-          <li>Rappels vaccins / prophylaxie</li>
-          <li>Conseils éleveur + YAYRA</li>
-          <li class="val">🩺 Dr SANKARA <b>12 / mois</b></li>
-          <li class="val">Filières (élevage + agri) <b>∞</b></li>
-          <li class="val">Historique <b>2 ans</b></li>
-          <li class="val">Bandes max <b>50</b></li>
-          <li>Bilan cumulé, évolution pesées</li>
-          <li>Prophylaxie custom, corbeille, stock technicien</li>
-          <li>Équipe &amp; discussion</li>
-          <li>Dépenses, Ventes, Clients, Stock</li>
-          <li>ROI / Rentabilité</li>
-          <li>Factures, Employés &amp; Salaires, Journal</li>
-          <li>Graphiques &amp; Comparaisons</li>
-          <li>Autopsie guidée (Dr SANKARA)</li>
-          <li class="no">Pondeuse / Chair — prévisionnel</li>
-          <li class="val">Multi-fermes / multi-sites <b>3</b></li>
-          <li class="val">Membres équipe <b>10</b></li>
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>12 <span data-i18n="u_mois">/ mois</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>∞</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>2 <span data-i18n="u_ans">ans</span></b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>50</b></li>
+          <li data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li class="no" data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>3</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>10</b></li>
         </ul>
-        <a href="https://app.avifarmer.net" class="pcta full">Démarrer →</a>
+        <a href="https://app.avifarmer.net" class="pcta full" data-i18n="pcta_start">Démarrer →</a>
       </div>
 
       <!-- ENTERPRISE -->
       <div class="pcard rv">
         <div class="pname">Enterprise</div>
-        <div class="pfrom">À partir de</div>
-        <div class="pprice">10 000 <span>F/mois</span></div>
-        <div class="pbadge">−50 % le 1ᵉʳ mois</div>
-        <div class="pdesc">Grandes exploitations multi-sites</div>
+        <div class="pfrom" data-i18n="p_from">À partir de</div>
+        <div class="pprice">10 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
+        <div class="pdesc" data-i18n="pd_ent">Grandes exploitations multi-sites</div>
         <ul class="pf">
-          <li>Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
-          <li>Rappels vaccins / prophylaxie</li>
-          <li>Conseils éleveur + YAYRA</li>
-          <li class="val">🩺 Dr SANKARA <b>25 / mois</b></li>
-          <li class="val">Filières (élevage + agri) <b>∞</b></li>
-          <li class="val">Historique <b>∞</b></li>
-          <li class="val">Bandes max <b>∞</b></li>
-          <li>Bilan cumulé, évolution pesées</li>
-          <li>Prophylaxie custom, corbeille, stock technicien</li>
-          <li>Équipe &amp; discussion</li>
-          <li>Dépenses, Ventes, Clients, Stock</li>
-          <li>ROI / Rentabilité</li>
-          <li>Factures, Employés &amp; Salaires, Journal</li>
-          <li>Graphiques &amp; Comparaisons</li>
-          <li>Autopsie guidée (Dr SANKARA)</li>
-          <li>Pondeuse / Chair — prévisionnel</li>
-          <li class="val">Multi-fermes / multi-sites <b>∞</b></li>
-          <li class="val">Membres équipe <b>∞</b></li>
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>25 <span data-i18n="u_mois">/ mois</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>∞</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>∞</b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>∞</b></li>
+          <li data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>∞</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>∞</b></li>
         </ul>
-        <a href="https://app.avifarmer.net" class="pcta line">Démarrer →</a>
+        <a href="https://app.avifarmer.net" class="pcta line" data-i18n="pcta_start">Démarrer →</a>
       </div>
     </div>
   </div>
@@ -547,22 +560,22 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <!-- BOUTIQUE -->
 <section class="blk" id="boutique">
   <div class="wrap">
-    <div class="head rv"><div class="lbl">🛒 Boutique</div><h2>Formations, intrants, matériel</h2><p>Paiement Mobile Money sécurisé, sans création de compte. Livraison rapide au Togo.</p></div>
+    <div class="head rv"><div class="lbl" data-i18n="b_lbl">🛒 Boutique</div><h2 data-i18n="b_h2">Formations, intrants, matériel</h2><p data-i18n="b_p">Paiement Mobile Money sécurisé, sans création de compte. Livraison rapide au Togo.</p></div>
     <div class="boutique-track" id="boutiqueTrack">
-      <div class="empty-boutique">⏳ Chargement des produits…</div>
+      <div class="empty-boutique" data-i18n="b_loading">⏳ Chargement des produits…</div>
     </div>
-    <div style="text-align:center;margin-top:32px"><a href="boutique.html" class="btn btn-pri">Voir toute la boutique →</a></div>
+    <div style="text-align:center;margin-top:32px"><a href="boutique.html" class="btn btn-pri" data-i18n="b_btn">Voir toute la boutique →</a></div>
   </div>
 </section>
 
 <!-- AVIS -->
 <section class="blk" id="avis">
   <div class="wrap">
-    <div class="head rv"><div class="lbl">Témoignages</div><h2>Ce que disent nos éleveurs</h2><p>Des éleveurs de toute l'Afrique font confiance à GFA.</p></div>
+    <div class="head rv"><div class="lbl" data-i18n="av_lbl">Témoignages</div><h2 data-i18n="av_h2">Ce que disent nos éleveurs</h2><p data-i18n="av_p">Des éleveurs de toute l'Afrique font confiance à AGRI-X.</p></div>
     <div class="avis-grid">
-      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q">« Je gère mes 3 poulaillers et mon champ de maïs depuis mon téléphone. Dr SANKARA m'a sauvé une bande de la coccidiose en pleine nuit. »</div><div class="avis-who">Kofi M. <small>Aviculteur · Tsévié</small></div></div>
-      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q">« Avant je notais tout dans un cahier. Maintenant je vois ma marge en temps réel et mes techniciens saisissent les rapports eux-mêmes. »</div><div class="avis-who">Awa D. <small>Ferme avicole · Lomé</small></div></div>
-      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q">« Le mode hors-ligne change tout sur le terrain. Et c'est gratuit pour commencer — je n'ai payé que quand j'ai voulu les finances. »</div><div class="avis-who">Yawo K. <small>Éleveur · Kpalimé</small></div></div>
+      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av1_q">« Je gère mes 3 poulaillers et mon champ de maïs depuis mon téléphone. Dr SANKARA m'a sauvé une bande de la coccidiose en pleine nuit. »</div><div class="avis-who">Kofi M. <small data-i18n="av1_w">Aviculteur · Tsévié</small></div></div>
+      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av2_q">« Avant je notais tout dans un cahier. Maintenant je vois ma marge en temps réel et mes techniciens saisissent les rapports eux-mêmes. »</div><div class="avis-who">Awa D. <small data-i18n="av2_w">Ferme avicole · Lomé</small></div></div>
+      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av3_q">« Le mode hors-ligne change tout sur le terrain. Et c'est gratuit pour commencer — je n'ai payé que quand j'ai voulu les finances. »</div><div class="avis-who">Yawo K. <small data-i18n="av3_w">Éleveur · Kpalimé</small></div></div>
     </div>
   </div>
 </section>
@@ -570,15 +583,15 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <!-- FAQ -->
 <section class="blk" id="faq">
   <div class="wrap">
-    <div class="head rv"><div class="lbl">FAQ</div><h2>Questions fréquentes</h2><p>Tout ce qu'il faut savoir avant de démarrer.</p></div>
+    <div class="head rv"><div class="lbl" data-i18n="faq_lbl">FAQ</div><h2 data-i18n="faq_h2">Questions fréquentes</h2><p data-i18n="faq_p">Tout ce qu'il faut savoir avant de démarrer.</p></div>
     <div class="faq-list">
-      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q">C'est vraiment gratuit ?</div><div class="faq-a">Oui — le cœur de GFA est <strong>gratuit à vie</strong> : 1 élevage + 1 culture, suivi quotidien, rappels vaccins et <strong>2 consultations Dr SANKARA offertes</strong>. Aucune carte bancaire. Vous payez seulement le jour où vous voulez plus (finances, analyses, plus de filières, plus de consultations).</div></div>
-      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q">Comment sont fixés les prix des plans ?</div><div class="faq-a">Le prix <strong>s'adapte à la taille</strong> de votre exploitation (nombre de sujets / hectares). Les tarifs affichés ici sont les prix d'entrée (« à partir de »). Dans l'app, vous voyez le prix exact pour votre taille. Bonus de bienvenue : <strong>−50 % sur le 1er paiement</strong>.</div></div>
-      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q">Qu'est-ce que Dr SANKARA et Dr SAVANA ?</div><div class="faq-a">Ce sont vos <strong>experts IA</strong> : Dr SANKARA (vétérinaire — diagnostic, traitement, autopsie guidée) et Dr SAVANA (agronome — maladies des plantes, fertilisation, calendrier cultural). Disponibles 24/7, pour une fraction du prix d'une vraie consultation.</div></div>
-      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q">Quels modes de paiement ?</div><div class="faq-a">Mobile Money (MTN, Moov, Wave) et carte bancaire via FedaPay. Activation immédiate après confirmation. Pour la diaspora, paiement par carte également disponible.</div></div>
-      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q">Puis-je l'utiliser sans connexion ?</div><div class="faq-a">Oui, GFA fonctionne <strong>hors-ligne</strong>. Vous saisissez vos données sur le terrain sans réseau, la synchronisation se fait automatiquement au retour de la connexion.</div></div>
-      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q">Que gère GFA, au juste ?</div><div class="faq-a">L'<strong>élevage multi-espèce</strong> (volaille, lapin, porc, caprin… avec reproduction) <strong>et l'agriculture</strong> (parcelles, campagnes, intrants, ventes, bilan par culture) — plus les finances, l'équipe, le stock, la prophylaxie et vos experts IA.</div></div>
-      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q">Mes données sont-elles en sécurité ?</div><div class="faq-a">Oui. Hébergement Supabase (PostgreSQL, Europe), chiffrement TLS, authentification JWT et séparation stricte des rôles (Row-Level Security). Vos données ne sont jamais partagées.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq1_q">C'est vraiment gratuit ?</div><div class="faq-a" data-i18n="faq1_a">Oui — le cœur de AGRI-X est <strong>gratuit à vie</strong> : 1 élevage + 1 culture, suivi quotidien, rappels vaccins et <strong>2 consultations Dr SANKARA offertes</strong>. Aucune carte bancaire. Vous payez seulement le jour où vous voulez plus (finances, analyses, plus de filières, plus de consultations).</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq2_q">Comment sont fixés les prix des plans ?</div><div class="faq-a" data-i18n="faq2_a">Le prix <strong>s'adapte à la taille</strong> de votre exploitation (nombre de sujets / hectares). Les tarifs affichés ici sont les prix d'entrée (« à partir de »). Dans l'app, vous voyez le prix exact pour votre taille. Bonus de bienvenue : <strong>−50 % sur le 1er paiement</strong>.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq3_q">Qu'est-ce que Dr SANKARA et Dr SAVANA ?</div><div class="faq-a" data-i18n="faq3_a">Ce sont vos <strong>experts IA</strong> : Dr SANKARA (vétérinaire — diagnostic, traitement, autopsie guidée) et Dr SAVANA (agronome — maladies des plantes, fertilisation, calendrier cultural). Disponibles 24/7, pour une fraction du prix d'une vraie consultation.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq4_q">Quels modes de paiement ?</div><div class="faq-a" data-i18n="faq4_a">Mobile Money (MTN, Moov, Wave) et carte bancaire via FedaPay. Activation immédiate après confirmation. Pour la diaspora, paiement par carte également disponible.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq5_q">Puis-je l'utiliser sans connexion ?</div><div class="faq-a" data-i18n="faq5_a">Oui, AGRI-X fonctionne <strong>hors-ligne</strong>. Vous saisissez vos données sur le terrain sans réseau, la synchronisation se fait automatiquement au retour de la connexion.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq6_q">Que gère AGRI-X, au juste ?</div><div class="faq-a" data-i18n="faq6_a">L'<strong>élevage multi-espèce</strong> (volaille, lapin, porc, caprin… avec reproduction) <strong>et l'agriculture</strong> (parcelles, campagnes, intrants, ventes, bilan par culture) — plus les finances, l'équipe, le stock, la prophylaxie et vos experts IA.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq7_q">Mes données sont-elles en sécurité ?</div><div class="faq-a" data-i18n="faq7_a">Oui. Hébergement Supabase (PostgreSQL, Europe), chiffrement TLS, authentification JWT et séparation stricte des rôles (Row-Level Security). Vos données ne sont jamais partagées.</div></div>
     </div>
   </div>
 </section>
@@ -586,29 +599,29 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <!-- CONTACT -->
 <section class="blk" id="contact">
   <div class="wrap" style="text-align:center">
-    <div class="lbl rv">Contact</div>
-    <h2 class="rv">Parlons de votre exploitation</h2>
-    <p class="rv" style="color:var(--muted);max-width:480px;margin:12px auto 0">Notre équipe vous accompagne dans la prise en main.</p>
+    <div class="lbl rv" data-i18n="ct_lbl">Contact</div>
+    <h2 class="rv" data-i18n="ct_h2">Parlons de votre exploitation</h2>
+    <p class="rv" style="color:var(--muted);max-width:480px;margin:12px auto 0" data-i18n="ct_p">Notre équipe vous accompagne dans la prise en main.</p>
     <div class="contact-links rv">
-      <a href="https://wa.me/22870992018" class="contact-link" target="_blank">📲 WhatsApp · (+228) 70 99 20 18</a>
+      <a href="https://wa.me/22870992018" class="contact-link" target="_blank" rel="noopener">📲 WhatsApp · (+228) 70 99 20 18</a>
       <a href="mailto:atm.farmvillage@gmail.com" class="contact-link">✉️ atm.farmvillage@gmail.com</a>
       <a href="https://app.avifarmer.net" class="contact-link">🌐 app.avifarmer.net</a>
     </div>
-    <p class="rv" style="color:var(--muted);font-size:12.5px;margin-top:22px">📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo 🇹🇬</p>
+    <p class="rv" style="color:var(--muted);font-size:12.5px;margin-top:22px" data-i18n="ct_addr">📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo 🇹🇬</p>
   </div>
 </section>
 
 <!-- CTA FINAL -->
 <section class="blk" style="padding-top:0">
   <div class="final rv">
-    <div class="lbl" style="background:rgba(255,255,255,.15);color:#fff">Prêt ?</div>
-    <h2>Votre ferme mérite mieux qu'un cahier.</h2>
-    <p>Créez votre compte gratuit en 2 minutes. Élevage, cultures et vos experts IA — sans carte bancaire.</p>
-    <a href="https://app.avifarmer.net" class="btn btn-pri" style="background:#fff;color:var(--green-d)">🚀 Commencer gratuitement</a>
+    <div class="lbl" style="background:rgba(255,255,255,.15);color:#fff" data-i18n="final_lbl">Prêt ?</div>
+    <h2 data-i18n="final_h2">Votre ferme mérite mieux qu'un cahier.</h2>
+    <p data-i18n="final_p">Créez votre compte gratuit en 2 minutes. Élevage, cultures et vos experts IA — sans carte bancaire.</p>
+    <a href="https://app.avifarmer.net" class="btn btn-pri" style="background:#fff;color:var(--green-d)" data-i18n="hero_cta1">🚀 Commencer gratuitement</a>
   </div>
 </section>
 
-<footer>AGRI-X — Gestion d'une Ferme Agricole · ATM Farm Village · Togo 🇹🇬</footer>
+<footer data-i18n="footer_txt">AGRI-X — Gestion d'une Ferme Agricole · ATM Farm Village · Togo 🇹🇬</footer>
 
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
@@ -657,18 +670,114 @@ window.toggleTheme=toggleTheme;
 (function(){try{const t=localStorage.getItem('agrix_theme');if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');const _tb=document.getElementById('themeBtn');if(_tb)_tb.textContent='☀️'}}catch(e){}})();
 // ── i18n FR / EN ──
 const I18N={
-  fr:{nav_cabinet:'Cabinet IA',nav_features:'Fonctionnalités',nav_pricing:'Tarifs',cta_start:'Commencer gratuitement',
-    hero_badge:'Élevage &amp; cultures · Cabinet IA',
-    hero_h1:'Toute votre ferme,<br>avec vos <span class="grad">experts IA</span><br>dans la poche.',
-    hero_sub:'AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie</b>, vous payez seulement quand vous voulez plus.',
-    hero_cta1:'🚀 Commencer gratuitement',hero_cta2:'Découvrir le Cabinet IA',
-    meta_eleveurs:'Éleveurs',meta_filieres:'Filières &amp; cultures',meta_experts:'Experts IA'},
-  en:{nav_cabinet:'AI Clinic',nav_features:'Features',nav_pricing:'Pricing',cta_start:'Start for free',
-    hero_badge:'Livestock &amp; crops · AI Clinic',
-    hero_h1:'Your whole farm,<br>with your <span class="grad">AI experts</span><br>in your pocket.',
-    hero_sub:'AGRI-X manages your <b>animals</b> (poultry, rabbit, pig, goat…) <b>and your crops</b> — with Dr&nbsp;SANKARA (vet) &amp; Dr&nbsp;SAVANA (agronomist). <b>Free forever</b>, pay only when you want more.',
-    hero_cta1:'🚀 Start for free',hero_cta2:'Explore the AI Clinic',
-    meta_eleveurs:'Farmers',meta_filieres:'Sectors &amp; crops',meta_experts:'AI experts'}
+  fr:{
+    nav_cabinet:`Cabinet IA`,nav_features:`Fonctionnalités`,nav_pricing:`Tarifs`,cta_start:`Commencer gratuitement`,
+    brand_sub:`Gestion d'une Ferme Agricole`,
+    hero_badge:`Élevage &amp; cultures · Cabinet IA`,
+    hero_h1:`Toute votre ferme,<br>avec vos <span class="grad">experts IA</span><br>dans la poche.`,
+    hero_sub:`AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie</b>, vous payez seulement quand vous voulez plus.`,
+    hero_cta1:`🚀 Commencer gratuitement`,hero_cta2:`Découvrir le Cabinet IA`,
+    meta_eleveurs:`Éleveurs`,meta_filieres:`Filières &amp; cultures`,meta_experts:`Experts IA`,
+    dash_title:`📊 Tableau de bord — Ferme Espoir`,dash_live:`● en direct`,dash_ponte:`Taux de ponte`,dash_mais:`Maïs en culture`,dash_marge:`Marge FCFA`,dash_filieres:`Filières actives`,
+    day_mon:`Lun`,day_tue:`Mar`,day_wed:`Mer`,day_thu:`Jeu`,
+    chip_sankara:`diagnostic en 30s`,chip_savana:`conseil cultures`,chip_yayra:`sur WhatsApp`,
+    trust_free:`🆓 Gratuit à vie`,trust_offline:`📶 Marche hors-ligne`,trust_pay:`📱 Mobile Money · FedaPay`,trust_africa:`🌍 Pensé pour l'Afrique`,
+    cab_lbl:`Cabinet IA`,cab_h2:`Vos experts, dans votre poche`,cab_p:`Un vétérinaire et un agronome, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.`,
+    cab_sankara_t:`Dr SANKARA — Vétérinaire`,cab_sankara_p:`Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.`,cab_sankara_pill:`2 consultations offertes`,
+    cab_savana_t:`Dr SAVANA — Agronome`,cab_savana_p:`Maladies des plantes, fertilisation, calendrier cultural : votre conseiller cultures, adapté à votre région.`,
+    cab_yayra_t:`YAYRA — Assistante`,cab_yayra_p:`Elle connaît vos bandes et vos chiffres, saisit vos rapports, vous alerte, et vous passe le bon expert. Aussi sur WhatsApp.`,
+    feat_lbl:`Fonctionnalités`,feat_h2:`Tout pour gérer votre exploitation`,feat_p:`Élevage multi-espèce <em>et</em> cultures, dans un seul outil pensé pour le terrain.`,
+    feat1_t:`Élevage multi-espèce`,feat1_p:`Volaille, lapin, porc, caprin… avec reproduction.`,
+    feat2_t:`Agriculture`,feat2_p:`Parcelles, campagnes, intrants, ventes, bilan par culture.`,
+    feat3_t:`Tableau de bord`,feat3_p:`Ponte, mortalité, marge, stock — en temps réel.`,
+    feat4_t:`Finances`,feat4_p:`Ventes, dépenses, ROI, factures, salaires.`,
+    feat5_t:`Équipe`,feat5_p:`Rôles, présence en ligne, discussion.`,
+    feat6_t:`Prophylaxie`,feat6_p:`Calendriers de vaccination + rappels.`,
+    feat7_t:`Hors-ligne`,feat7_p:`Saisie sans réseau, synchro auto.`,
+    feat8_t:`Multi-fermes`,feat8_p:`Comparez vos sites d'un coup d'œil.`,
+    plans_lbl:`Tarifs`,plans_h2:`Un plan pour chaque taille`,plans_p:`Le cœur est gratuit, à vie. Les prix affichés démarrent au plus petit palier et s'adaptent à la taille de votre exploitation.`,
+    plans_welcome:`🎁 <b>Bienvenue</b> — votre 1ᵉʳ paiement bénéficie de <b>−50 %</b> sur 1 mois équivalent.`,
+    pf_suivi:`Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)`,pf_rappels:`Rappels vaccins / prophylaxie`,pf_conseils:`Conseils éleveur + YAYRA`,
+    pf_bilan:`Bilan cumulé, évolution pesées`,pf_prophy:`Prophylaxie custom, corbeille, stock technicien`,pf_equipe:`Équipe &amp; discussion`,
+    pf_depenses:`Dépenses, Ventes, Clients, Stock`,pf_roi:`ROI / Rentabilité`,pf_factures:`Factures, Employés &amp; Salaires, Journal`,pf_graph:`Graphiques &amp; Comparaisons`,
+    pf_autopsie:`Autopsie guidée (Dr SANKARA)`,pf_previ:`Pondeuse / Chair — prévisionnel`,
+    pf_sankara:`🩺 Dr SANKARA`,pf_filieres:`Filières (élevage + agri)`,pf_histo:`Historique`,pf_bandes:`Bandes max`,pf_multi:`Multi-fermes / multi-sites`,pf_membres:`Membres équipe`,
+    u_avie:`à vie`,u_mois:`/ mois`,u_jours:`j`,u_an:`an`,u_ans:`ans`,
+    p_from:`À partir de`,p_permonth:`F/mois`,p_badge:`−50 % le 1ᵉʳ mois`,
+    pn_free:`Gratuit`,pprice_free:`Gratuit <span>· à vie</span>`,
+    pd_free:`Pour démarrer, sans limite de temps`,pd_starter:`Le suivi avancé de votre exploitation`,pd_elite:`L'argent de votre exploitation`,pd_pro:`La gestion complète + l'analyse`,pd_ent:`Grandes exploitations multi-sites`,
+    pcta_free:`Toujours gratuit`,pcta_starter:`Choisir Starter →`,pcta_elite:`Choisir Élite →`,pcta_start:`Démarrer →`,
+    b_lbl:`🛒 Boutique`,b_h2:`Formations, intrants, matériel`,b_p:`Paiement Mobile Money sécurisé, sans création de compte. Livraison rapide au Togo.`,b_loading:`⏳ Chargement des produits…`,b_btn:`Voir toute la boutique →`,
+    av_lbl:`Témoignages`,av_h2:`Ce que disent nos éleveurs`,av_p:`Des éleveurs de toute l'Afrique font confiance à AGRI-X.`,
+    av1_q:`« Je gère mes 3 poulaillers et mon champ de maïs depuis mon téléphone. Dr SANKARA m'a sauvé une bande de la coccidiose en pleine nuit. »`,av1_w:`Aviculteur · Tsévié`,
+    av2_q:`« Avant je notais tout dans un cahier. Maintenant je vois ma marge en temps réel et mes techniciens saisissent les rapports eux-mêmes. »`,av2_w:`Ferme avicole · Lomé`,
+    av3_q:`« Le mode hors-ligne change tout sur le terrain. Et c'est gratuit pour commencer — je n'ai payé que quand j'ai voulu les finances. »`,av3_w:`Éleveur · Kpalimé`,
+    faq_lbl:`FAQ`,faq_h2:`Questions fréquentes`,faq_p:`Tout ce qu'il faut savoir avant de démarrer.`,
+    faq1_q:`C'est vraiment gratuit ?`,faq1_a:`Oui — le cœur de AGRI-X est <strong>gratuit à vie</strong> : 1 élevage + 1 culture, suivi quotidien, rappels vaccins et <strong>2 consultations Dr SANKARA offertes</strong>. Aucune carte bancaire. Vous payez seulement le jour où vous voulez plus (finances, analyses, plus de filières, plus de consultations).`,
+    faq2_q:`Comment sont fixés les prix des plans ?`,faq2_a:`Le prix <strong>s'adapte à la taille</strong> de votre exploitation (nombre de sujets / hectares). Les tarifs affichés ici sont les prix d'entrée (« à partir de »). Dans l'app, vous voyez le prix exact pour votre taille. Bonus de bienvenue : <strong>−50 % sur le 1er paiement</strong>.`,
+    faq3_q:`Qu'est-ce que Dr SANKARA et Dr SAVANA ?`,faq3_a:`Ce sont vos <strong>experts IA</strong> : Dr SANKARA (vétérinaire — diagnostic, traitement, autopsie guidée) et Dr SAVANA (agronome — maladies des plantes, fertilisation, calendrier cultural). Disponibles 24/7, pour une fraction du prix d'une vraie consultation.`,
+    faq4_q:`Quels modes de paiement ?`,faq4_a:`Mobile Money (MTN, Moov, Wave) et carte bancaire via FedaPay. Activation immédiate après confirmation. Pour la diaspora, paiement par carte également disponible.`,
+    faq5_q:`Puis-je l'utiliser sans connexion ?`,faq5_a:`Oui, AGRI-X fonctionne <strong>hors-ligne</strong>. Vous saisissez vos données sur le terrain sans réseau, la synchronisation se fait automatiquement au retour de la connexion.`,
+    faq6_q:`Que gère AGRI-X, au juste ?`,faq6_a:`L'<strong>élevage multi-espèce</strong> (volaille, lapin, porc, caprin… avec reproduction) <strong>et l'agriculture</strong> (parcelles, campagnes, intrants, ventes, bilan par culture) — plus les finances, l'équipe, le stock, la prophylaxie et vos experts IA.`,
+    faq7_q:`Mes données sont-elles en sécurité ?`,faq7_a:`Oui. Hébergement Supabase (PostgreSQL, Europe), chiffrement TLS, authentification JWT et séparation stricte des rôles (Row-Level Security). Vos données ne sont jamais partagées.`,
+    ct_lbl:`Contact`,ct_h2:`Parlons de votre exploitation`,ct_p:`Notre équipe vous accompagne dans la prise en main.`,ct_addr:`📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo 🇹🇬`,
+    final_lbl:`Prêt ?`,final_h2:`Votre ferme mérite mieux qu'un cahier.`,final_p:`Créez votre compte gratuit en 2 minutes. Élevage, cultures et vos experts IA — sans carte bancaire.`,
+    footer_txt:`AGRI-X — Gestion d'une Ferme Agricole · ATM Farm Village · Togo 🇹🇬`
+  },
+  en:{
+    nav_cabinet:`AI Clinic`,nav_features:`Features`,nav_pricing:`Pricing`,cta_start:`Start for free`,
+    brand_sub:`Smart Farm Management`,
+    hero_badge:`Livestock &amp; crops · AI Clinic`,
+    hero_h1:`Your whole farm,<br>with your <span class="grad">AI experts</span><br>in your pocket.`,
+    hero_sub:`AGRI-X manages your <b>animals</b> (poultry, rabbit, pig, goat…) <b>and your crops</b> — with Dr&nbsp;SANKARA (vet) &amp; Dr&nbsp;SAVANA (agronomist). <b>Free forever</b>, pay only when you want more.`,
+    hero_cta1:`🚀 Start for free`,hero_cta2:`Explore the AI Clinic`,
+    meta_eleveurs:`Farmers`,meta_filieres:`Sectors &amp; crops`,meta_experts:`AI experts`,
+    dash_title:`📊 Dashboard — Espoir Farm`,dash_live:`● live`,dash_ponte:`Laying rate`,dash_mais:`Maize grown`,dash_marge:`Margin FCFA`,dash_filieres:`Active sectors`,
+    day_mon:`Mon`,day_tue:`Tue`,day_wed:`Wed`,day_thu:`Thu`,
+    chip_sankara:`diagnosis in 30s`,chip_savana:`crop advice`,chip_yayra:`on WhatsApp`,
+    trust_free:`🆓 Free forever`,trust_offline:`📶 Works offline`,trust_pay:`📱 Mobile Money · FedaPay`,trust_africa:`🌍 Built for Africa`,
+    cab_lbl:`AI Clinic`,cab_h2:`Your experts, in your pocket`,cab_p:`A vet and an agronomist, 24/7, for a fraction of the price of a real consultation. This is what makes AGRI-X unique.`,
+    cab_sankara_t:`Dr SANKARA — Vet`,cab_sankara_p:`Disease, mortality, symptom? Describe it or send a photo: diagnosis, treatment and what to do next.`,cab_sankara_pill:`2 free consultations`,
+    cab_savana_t:`Dr SAVANA — Agronomist`,cab_savana_p:`Plant diseases, fertilization, crop calendar: your crop advisor, tailored to your region.`,
+    cab_yayra_t:`YAYRA — Assistant`,cab_yayra_p:`She knows your flocks and your numbers, logs your reports, alerts you, and hands you to the right expert. Also on WhatsApp.`,
+    feat_lbl:`Features`,feat_h2:`Everything to run your farm`,feat_p:`Multi-species livestock <em>and</em> crops, in one tool built for the field.`,
+    feat1_t:`Multi-species livestock`,feat1_p:`Poultry, rabbit, pig, goat… with breeding.`,
+    feat2_t:`Crops`,feat2_p:`Plots, seasons, inputs, sales, P&L per crop.`,
+    feat3_t:`Dashboard`,feat3_p:`Laying, mortality, margin, stock — in real time.`,
+    feat4_t:`Finances`,feat4_p:`Sales, expenses, ROI, invoices, payroll.`,
+    feat5_t:`Team`,feat5_p:`Roles, online presence, chat.`,
+    feat6_t:`Prophylaxis`,feat6_p:`Vaccination schedules + reminders.`,
+    feat7_t:`Offline`,feat7_p:`Enter data with no network, auto-sync.`,
+    feat8_t:`Multi-farm`,feat8_p:`Compare all your sites at a glance.`,
+    plans_lbl:`Pricing`,plans_h2:`A plan for every size`,plans_p:`The core is free, forever. Listed prices start at the smallest tier and scale with the size of your operation.`,
+    plans_welcome:`🎁 <b>Welcome</b> — your 1st payment gets <b>−50%</b> on one equivalent month.`,
+    pf_suivi:`Daily tracking (Dashboard, Report, Flocks, Weighing, Mortality)`,pf_rappels:`Vaccine / prophylaxis reminders`,pf_conseils:`Farmer tips + YAYRA`,
+    pf_bilan:`Cumulative report, weighing trends`,pf_prophy:`Custom prophylaxis, trash, technician stock`,pf_equipe:`Team &amp; chat`,
+    pf_depenses:`Expenses, Sales, Clients, Stock`,pf_roi:`ROI / Profitability`,pf_factures:`Invoices, Employees &amp; Payroll, Ledger`,pf_graph:`Charts &amp; Comparisons`,
+    pf_autopsie:`Guided necropsy (Dr SANKARA)`,pf_previ:`Layer / Broiler — forecast`,
+    pf_sankara:`🩺 Dr SANKARA`,pf_filieres:`Sectors (livestock + crops)`,pf_histo:`History`,pf_bandes:`Max flocks`,pf_multi:`Multi-farm / multi-site`,pf_membres:`Team members`,
+    u_avie:`lifetime`,u_mois:`/ mo`,u_jours:`d`,u_an:`yr`,u_ans:`yr`,
+    p_from:`From`,p_permonth:`F/mo`,p_badge:`−50% first month`,
+    pn_free:`Free`,pprice_free:`Free <span>· forever</span>`,
+    pd_free:`To get started, no time limit`,pd_starter:`Advanced tracking for your farm`,pd_elite:`Your farm's money`,pd_pro:`Full management + analytics`,pd_ent:`Large multi-site operations`,
+    pcta_free:`Always free`,pcta_starter:`Choose Starter →`,pcta_elite:`Choose Élite →`,pcta_start:`Get started →`,
+    b_lbl:`🛒 Shop`,b_h2:`Courses, inputs, equipment`,b_p:`Secure Mobile Money payment, no account needed. Fast delivery in Togo.`,b_loading:`⏳ Loading products…`,b_btn:`See the full shop →`,
+    av_lbl:`Testimonials`,av_h2:`What our farmers say`,av_p:`Farmers across Africa trust AGRI-X.`,
+    av1_q:`“I run my 3 poultry houses and my maize field from my phone. Dr SANKARA saved a flock from coccidiosis in the middle of the night.”`,av1_w:`Poultry farmer · Tsévié`,
+    av2_q:`“I used to write everything in a notebook. Now I see my margin in real time and my technicians log the reports themselves.”`,av2_w:`Poultry farm · Lomé`,
+    av3_q:`“Offline mode changes everything in the field. And it's free to start — I only paid when I wanted the finances.”`,av3_w:`Farmer · Kpalimé`,
+    faq_lbl:`FAQ`,faq_h2:`Frequently asked questions`,faq_p:`Everything you need to know before getting started.`,
+    faq1_q:`Is it really free?`,faq1_a:`Yes — the core of AGRI-X is <strong>free forever</strong>: 1 livestock sector + 1 crop, daily tracking, vaccine reminders and <strong>2 free Dr SANKARA consultations</strong>. No credit card. You only pay the day you want more (finances, analytics, more sectors, more consultations).`,
+    faq2_q:`How are plan prices set?`,faq2_a:`The price <strong>scales with the size</strong> of your operation (number of animals / hectares). Prices shown here are entry prices (“from”). In the app you see the exact price for your size. Welcome bonus: <strong>−50% on your 1st payment</strong>.`,
+    faq3_q:`What are Dr SANKARA and Dr SAVANA?`,faq3_a:`They are your <strong>AI experts</strong>: Dr SANKARA (vet — diagnosis, treatment, guided necropsy) and Dr SAVANA (agronomist — plant diseases, fertilization, crop calendar). Available 24/7, for a fraction of the price of a real consultation.`,
+    faq4_q:`What payment methods?`,faq4_a:`Mobile Money (MTN, Moov, Wave) and bank card via FedaPay. Instant activation after confirmation. Card payment is also available for the diaspora.`,
+    faq5_q:`Can I use it without a connection?`,faq5_a:`Yes, AGRI-X works <strong>offline</strong>. You enter your data in the field with no network, and it syncs automatically once you're back online.`,
+    faq6_q:`What exactly does AGRI-X manage?`,faq6_a:`<strong>Multi-species livestock</strong> (poultry, rabbit, pig, goat… with breeding) <strong>and crops</strong> (plots, seasons, inputs, sales, P&L per crop) — plus finances, team, stock, prophylaxis and your AI experts.`,
+    faq7_q:`Is my data safe?`,faq7_a:`Yes. Supabase hosting (PostgreSQL, Europe), TLS encryption, JWT authentication and strict role separation (Row-Level Security). Your data is never shared.`,
+    ct_lbl:`Contact`,ct_h2:`Let's talk about your farm`,ct_p:`Our team helps you get up and running.`,ct_addr:`📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo 🇹🇬`,
+    final_lbl:`Ready?`,final_h2:`Your farm deserves better than a notebook.`,final_p:`Create your free account in 2 minutes. Livestock, crops and your AI experts — no credit card.`,
+    footer_txt:`AGRI-X — Smart Farm Management · ATM Farm Village · Togo 🇹🇬`
+  }
 };
 let LANG='fr';
 function applyLang(l){LANG=(l==='en')?'en':'fr';const d=I18N[LANG];document.querySelectorAll('[data-i18n]').forEach(el=>{const v=d[el.getAttribute('data-i18n')];if(v!=null)el.innerHTML=v;});document.documentElement.lang=LANG;const b=document.getElementById('langBtn');if(b)b.textContent=(LANG==='fr')?'EN':'FR';try{localStorage.setItem('agrix_lang',LANG)}catch(e){}}

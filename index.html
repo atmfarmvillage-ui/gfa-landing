@@ -1,1162 +1,808 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GFA — Gestion Ferme Avicole · ATM Farm Village</title>
-<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
-<link rel="apple-touch-icon" href="https://app.avifarmer.net/icons/apple-touch-icon.png">
-<meta name="description" content="GFA — Logiciel de gestion de ferme avicole conçu pour les éleveurs d'Afrique. Rapports journaliers, gestion d'équipe, ventes, stock, parrainage. Essai 7 jours gratuit.">
-<meta property="og:title" content="GFA — Gestion Ferme Avicole">
-<meta property="og:description" content="Le logiciel de gestion avicole pour l'Afrique. 7 jours d'essai gratuit, bonus -50% premier paiement.">
-<meta property="og:image" content="https://app.avifarmer.net/icons/icon-512.png">
+<title>AGRI-X — Gestion d'une Ferme Agricole · élevage & cultures, augmentés par l'IA</title>
+<meta name="description" content="AGRI-X gère toute votre ferme — élevage (volaille, lapin, porc, caprin…) ET cultures — avec un cabinet IA : Dr SANKARA (vétérinaire), Dr SAVANA (agronome) et l'assistante YAYRA. Gratuit à vie, payez seulement quand vous voulez plus.">
+<link rel="canonical" href="https://avifarmer.net/">
 <meta property="og:type" content="website">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fraunces:wght@700;900&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+<meta property="og:site_name" content="AGRI-X · ATM Farm Village">
+<meta property="og:title" content="AGRI-X — toute votre ferme, avec vos experts IA dans la poche">
+<meta property="og:description" content="Élevage & cultures gérés depuis votre téléphone, avec Dr SANKARA (véto) & Dr SAVANA (agronome). Gratuit à vie.">
+<meta property="og:image" content="https://app.avifarmer.net/icons/icon-512.png">
+<meta property="og:url" content="https://avifarmer.net/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AGRI-X — toute votre ferme, avec vos experts IA dans la poche">
+<meta name="twitter:description" content="Élevage & cultures + cabinet IA (Dr SANKARA, Dr SAVANA, YAYRA). Gratuit à vie.">
+<meta name="twitter:image" content="https://app.avifarmer.net/icons/icon-512.png">
+<link rel="icon" type="image/png" href="https://app.avifarmer.net/icons/icon-192.png">
+<link rel="apple-touch-icon" href="https://app.avifarmer.net/icons/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bleu:#1B4FD8;--bleu2:#2563EB;--bleu3:#3B82F6;--bleu4:#EFF6FF;
-  --bleu-sombre:#0F2B6B;--bleu-mid:#1E40AF;
-  --vert:#059669;--or:#F59E0B;
-  --texte:#0F172A;--textm:#475569;--textl:#94A3B8;
-  --blanc:#FFFFFF;--gris:#F8FAFC;--gris2:#F1F5F9;--border:#E2E8F0;
+  --bg:#FAFCFB; --ink:#0B1F17; --muted:#5A6B63;
+  --green:#0E9F6E; --green-d:#06674A; --green-l:#E7FBF2;
+  --gold:#E8A33D; --gold-d:#B97816;
+  --blue:#2F6BFF;
+  --glass:rgba(255,255,255,.72); --border:rgba(11,31,23,.10);
+  --shadow:0 24px 60px -20px rgba(6,103,74,.35);
+  --radius:22px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--blanc);color:var(--texte);overflow-x:hidden}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden;line-height:1.5}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 60px;height:68px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.nav-logo{display:flex;align-items:center;gap:10px}
-.nav-logo-icon{width:40px;height:40px;border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:white;box-shadow:0 2px 8px rgba(15,43,107,.10)}
-.nav-logo-icon img{width:100%;height:100%;object-fit:contain}
-.nav-logo-text{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--bleu-sombre);letter-spacing:-0.5px}
-.nav-logo-sub{font-size:11px;color:var(--textm);font-weight:500}
-.nav-links{display:flex;gap:32px;align-items:center}
-.nav-links a{color:var(--textm);text-decoration:none;font-size:13px;font-weight:600;transition:color .2s}
-.nav-links a:hover{color:var(--bleu)}
-.btn-nav{background:var(--bleu);color:white;padding:9px 22px;border-radius:8px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s;box-shadow:0 2px 8px rgba(27,79,216,.3)}
-.btn-nav:hover{background:var(--bleu-mid);transform:translateY(-1px);box-shadow:0 4px 12px rgba(27,79,216,.4)}
-/* ── NAV MOBILE (hamburger) ── */
-.nav-right{display:flex;align-items:center;gap:10px}
-.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:42px;height:42px;background:none;border:1.5px solid var(--border);border-radius:9px;cursor:pointer;padding:0}
-.nav-burger span{display:block;width:20px;height:2px;background:var(--bleu-sombre);border-radius:2px;transition:transform .25s,opacity .2s}
-.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.nav-burger.open span:nth-child(2){opacity:0}
-.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.mobile-menu{display:none;position:fixed;top:68px;left:0;right:0;z-index:99;background:white;border-bottom:1px solid var(--border);box-shadow:0 10px 28px rgba(15,43,107,.14);flex-direction:column;padding:8px 20px 18px}
-.mobile-menu a{padding:14px 6px;color:var(--textm);text-decoration:none;font-size:15px;font-weight:600;border-bottom:1px solid var(--gris2)}
-.mobile-menu a:hover{color:var(--bleu)}
-.mobile-menu .mobile-menu-cta{margin-top:12px;background:var(--bleu);color:white;text-align:center;border-bottom:none;border-radius:10px;padding:15px;font-weight:700;box-shadow:0 4px 12px rgba(27,79,216,.3)}
+/* ── fond dégradé animé (mesh) ── */
+.mesh{position:fixed;inset:0;z-index:-2;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;animation:drift 18s ease-in-out infinite}
+.blob.b1{width:520px;height:520px;background:radial-gradient(circle,#34E0A6,transparent 70%);top:-160px;left:-120px}
+.blob.b2{width:480px;height:480px;background:radial-gradient(circle,#FFD27A,transparent 70%);top:120px;right:-160px;animation-delay:-6s}
+.blob.b3{width:420px;height:420px;background:radial-gradient(circle,#8FB6FF,transparent 70%);bottom:-160px;left:30%;animation-delay:-12s}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.08)}66%{transform:translate(-30px,40px) scale(.95)}}
 
-/* ── HERO ── */
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:60px;padding:120px 60px 80px;background:linear-gradient(135deg,#F0F7FF 0%,#EFF6FF 50%,#F0FDF4 100%);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.12),transparent 70%);z-index:0}
-.hero::after{content:'';position:absolute;bottom:-150px;left:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(5,150,105,.08),transparent 70%);z-index:0}
-.hero-content{position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:white;border:1px solid var(--bleu3);border-radius:20px;padding:6px 16px;font-size:12px;color:var(--bleu);font-weight:700;letter-spacing:.5px;margin-bottom:24px;box-shadow:0 2px 8px rgba(59,130,246,.15)}
-.hero-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--vert);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-h1{font-family:'Fraunces',serif;font-size:clamp(38px,4.5vw,62px);font-weight:900;line-height:1.08;margin-bottom:20px;letter-spacing:-1.5px;color:var(--bleu-sombre)}
-h1 em{font-style:normal;background:linear-gradient(135deg,var(--bleu),var(--bleu3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-sub{font-size:17px;color:var(--textm);line-height:1.75;margin-bottom:36px;font-weight:400}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
-.btn-primary{background:var(--bleu);color:white;padding:14px 30px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;transition:all .2s;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 14px rgba(27,79,216,.35)}
-.btn-primary:hover{background:var(--bleu-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,79,216,.4)}
-.btn-secondary{background:white;color:var(--bleu);padding:14px 30px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;border:1.5px solid var(--bleu3);transition:all .2s;display:inline-flex;align-items:center;gap:8px}
-.btn-secondary:hover{background:var(--bleu4);transform:translateY(-1px)}
-.hero-stats{display:flex;gap:32px;padding-top:32px;border-top:1px solid var(--border)}
-.stat-item .num{font-family:'Fraunces',serif;font-size:32px;font-weight:900;color:var(--bleu-sombre)}
-.stat-item .lbl{font-size:11px;color:var(--textl);margin-top:2px;font-weight:600;text-transform:uppercase;letter-spacing:1px}
+/* ── nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(250,252,251,.7);border-bottom:1px solid var(--border)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{display:flex;align-items:center;gap:11px}
+.logo img{width:40px;height:40px;border-radius:11px;box-shadow:0 6px 16px -4px rgba(6,103,74,.5)}
+.logo b{font-family:'Fraunces',serif;font-weight:900;font-size:21px;letter-spacing:-.5px}
+.logo small{display:block;font-size:10.5px;color:var(--muted);font-weight:600;margin-top:-2px}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a:not(.btn){font-size:14px;font-weight:600;color:var(--muted);transition:color .2s}
+.nav-links a:not(.btn):hover{color:var(--green-d)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;border-radius:12px;cursor:pointer;border:none;font-family:inherit;transition:transform .2s,box-shadow .2s;font-size:14px}
+.btn-pri{background:linear-gradient(135deg,#2F6BFF,#1A47C9);color:#fff;font-weight:800;font-size:16px;padding:14px 28px;box-shadow:0 12px 26px -8px rgba(47,107,255,.5)}
+.btn-pri:hover{transform:translateY(-2px);box-shadow:0 16px 30px -8px rgba(14,159,110,.8)}
+.btn-ghost{background:var(--glass);border:1px solid var(--border);color:var(--ink);padding:12px 22px;backdrop-filter:blur(8px)}
+.btn-ghost:hover{transform:translateY(-2px)}
 
-/* Dashboard mockup */
-.hero-visual{position:relative;z-index:1}
-.dashboard-card{background:white;border-radius:20px;padding:28px;box-shadow:0 20px 60px rgba(15,43,107,.12),0 4px 16px rgba(15,43,107,.06);border:1px solid var(--border)}
-.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.dash-title{font-size:14px;font-weight:700;color:var(--bleu-sombre)}
-.dash-date{font-size:11px;color:var(--textl);background:var(--gris2);padding:4px 10px;border-radius:6px}
-.dash-kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-.kpi{padding:14px;border-radius:12px;position:relative;overflow:hidden}
-.kpi.bleu{background:linear-gradient(135deg,var(--bleu),var(--bleu3));color:white}
-.kpi.vert{background:linear-gradient(135deg,#059669,#10B981);color:white}
-.kpi.or{background:linear-gradient(135deg,#D97706,var(--or));color:white}
-.kpi.violet{background:linear-gradient(135deg,#7C3AED,#A78BFA);color:white}
-.kpi-val{font-family:'Fraunces',serif;font-size:24px;font-weight:900}
-.kpi-lbl{font-size:10px;opacity:.85;margin-top:2px;font-weight:600}
-.dash-chart{background:var(--gris);border-radius:10px;padding:14px;margin-bottom:12px}
-.chart-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.chart-bar-label{font-size:10px;color:var(--textm);width:40px;text-align:right;font-weight:600}
-.chart-bar-track{flex:1;background:var(--border);border-radius:4px;height:8px}
-.chart-bar-fill{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--bleu),var(--bleu3))}
-.dash-footer{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--textl)}
-.dash-badge{background:linear-gradient(135deg,var(--vert),#10B981);color:white;padding:4px 10px;border-radius:6px;font-weight:700;font-size:11px}
+/* ── hero ── */
+.hero{padding:150px 0 90px;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
+.tag{display:inline-flex;align-items:center;gap:8px;background:var(--green-l);color:var(--green-d);font-weight:700;font-size:12.5px;padding:7px 15px;border-radius:30px;border:1px solid rgba(14,159,110,.25)}
+.tag .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px rgba(14,159,110,.2);animation:pulse 2.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 8px rgba(14,159,110,0)}}
+h1{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(40px,5.4vw,68px);line-height:1.04;letter-spacing:-2px;margin:22px 0 18px}
+h1 .grad{background:linear-gradient(120deg,var(--green),var(--gold));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero p.sub{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:30px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.hero-meta{display:flex;gap:28px;margin-top:38px}
+.hero-meta .n{font-family:'Fraunces',serif;font-weight:900;font-size:26px}
+.hero-meta .l{font-size:12px;color:var(--muted);font-weight:600}
 
-/* ── FEATURES ── */
-.features-section{padding:100px 60px;background:white}
-.section-header{text-align:center;max-width:640px;margin:0 auto 64px}
-.section-label{display:inline-block;background:var(--bleu4);color:var(--bleu);font-size:11px;font-weight:700;padding:6px 16px;border-radius:20px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:16px}
-.section-title{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,44px);font-weight:900;color:var(--bleu-sombre);line-height:1.15;letter-spacing:-1px;margin-bottom:14px}
-.section-sub{font-size:16px;color:var(--textm);line-height:1.7;font-weight:400}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.feature-card{background:var(--gris);border:1.5px solid var(--border);border-radius:16px;padding:32px 28px;transition:all .25s;cursor:default}
-.feature-card:hover{background:white;border-color:var(--bleu3);box-shadow:0 8px 30px rgba(27,79,216,.1);transform:translateY(-3px)}
-.feature-icon-wrap{width:48px;height:48px;background:var(--bleu4);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
-.feature-title{font-size:15px;font-weight:700;color:var(--bleu-sombre);margin-bottom:8px}
-.feature-desc{font-size:13px;color:var(--textm);line-height:1.7}
+/* ── hero visual 3D ── */
+.stage{position:relative;perspective:1400px}
+.card3d{position:relative;background:var(--glass);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.7);border-radius:26px;padding:22px;box-shadow:var(--shadow);transform:rotateY(-14deg) rotateX(8deg);transform-style:preserve-3d;transition:transform .25s ease-out}
+.card3d .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.card3d .row b{font-weight:800;font-size:14px}
+.card3d .row span{font-size:11px;color:var(--muted);background:var(--green-l);padding:4px 9px;border-radius:20px;font-weight:700}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.kpi{border-radius:14px;padding:13px;color:#fff;box-shadow:inset 0 1px 2px rgba(255,255,255,.4)}
+.kpi .v{font-family:'Fraunces',serif;font-weight:900;font-size:22px}
+.kpi .k{font-size:10.5px;opacity:.9;font-weight:600}
+.kpi.g{background:linear-gradient(135deg,#10B981,#047857)}
+.kpi.b{background:linear-gradient(135deg,#3B82F6,#1D4ED8)}
+.kpi.o{background:linear-gradient(135deg,#F59E0B,#B45309)}
+.kpi.p{background:linear-gradient(135deg,#8B5CF6,#6D28D9)}
+.bars{background:#fff;border-radius:14px;padding:14px;border:1px solid var(--border)}
+.bar{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar i{font-size:10px;color:var(--muted);width:26px;font-style:normal}
+.bar .t{flex:1;height:7px;background:#EEF2F0;border-radius:6px;overflow:hidden}
+.bar .f{height:100%;background:linear-gradient(90deg,var(--green),#34E0A6);border-radius:6px}
+/* chips flottants */
+.chip{position:absolute;background:#fff;border:1px solid var(--border);border-radius:16px;padding:10px 14px;box-shadow:0 14px 30px -12px rgba(6,103,74,.45);display:flex;align-items:center;gap:9px;font-weight:700;font-size:13px;animation:float 5s ease-in-out infinite}
+.chip .e{font-size:20px}
+.chip small{display:block;font-size:10px;color:var(--muted);font-weight:600}
+.chip.c1{top:-26px;right:-10px;animation-delay:-1s}
+.chip.c2{bottom:40px;left:-40px;animation-delay:-3s}
+.chip.c3{bottom:-24px;right:30px;animation-delay:-2s}
+@keyframes float{50%{transform:translateY(-12px)}}
 
-/* ── PLANS ── */
-.plans-section{padding:100px 60px;background:var(--gris)}
-.plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
-.plan-card{background:white;border:1.5px solid var(--border);border-radius:20px;padding:32px;position:relative;will-change:transform;transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s, border-color .35s;transform-style:preserve-3d}
-.plan-card.featured{border-color:var(--bleu);background:linear-gradient(145deg,#EFF6FF,white);box-shadow:0 8px 30px rgba(27,79,216,.15)}
-.plan-card.featured::before{content:'POPULAIRE';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--bleu);color:white;font-size:10px;font-weight:800;padding:4px 14px;border-radius:20px;letter-spacing:2px;white-space:nowrap}
-.plan-card:hover:not(.featured){border-color:var(--bleu3);box-shadow:0 16px 40px rgba(27,79,216,.15);transform:perspective(1200px) rotateX(3deg) translateY(-8px)}
-.plan-card.featured:hover{box-shadow:0 20px 50px rgba(27,79,216,.25);transform:translateX(-50%) translateX(50%) perspective(1200px) rotateX(3deg) translateY(-8px) scale(1.02)}
-.plan-name{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--textl);font-weight:700;margin-bottom:10px}
-.plan-price{font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--bleu-sombre);margin-bottom:4px}
-.plan-price span{font-size:13px;font-weight:400;color:var(--textm)}
-.plan-desc{font-size:12px;color:var(--textm);margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);line-height:1.5}
-.plan-features{list-style:none;margin-bottom:24px}
-.plan-features li{font-size:13px;color:var(--textm);padding:5px 0;display:flex;align-items:center;gap:8px}
-.plan-features li::before{content:'✓';color:var(--vert);font-weight:800;flex-shrink:0;font-size:12px}
-.plan-features li.non{color:var(--textl)}
-.plan-features li.non::before{content:'×';color:var(--textl)}
-.btn-plan{display:block;text-align:center;padding:12px;border-radius:10px;font-weight:700;font-size:13px;text-decoration:none;transition:all .2s}
-.btn-plan.bleu{background:var(--bleu);color:white;box-shadow:0 3px 10px rgba(27,79,216,.3)}
-.btn-plan.bleu:hover{background:var(--bleu-mid)}
-.btn-plan.outline{border:1.5px solid var(--border);color:var(--bleu-sombre)}
-.btn-plan.outline:hover{border-color:var(--bleu);color:var(--bleu);background:var(--bleu4)}
+/* ── sections ── */
+section.blk{padding:90px 0;position:relative}
+.head{text-align:center;max-width:680px;margin:0 auto 56px}
+.lbl{display:inline-block;background:var(--green-l);color:var(--green-d);font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:14px}
+h2{font-family:'Fraunces',serif;font-weight:900;font-size:clamp(30px,3.6vw,46px);letter-spacing:-1.2px;line-height:1.1}
+.head p{color:var(--muted);font-size:16.5px;margin-top:12px}
 
-/* ── AVIS ── */
-.avis-section{padding:100px 60px;background:white}
-.avis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:48px}
-.avis-card{background:var(--gris);border:1.5px solid var(--border);border-radius:16px;padding:24px;transition:all .2s}
-.avis-card:hover{border-color:var(--bleu3);box-shadow:0 4px 16px rgba(27,79,216,.08)}
-.avis-stars{color:var(--or);font-size:16px;margin-bottom:12px;letter-spacing:2px}
-.avis-msg{font-size:14px;color:var(--textm);line-height:1.75;margin-bottom:16px;font-style:italic}
-.avis-auteur{font-size:13px;font-weight:700;color:var(--bleu-sombre)}
-.avis-ferme{font-size:11px;color:var(--textl);margin-top:2px}
+/* ── trust strip ── */
+.trust{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;padding:8px 0 0}
+.trust .t{display:flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--border);border-radius:30px;padding:9px 16px;font-size:13px;font-weight:600;backdrop-filter:blur(8px)}
 
-.avis-form-wrap{background:linear-gradient(135deg,var(--bleu-sombre),var(--bleu-mid));border-radius:24px;padding:56px;margin-top:56px}
-.avis-form-inner{max-width:560px;margin:0 auto}
-.avis-form-inner h3{font-family:'Fraunces',serif;font-size:30px;font-weight:900;color:white;margin-bottom:8px;letter-spacing:-0.5px}
-.avis-form-inner p{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:28px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-field{margin-bottom:14px}
-.form-field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.6);margin-bottom:6px;font-weight:700}
-.form-field input,.form-field textarea{width:100%;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.15);border-radius:10px;padding:12px 16px;color:white;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;transition:border-color .2s}
-.form-field input::placeholder,.form-field textarea::placeholder{color:rgba(255,255,255,.35)}
-.form-field input:focus,.form-field textarea:focus{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.15)}
-.form-field textarea{resize:vertical;min-height:100px}
-.stars-input{display:flex;gap:6px;margin-bottom:20px}
-.star-btn{background:none;border:none;font-size:30px;cursor:pointer;color:rgba(255,255,255,.3);transition:all .2s;padding:0}
-.star-btn.active{color:var(--or)}
-.star-btn:hover{transform:scale(1.2);color:var(--or)}
-.btn-submit{background:white;color:var(--bleu);border:none;padding:13px 32px;border-radius:10px;font-weight:800;font-size:14px;cursor:pointer;transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 4px 14px rgba(0,0,0,.2)}
-.btn-submit:hover{background:var(--bleu4);transform:translateY(-1px)}
-.form-success{display:none;text-align:center;padding:16px;color:white;font-size:14px;background:rgba(5,150,105,.3);border-radius:10px;margin-top:12px;font-weight:600}
+/* ── cartes tilt ── */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tcard{background:var(--glass);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.7);border-radius:var(--radius);padding:30px 26px;box-shadow:0 18px 40px -24px rgba(6,103,74,.4);transition:transform .25s,box-shadow .25s;transform-style:preserve-3d}
+.tcard:hover{transform:translateY(-6px);box-shadow:0 30px 60px -24px rgba(6,103,74,.55)}
+.ic{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:18px;background:linear-gradient(145deg,#fff,var(--green-l));box-shadow:0 10px 22px -8px rgba(14,159,110,.5),inset 0 2px 3px rgba(255,255,255,.9),inset 0 -4px 8px rgba(14,159,110,.15)}
+.tcard h3{font-size:18px;font-weight:800;margin-bottom:8px}
+.tcard p{color:var(--muted);font-size:14px}
+.tcard .pill{display:inline-block;margin-top:12px;background:var(--gold);color:#3a2a06;font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px}
 
-/* ── CONTACT ── */
-.contact-section{padding:80px 60px;background:var(--gris);text-align:center}
-.contact-links{display:flex;gap:14px;justify-content:center;margin-top:32px;flex-wrap:wrap}
-.contact-link{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--border);border-radius:12px;padding:14px 24px;text-decoration:none;color:var(--bleu-sombre);font-size:13px;font-weight:600;transition:all .2s;box-shadow:0 2px 6px rgba(0,0,0,.04)}
-.contact-link:hover{border-color:var(--bleu);color:var(--bleu);box-shadow:0 4px 14px rgba(27,79,216,.12);transform:translateY(-2px)}
+/* ── features ── */
+.grid4{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.fcard{background:var(--glass);border:1px solid var(--border);border-radius:22px;padding:34px 30px;transition:transform .28s ease-out,box-shadow .28s;transform-style:preserve-3d;will-change:transform}
+.fcard:hover{transform:translateY(-6px);box-shadow:0 30px 58px -26px rgba(6,103,74,.5)}
+.fic{width:68px;height:68px;border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;background:linear-gradient(145deg,#fff,var(--green-l));box-shadow:0 14px 24px -8px rgba(14,159,110,.45),inset 0 2px 3px rgba(255,255,255,.95),inset 0 -4px 8px rgba(14,159,110,.15);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.fcard:hover .fic{transform:scale(1.14) rotate(-6deg)}
+.fcard h4{font-size:16.5px;font-weight:800;margin-bottom:6px}
+.fcard p{font-size:14px;color:var(--muted)}
 
-/* ── FOOTER ── */
-footer{background:var(--bleu-sombre);padding:40px 60px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
-footer p{font-size:12px;color:rgba(255,255,255,.5)}
-footer .footer-logo{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:white}
+/* ── plans ── */
+.free{max-width:880px;margin:0 auto 30px;background:linear-gradient(135deg,var(--green-l),#ECFEFF);border:2px solid var(--green);border-radius:var(--radius);padding:24px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;box-shadow:0 20px 50px -28px rgba(14,159,110,.6)}
+.free .e{font-size:46px}
+.free h3{font-family:'Fraunces',serif;font-size:24px;font-weight:900;color:var(--green-d)}
+.free p{font-size:13.5px;color:var(--muted);margin-top:4px}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pcard{background:var(--glass);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:20px;padding:28px 24px;position:relative;transition:transform .3s,box-shadow .3s}
+.pcard:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 30px 60px -28px rgba(6,103,74,.5)}
+.pcard.pop{border:2px solid var(--green);box-shadow:0 24px 50px -26px rgba(14,159,110,.6)}
+.pcard.pop::before{content:'⭐ POPULAIRE';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--green),var(--green-d));color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:5px 14px;border-radius:20px;white-space:nowrap}
+.pname{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.pfrom{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-top:12px}
+.pprice{font-family:'Fraunces',serif;font-weight:900;font-size:38px;line-height:1}
+.pprice span{font-size:13px;font-weight:600;color:var(--muted);font-family:'Plus Jakarta Sans'}
+.pbadge{display:inline-block;margin:6px 0 2px;font-size:10.5px;font-weight:700;color:var(--gold-d);background:#FFF3DD;padding:3px 9px;border-radius:20px}
+.pdesc{font-size:13.5px;color:var(--muted);margin:10px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.pf{list-style:none}
+.pf li{font-size:14px;line-height:1.4;color:var(--muted);padding:6px 0;display:flex;gap:8px;align-items:flex-start}
+.pf li::before{content:'✓';color:var(--green);font-weight:900;flex-shrink:0}
+.pf li.no{opacity:.5}
+.pf li.no::before{content:'×';color:var(--muted)}
+.pf li b{color:var(--ink)}
+.pcta{display:block;text-align:center;margin-top:20px;padding:12px;border-radius:12px;font-weight:700;font-size:13.5px;transition:transform .2s}
+.pcta.full{background:linear-gradient(135deg,var(--green),var(--green-d));color:#fff;box-shadow:0 10px 22px -8px rgba(14,159,110,.7)}
+.pcta.line{border:1.5px solid var(--border);color:var(--ink)}
+.pcta:hover{transform:translateY(-2px)}
 
-/* ── TRUST STRIP ── */
-.trust-strip{padding:30px 60px;background:white;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.trust-inner{display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;max-width:1100px;margin:0 auto}
-.trust-item{display:flex;align-items:center;gap:10px;color:var(--textm);font-size:13px;font-weight:600}
-.trust-item-icon{width:34px;height:34px;border-radius:8px;background:var(--bleu4);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--bleu)}
+/* ── cta final ── */
+.final{margin:30px auto 0;max-width:1180px;border-radius:30px;padding:60px 40px;text-align:center;color:#fff;background:linear-gradient(135deg,var(--green-d),#0a2f23);box-shadow:var(--shadow);position:relative;overflow:hidden}
+.final::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(255,210,122,.3),transparent 70%);top:-150px;right:-100px}
+.final h2{color:#fff}
+.final p{color:rgba(255,255,255,.8);margin:14px auto 26px;max-width:520px}
+footer{text-align:center;padding:50px 0 40px;color:var(--muted);font-size:13px}
 
-/* ── COMMENT ÇA MARCHE ── */
-.howit-section{padding:100px 60px;background:linear-gradient(180deg,white,var(--gris))}
-.howit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;position:relative}
-.howit-step{background:white;border:1.5px solid var(--border);border-radius:18px;padding:32px 28px;position:relative;transition:all .3s}
-.howit-step:hover{border-color:var(--bleu3);box-shadow:0 12px 36px rgba(27,79,216,.10);transform:translateY(-4px)}
-.howit-num{position:absolute;top:-18px;left:24px;width:38px;height:38px;background:linear-gradient(135deg,var(--bleu),var(--bleu3));color:white;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:900;font-size:18px;box-shadow:0 6px 16px rgba(27,79,216,.25)}
-.howit-icon{font-size:38px;margin-bottom:16px;margin-top:10px;display:block}
-.howit-title{font-size:16px;font-weight:800;color:var(--bleu-sombre);margin-bottom:10px;letter-spacing:-0.3px}
-.howit-desc{font-size:13px;color:var(--textm);line-height:1.7}
-.howit-arrow{position:absolute;top:50%;right:-16px;transform:translateY(-50%);color:var(--bleu3);font-size:22px}
-.howit-arrow:last-child{display:none}
+/* ── reveal ── */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
 
-/* ── APERÇU INTERFACE (carousel) ── */
-.apercu-section{padding:100px 60px;background:white;overflow:hidden}
-.apercu-track{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:12px 4px 40px;margin:48px -60px 0;padding-left:60px;padding-right:60px}
-.apercu-track::-webkit-scrollbar{height:8px}
-.apercu-track::-webkit-scrollbar-thumb{background:var(--bleu3);border-radius:4px}
-.apercu-card{flex:0 0 360px;scroll-snap-align:center;background:white;border:1.5px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 4px 20px rgba(15,43,107,.06);transition:transform .25s, box-shadow .25s}
-.apercu-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(15,43,107,.12)}
-.apercu-img-wrap{aspect-ratio:16/10;background:linear-gradient(135deg,#F0F7FF,#EFF6FF);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.apercu-placeholder{font-size:42px;color:var(--bleu3);text-align:center}
-.apercu-placeholder div{font-size:11px;font-weight:700;color:var(--textl);margin-top:8px;text-transform:uppercase;letter-spacing:1.5px}
-.apercu-img-wrap img{width:100%;height:100%;object-fit:cover}
-.apercu-caption{padding:18px 22px}
-.apercu-caption-title{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:var(--bleu-sombre);margin-bottom:4px;letter-spacing:-0.3px}
-.apercu-caption-desc{font-size:12px;color:var(--textm);line-height:1.6}
-.apercu-dots{display:flex;justify-content:center;gap:10px;margin-top:8px}
-.apercu-dot{width:8px;height:8px;border-radius:50%;background:var(--border);cursor:pointer;transition:background .2s,width .2s}
-.apercu-dot.active{background:var(--bleu);width:24px;border-radius:4px}
-
-/* ── BOUTIQUE (aperçu home) ── */
-.boutique-section{padding:100px 60px;background:linear-gradient(135deg,#FFF7ED 0%,#FEF3C7 50%,#F0FDF4 100%);overflow:hidden}
-.boutique-track{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;max-width:1200px;margin:48px auto 0}
-.boutique-card{background:white;border-radius:14px;overflow:hidden;border:1px solid var(--border);transition:all .3s;text-decoration:none;color:inherit;display:flex;flex-direction:column;box-shadow:0 2px 8px rgba(15,43,107,.04)}
-.boutique-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(15,43,107,.12);border-color:var(--bleu3)}
-.boutique-img-wrap{aspect-ratio:16/10;background:linear-gradient(135deg,#F0F7FF,#EFF6FF);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.boutique-img-wrap img{width:100%;height:100%;object-fit:cover}
-.boutique-img-ph{font-size:48px;opacity:.3}
-.boutique-badge{position:absolute;top:8px;left:8px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);padding:3px 9px;border-radius:6px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1px}
-.boutique-badge.virtuel{color:#ef4444}
-.boutique-badge.reel{color:#059669}
-.boutique-badge-gratuit{position:absolute;top:8px;right:8px;background:#22c55e;color:white;padding:3px 9px;border-radius:6px;font-size:9px;font-weight:800;letter-spacing:1px}
-.boutique-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
-.boutique-titre{font-size:13px;font-weight:700;color:var(--bleu-sombre);line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:34px}
-.boutique-prix{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:var(--bleu);margin-top:auto}
-.boutique-prix.gratuit{color:var(--vert)}
-.empty-boutique{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--textl);font-size:14px}
-.btn-voir-boutique{display:inline-block;background:var(--bleu);color:white;padding:14px 32px;border-radius:10px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 4px 14px rgba(27,79,216,.35);transition:all .2s}
-.btn-voir-boutique:hover{background:var(--bleu-mid);transform:translateY(-2px);box-shadow:0 8px 24px rgba(27,79,216,.4)}
-
-/* ── VIDÉO DÉMO ── */
-.video-section{padding:100px 60px;background:linear-gradient(135deg,#F0F7FF,#F0FDF4)}
-.video-wrap{max-width:920px;margin:48px auto 0;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(15,43,107,.18),0 4px 16px rgba(15,43,107,.08);position:relative;background:#0F2B6B;aspect-ratio:16/9}
-.video-wrap iframe{width:100%;height:100%;border:0;display:block}
-.video-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:white;padding:24px;text-align:center}
-.video-placeholder-icon{width:90px;height:90px;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;margin-bottom:18px;transition:transform .3s}
-.video-placeholder:hover .video-placeholder-icon{transform:scale(1.08)}
-.video-placeholder-text{font-family:'Fraunces',serif;font-size:24px;font-weight:900;margin-bottom:6px;letter-spacing:-0.3px}
-.video-placeholder-sub{font-size:13px;color:rgba(255,255,255,.65);font-weight:500;max-width:380px;line-height:1.6}
-
-/* ── GARANTIE 48H BADGE ── */
-.garantie-banner{background:linear-gradient(135deg,#10B981,#059669);border-radius:18px;padding:28px 36px;margin:40px auto 0;max-width:920px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;box-shadow:0 12px 32px rgba(16,185,129,.25)}
-.garantie-badge-icon{width:64px;height:64px;background:rgba(255,255,255,.18);border:2px solid rgba(255,255,255,.4);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0}
-.garantie-banner h4{font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:white;margin-bottom:4px;letter-spacing:-0.3px}
-.garantie-banner p{font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;max-width:560px}
-
-/* ── FAQ ── */
-.faq-section{padding:100px 60px;background:var(--gris)}
-.faq-list{max-width:760px;margin:48px auto 0;display:flex;flex-direction:column;gap:12px}
-.faq-item{background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;transition:all .25s}
-.faq-item.open{border-color:var(--bleu3);box-shadow:0 8px 24px rgba(27,79,216,.08)}
-.faq-q{padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;font-size:14px;font-weight:700;color:var(--bleu-sombre);user-select:none}
-.faq-q::after{content:'+';font-size:24px;color:var(--bleu);font-weight:300;transition:transform .25s}
-.faq-item.open .faq-q::after{transform:rotate(45deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease-out;padding:0 24px;font-size:13px;color:var(--textm);line-height:1.75}
-.faq-item.open .faq-a{padding:0 24px 20px;max-height:400px}
-
-/* ── ANIMATIONS ── */
-.fade-up{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s ease}
-.fade-up.in{opacity:1;transform:translateY(0)}
-.counter{font-variant-numeric:tabular-nums}
-
-/* Hover 3D sur plans — voir règle plus haut .plan-card:hover:not(.featured) */
-
-/* ── MOBILE ── */
-@media(max-width:1024px){
-  .features-grid{grid-template-columns:1fr 1fr}
-  .plans-grid{grid-template-columns:1fr 1fr}
-  .howit-grid{grid-template-columns:1fr;gap:32px}
-  .howit-arrow{display:none !important}
-}
-@media(max-width:768px){
-  nav{padding:0 16px}
+/* ── responsive ── */
+@media(max-width:980px){
+  .hero{grid-template-columns:1fr;padding-top:120px}
+  .stage{margin-top:30px}
+  .grid3{grid-template-columns:1fr}
+  .grid4{grid-template-columns:1fr 1fr}
+  .pgrid{grid-template-columns:1fr 1fr}
   .nav-links{display:none}
-  .nav-burger{display:flex}
-  .mobile-menu.open{display:flex}
-  .btn-nav{padding:8px 14px;font-size:12px}
-  .trust-strip,.howit-section,.apercu-section,.video-section,.faq-section{padding:60px 20px}
-  .trust-inner{gap:20px}
-  .apercu-track{margin:32px -20px 0;padding-left:20px;padding-right:20px}
-  .apercu-card{flex:0 0 280px}
-  .garantie-banner{padding:24px 20px;flex-direction:column;text-align:center}
-  .hero{grid-template-columns:1fr;padding:100px 20px 60px;gap:40px}
-  .hero-visual{display:none}
-  .hero-stats{gap:20px}
-  .features-section,.plans-section,.avis-section,.contact-section,.boutique-section{padding:70px 20px}
-  .features-grid{grid-template-columns:1fr}
-  .plans-grid{grid-template-columns:1fr}
-  .avis-form-wrap{padding:32px 20px}
-  .form-row{grid-template-columns:1fr}
-  footer{padding:30px 20px;flex-direction:column;text-align:center}
 }
+@media(max-width:560px){
+  .grid4,.pgrid{grid-template-columns:1fr}
+  .card3d{transform:none}
+  .chip{display:none}
+}
+/* logos réels (cabinet + chips hero) */
+.iclogo{width:74px;height:74px;margin-bottom:16px;filter:drop-shadow(0 14px 22px rgba(6,103,74,.35));animation:float 6s ease-in-out infinite}
+.iclogo svg{width:100%;height:100%}
+.chiplogo{width:30px;height:30px;flex-shrink:0}
+/* icônes premium (Lucide) dans les chips features */
+.fic i,.fic svg{width:33px;height:33px;color:var(--green-d);stroke-width:2}
+/* plans détaillés (matrice complète, façon modale app) */
+.welcome{max-width:1000px;margin:0 auto 26px;background:linear-gradient(135deg,var(--green-l),#FFF7E6);border:1px solid rgba(14,159,110,.3);border-radius:16px;padding:14px 22px;text-align:center;font-size:14px;font-weight:600}
+.pgrid5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:start}
+#plans .wrap{max-width:1340px}
+.pcard{padding:26px 20px}
+.pf li.val{justify-content:space-between;gap:6px}
+.pf li.val b{color:var(--green-d);font-weight:800;white-space:nowrap}
+.pcard.free-card{border:1.5px dashed var(--green)}
+@media(max-width:1100px){.pgrid5{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.pgrid5{grid-template-columns:1fr}}
+/* bouton thème */
+.theme-tgl{background:var(--glass);border:1px solid var(--border);border-radius:11px;width:42px;height:42px;cursor:pointer;font-size:17px;color:var(--ink);display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.theme-tgl:hover{transform:translateY(-2px)}
+/* ════ THÈME SOMBRE (toggle) ════ */
+html[data-theme="dark"]{--bg:#07110D;--ink:#EAF4EF;--muted:#93A89F;--green:#34E0A6;--green-d:#0E9F6E;--green-l:rgba(52,224,166,.14);--gold:#F4C14E;--gold-d:#F4C14E;--glass:rgba(255,255,255,.055);--border:rgba(255,255,255,.11)}
+html[data-theme="dark"] body{background:#07110D}
+html[data-theme="dark"] .blob{opacity:.30;filter:blur(85px)}
+html[data-theme="dark"] nav{background:rgba(7,17,13,.74)}
+html[data-theme="dark"] .btn-pri{background:linear-gradient(135deg,#3BE9AC,#0E9F6E);color:#03130C;text-shadow:none;box-shadow:0 12px 30px -8px rgba(52,224,166,.5)}
+html[data-theme="dark"] .tag,html[data-theme="dark"] .lbl,html[data-theme="dark"] .section-label{background:var(--green-l);color:var(--green);border-color:rgba(52,224,166,.3)}
+html[data-theme="dark"] h1 .grad{background:linear-gradient(120deg,#34E0A6,#F4C14E);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+html[data-theme="dark"] .card3d{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.13)}
+html[data-theme="dark"] .bars{background:rgba(255,255,255,.045);border-color:var(--border)}
+html[data-theme="dark"] .bar .t{background:rgba(255,255,255,.10)}
+html[data-theme="dark"] .chip{background:#0e1c16;border-color:var(--border);color:var(--ink)}
+html[data-theme="dark"] .trust .t,html[data-theme="dark"] .tcard,html[data-theme="dark"] .pcard,html[data-theme="dark"] .fcard,html[data-theme="dark"] .faq-item,html[data-theme="dark"] .avis-card,html[data-theme="dark"] .contact-link{background:rgba(255,255,255,.05);border-color:var(--border)}
+html[data-theme="dark"] .ic,html[data-theme="dark"] .fic{background:linear-gradient(145deg,rgba(52,224,166,.20),rgba(52,224,166,.05))}
+html[data-theme="dark"] .welcome{background:linear-gradient(135deg,rgba(52,224,166,.12),rgba(244,193,78,.10));border-color:var(--border);color:var(--ink)}
+html[data-theme="dark"] .pbadge{background:rgba(244,193,78,.16);color:var(--gold)}
+html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
+/* boutique / avis / faq / contact */
+.boutique-track{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+.empty-boutique{grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--muted);font-size:15px;font-weight:600}
+.boutique-card{display:flex;flex-direction:column;background:var(--glass);border:1px solid var(--border);border-radius:18px;overflow:hidden;text-decoration:none;color:inherit;transition:transform .25s,box-shadow .25s}
+.boutique-card:hover{transform:translateY(-5px);box-shadow:0 24px 48px -26px rgba(6,103,74,.45)}
+.boutique-img-wrap{position:relative;aspect-ratio:16/10;background:var(--green-l);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.boutique-img-wrap img{width:100%;height:100%;object-fit:cover}
+.boutique-img-ph{font-size:46px;opacity:.5}
+.boutique-badge{position:absolute;top:10px;left:10px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);padding:4px 10px;border-radius:7px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.boutique-badge.virtuel{color:#ef4444}.boutique-badge.reel{color:var(--green-d)}
+.boutique-badge-gratuit{position:absolute;top:10px;right:10px;background:#22c55e;color:#fff;padding:4px 10px;border-radius:7px;font-size:10px;font-weight:800;letter-spacing:.5px}
+.boutique-body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.boutique-titre{font-size:14.5px;font-weight:800;line-height:1.3;min-height:38px}
+.boutique-prix{font-family:'Fraunces',serif;font-size:18px;font-weight:900;color:#2F6BFF;margin-top:auto}
+.boutique-prix.gratuit{color:var(--green-d)}
+.avis-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.avis-card{background:var(--glass);border:1px solid var(--border);border-radius:18px;padding:26px;transition:transform .25s}
+.avis-card:hover{transform:translateY(-5px)}
+.avis-stars{color:var(--gold);font-size:16px;margin-bottom:12px;letter-spacing:3px}
+.avis-card .q{font-size:14.5px;color:var(--ink);line-height:1.65;margin-bottom:16px}
+.avis-who{font-size:14px;font-weight:800}.avis-who small{display:block;color:var(--muted);font-weight:500;margin-top:2px}
+.faq-list{max-width:840px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq-item{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:18px 22px;cursor:pointer;transition:border-color .2s}
+.faq-item:hover{border-color:var(--green)}
+.faq-q{font-weight:700;font-size:15.5px;display:flex;justify-content:space-between;gap:14px;align-items:center}
+.faq-q::after{content:'+';color:var(--green-d);font-weight:800;font-size:20px;transition:transform .25s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.65;max-height:0;overflow:hidden;transition:max-height .35s ease,margin-top .35s}
+.faq-item.open .faq-a{max-height:300px;margin-top:12px}
+.contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.contact-link{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--border);border-radius:14px;padding:14px 22px;font-weight:600;font-size:14.5px;transition:transform .2s,border-color .2s}
+.contact-link:hover{transform:translateY(-2px);border-color:var(--green)}
+@media(max-width:980px){.avis-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.boutique-track{grid-template-columns:1fr 1fr;gap:14px}.boutique-titre{font-size:13px;min-height:34px}}
 </style>
 </head>
 <body>
+<!-- ════ SPRITE LOGOS (réutilisés via <use>) ════ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-yayra" viewBox="0 0 48 48">
+    <defs>
+      <linearGradient id="yaHead" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#ece6f8"/></linearGradient>
+      <linearGradient id="yaScr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d1535"/><stop offset="1" stop-color="#0c0a1a"/></linearGradient>
+      <linearGradient id="yaAcc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8B5CF6"/><stop offset="1" stop-color="#EC4899"/></linearGradient>
+    </defs>
+    <ellipse cx="7" cy="29" rx="2.3" ry="4.3" fill="#e7e1f4"/><ellipse cx="41" cy="29" rx="2.3" ry="4.3" fill="#e7e1f4"/>
+    <line x1="24" y1="9.4" x2="24" y2="13" stroke="url(#yaAcc)" stroke-width="1.6" stroke-linecap="round"/><circle cx="24" cy="7.7" r="2" fill="url(#yaAcc)"/>
+    <rect x="11.5" y="13" width="25" height="23" rx="11.5" fill="url(#yaHead)" stroke="#dbd2ef" stroke-width="0.7"/>
+    <path d="M12 25 Q12 11 24 11 Q36 11 36 25" fill="none" stroke="url(#yaAcc)" stroke-width="2.6" stroke-linecap="round"/>
+    <rect x="8.2" y="23" width="4.8" height="8" rx="2.4" fill="url(#yaAcc)"/><rect x="35" y="23" width="4.8" height="8" rx="2.4" fill="url(#yaAcc)"/>
+    <path d="M37.4 30.4 Q37.4 34.6 30.8 34.6" fill="none" stroke="url(#yaAcc)" stroke-width="1.7" stroke-linecap="round"/><circle cx="30" cy="34.6" r="1.5" fill="url(#yaAcc)"/>
+    <rect x="15" y="17.6" width="18" height="14.8" rx="6.5" fill="url(#yaScr)"/>
+    <ellipse cx="17.7" cy="28.3" rx="1.5" ry="1" fill="#EC4899" opacity="0.5"/><ellipse cx="30.3" cy="28.3" rx="1.5" ry="1" fill="#EC4899" opacity="0.5"/>
+    <rect x="18.5" y="21.6" width="4" height="4.4" rx="2" fill="#fbdcf2"/><rect x="25.5" y="21.6" width="4" height="4.4" rx="2" fill="#fbdcf2"/>
+    <circle cx="19.7" cy="22.8" r="0.7" fill="#fff"/><circle cx="26.7" cy="22.8" r="0.7" fill="#fff"/>
+    <path d="M21 29.2 Q24 31.8 27 29.2" stroke="#fbdcf2" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="logo-sankara" viewBox="0 0 48 48">
+    <defs>
+      <linearGradient id="drHead" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#e2efeb"/></linearGradient>
+      <linearGradient id="drScr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d2620"/><stop offset="1" stop-color="#06150f"/></linearGradient>
+      <linearGradient id="drBer" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EF4136"/><stop offset="1" stop-color="#A81616"/></linearGradient>
+      <linearGradient id="drAcc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14B8A6"/><stop offset="1" stop-color="#0EA5E9"/></linearGradient>
+    </defs>
+    <ellipse cx="7" cy="30" rx="2.3" ry="4.3" fill="#e2efeb"/><ellipse cx="41" cy="30" rx="2.3" ry="4.3" fill="#e2efeb"/>
+    <path d="M15.5 33 Q15.5 40 22 40 Q28.5 40 28.5 35.4" fill="none" stroke="url(#drAcc)" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="28.7" cy="35.8" r="2.1" fill="none" stroke="url(#drAcc)" stroke-width="1.5"/><circle cx="15.5" cy="32.6" r="1.1" fill="url(#drAcc)"/>
+    <rect x="11" y="14.5" width="26" height="22.5" rx="11.2" fill="url(#drHead)" stroke="#cfe0db" stroke-width="0.7"/>
+    <g transform="rotate(-10 24 9)"><ellipse cx="24" cy="11.3" rx="13" ry="4.9" fill="url(#drBer)"/><path d="M11.2 10.9 Q24 4 36.8 10.9 Q24 15 11.2 10.9 Z" fill="#F0463D"/><circle cx="24" cy="4.3" r="1.8" fill="#A81616"/></g>
+    <rect x="14.5" y="18" width="19" height="15" rx="6.3" fill="url(#drScr)"/>
+    <rect x="18.4" y="22" width="4" height="4.4" rx="2" fill="#cdf7ed"/><rect x="25.6" y="22" width="4" height="4.4" rx="2" fill="#cdf7ed"/>
+    <circle cx="19.6" cy="23.2" r="0.7" fill="#fff"/><circle cx="26.8" cy="23.2" r="0.7" fill="#fff"/>
+    <path d="M21.4 29.4 Q24 31.6 26.6 29.4" stroke="#cdf7ed" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="logo-savana" viewBox="0 0 48 48">
+    <defs>
+      <linearGradient id="svHead" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eaf3e2"/></linearGradient>
+      <linearGradient id="svScr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#13251a"/><stop offset="1" stop-color="#0a1810"/></linearGradient>
+      <linearGradient id="svHat" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F0C868"/><stop offset="1" stop-color="#C98A2B"/></linearGradient>
+      <linearGradient id="svAcc" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34D399"/><stop offset="1" stop-color="#0E9F6E"/></linearGradient>
+    </defs>
+    <ellipse cx="7" cy="31" rx="2.3" ry="4.3" fill="#eaf3e2"/><ellipse cx="41" cy="31" rx="2.3" ry="4.3" fill="#eaf3e2"/>
+    <rect x="11" y="16" width="26" height="22" rx="11.2" fill="url(#svHead)" stroke="#d6e6c9" stroke-width="0.7"/>
+    <g transform="rotate(-8 24 11)"><ellipse cx="24" cy="13" rx="15" ry="4.6" fill="url(#svHat)"/><path d="M13.5 12.4 Q24 4.5 34.5 12.4 Q24 16 13.5 12.4 Z" fill="#E6B85A"/><ellipse cx="24" cy="11.6" rx="6.6" ry="2.4" fill="#C98A2B"/></g>
+    <path d="M30.5 7.4 Q34.5 5.2 36 9 Q31.8 10 30.5 7.4 Z" fill="url(#svAcc)"/>
+    <rect x="14.5" y="19.5" width="19" height="14.5" rx="6.2" fill="url(#svScr)"/>
+    <rect x="18.4" y="23.4" width="4" height="4.4" rx="2" fill="#c7f5db"/><rect x="25.6" y="23.4" width="4" height="4.4" rx="2" fill="#c7f5db"/>
+    <circle cx="19.6" cy="24.6" r="0.7" fill="#fff"/><circle cx="26.8" cy="24.6" r="0.7" fill="#fff"/>
+    <path d="M21.4 30.6 Q24 32.8 26.6 30.6" stroke="#c7f5db" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  </symbol>
+</svg>
+<div class="mesh"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 
-<!-- NAV -->
-<nav>
-  <a href="/" class="nav-logo" style="text-decoration:none;color:inherit">
-    <div class="nav-logo-icon"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="GFA"></div>
-    <div>
-      <div class="nav-logo-text">GFA</div>
-      <div class="nav-logo-sub">ATM Farm Village</div>
-    </div>
-  </a>
+<nav><div class="wrap nav-in">
+  <a class="logo" href="#"><img src="https://app.avifarmer.net/icons/icon-192.png" alt="AGRI-X"><div><b>AGRI-X</b><small data-i18n="brand_sub">Gestion d'une Ferme Agricole</small></div></a>
   <div class="nav-links">
-    <a href="#fonctionnalites">Fonctionnalités</a>
-    <a href="#apercu">Aperçu</a>
-    <a href="#plans">Tarifs</a>
-    <a href="#boutique">🛒 Boutique</a>
-    <a href="#faq">FAQ</a>
-    <a href="#contact">Contact</a>
+    <a href="#cabinet" data-i18n="nav_cabinet">Cabinet IA</a>
+    <a href="#fonctions" data-i18n="nav_features">Fonctionnalités</a>
+    <a href="#plans" data-i18n="nav_pricing">Tarifs</a>
+    <button class="theme-tgl" onclick="toggleLang()" id="langBtn" title="Français / English" aria-label="Langue" style="width:auto;padding:0 13px;font-size:13px;font-weight:800">EN</button>
+    <button class="theme-tgl" id="themeBtn" onclick="toggleTheme()" title="Thème clair / sombre" aria-label="Thème">🌙</button>
+    <a href="https://app.avifarmer.net" class="btn btn-pri" data-i18n="cta_start">Commencer gratuitement</a>
   </div>
-  <div class="nav-right">
-    <a href="https://app.avifarmer.net" class="btn-nav">Accéder à l'app →</a>
-    <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" onclick="toggleNavMenu()">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<!-- MENU MOBILE -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#fonctionnalites" onclick="closeNavMenu()">Fonctionnalités</a>
-  <a href="#apercu" onclick="closeNavMenu()">Aperçu</a>
-  <a href="#plans" onclick="closeNavMenu()">Tarifs</a>
-  <a href="#boutique" onclick="closeNavMenu()">🛒 Boutique</a>
-  <a href="#faq" onclick="closeNavMenu()">FAQ</a>
-  <a href="#contact" onclick="closeNavMenu()">Contact</a>
-  <a href="https://app.avifarmer.net" class="mobile-menu-cta">Accéder à l'app →</a>
-</div>
+</div></nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-badge"><div class="hero-badge-dot"></div> Logiciel avicole professionnel</div>
-    <h1>Gérez votre ferme<br>avec <em>précision</em><br>et sérénité.</h1>
-    <p class="hero-sub">GFA est le logiciel de gestion avicole conçu pour les éleveurs d'Afrique. Rapports, stocks, ventes, équipe — tout en un seul outil.</p>
+<header class="wrap hero">
+  <div class="rv in">
+    <div class="tag"><span class="dot"></span> <span data-i18n="hero_badge">Élevage &amp; cultures · Cabinet IA</span></div>
+    <h1 data-i18n="hero_h1">Toute votre ferme,<br>avec vos <span class="grad">experts IA</span><br>dans la poche.</h1>
+    <p class="sub" data-i18n="hero_sub">AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie</b>, vous payez seulement quand vous voulez plus.</p>
     <div class="hero-btns">
-      <a href="https://app.avifarmer.net" class="btn-primary">🚀 Démarrer gratuitement</a>
-      <a href="#fonctionnalites" class="btn-secondary">Voir les fonctionnalités</a>
+      <a href="https://app.avifarmer.net" class="btn btn-pri" data-i18n="hero_cta1">🚀 Commencer gratuitement</a>
+      <a href="#cabinet" class="btn btn-ghost" data-i18n="hero_cta2">Découvrir le Cabinet IA</a>
     </div>
-    <div class="hero-stats">
-      <div class="stat-item"><div class="num" id="stat-fermes">—</div><div class="lbl">Fermes actives</div></div>
-      <div class="stat-item"><div class="num" id="stat-rapports">—</div><div class="lbl">Rapports saisis</div></div>
-      <div class="stat-item"><div class="num">7+</div><div class="lbl">Ans d'expertise</div></div>
+    <div class="hero-meta">
+      <div><div class="n" data-count="1200">0</div><div class="l" data-i18n="meta_eleveurs">Éleveurs</div></div>
+      <div><div class="n" data-count="38">0</div><div class="l" data-i18n="meta_filieres">Filières &amp; cultures</div></div>
+      <div><div class="n">24/7</div><div class="l" data-i18n="meta_experts">Experts IA</div></div>
     </div>
   </div>
 
-  <!-- Dashboard mockup -->
-  <div class="hero-visual">
-    <div class="dashboard-card">
-      <div class="dash-header">
-        <div class="dash-title">📊 Tableau de bord — Fairfield</div>
-        <div class="dash-date">Aujourd'hui</div>
+  <div class="stage rv in">
+    <div class="card3d" id="card3d">
+      <div class="row"><b data-i18n="dash_title">📊 Tableau de bord — Ferme Espoir</b><span data-i18n="dash_live">● en direct</span></div>
+      <div class="kpis">
+        <div class="kpi g"><div class="v">94%</div><div class="k" data-i18n="dash_ponte">Taux de ponte</div></div>
+        <div class="kpi b"><div class="v">12 ha</div><div class="k" data-i18n="dash_mais">Maïs en culture</div></div>
+        <div class="kpi o"><div class="v">2.8M</div><div class="k" data-i18n="dash_marge">Marge FCFA</div></div>
+        <div class="kpi p"><div class="v">3</div><div class="k" data-i18n="dash_filieres">Filières actives</div></div>
       </div>
-      <div class="dash-kpis">
-        <div class="kpi bleu"><div class="kpi-val">94.2%</div><div class="kpi-lbl">Taux de ponte</div></div>
-        <div class="kpi vert"><div class="kpi-val">847</div><div class="kpi-lbl">Plateaux dispo</div></div>
-        <div class="kpi or"><div class="kpi-val">12 sacs</div><div class="kpi-lbl">Stock aliment</div></div>
-        <div class="kpi violet"><div class="kpi-val">2.8M</div><div class="kpi-lbl">Marge FCFA</div></div>
-      </div>
-      <div class="dash-chart">
-        <div style="font-size:10px;font-weight:700;color:var(--textm);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Taux de ponte — 7 jours</div>
-        <div class="chart-bar-row"><div class="chart-bar-label">Lun</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:88%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">88%</div></div>
-        <div class="chart-bar-row"><div class="chart-bar-label">Mar</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:91%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">91%</div></div>
-        <div class="chart-bar-row"><div class="chart-bar-label">Mer</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:94%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">94%</div></div>
-        <div class="chart-bar-row"><div class="chart-bar-label">Jeu</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:89%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">89%</div></div>
-        <div class="chart-bar-row"><div class="chart-bar-label">Ven</div><div class="chart-bar-track"><div class="chart-bar-fill" style="width:96%"></div></div><div style="font-size:10px;color:var(--textm);width:32px">96%</div></div>
-      </div>
-      <div class="dash-footer">
-        <span>3 techniciens connectés 🟢</span>
-        <div class="dash-badge">✓ En ligne</div>
+      <div class="bars">
+        <div class="bar"><i data-i18n="day_mon">Lun</i><div class="t"><div class="f" style="width:88%"></div></div></div>
+        <div class="bar"><i data-i18n="day_tue">Mar</i><div class="t"><div class="f" style="width:92%"></div></div></div>
+        <div class="bar"><i data-i18n="day_wed">Mer</i><div class="t"><div class="f" style="width:95%"></div></div></div>
+        <div class="bar"><i data-i18n="day_thu">Jeu</i><div class="t"><div class="f" style="width:90%"></div></div></div>
       </div>
     </div>
+    <div class="chip c1"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-sankara"/></svg><div>Dr SANKARA<small data-i18n="chip_sankara">diagnostic en 30s</small></div></div>
+    <div class="chip c2"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-savana"/></svg><div>Dr SAVANA<small data-i18n="chip_savana">conseil cultures</small></div></div>
+    <div class="chip c3"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-yayra"/></svg><div>YAYRA<small data-i18n="chip_yayra">sur WhatsApp</small></div></div>
   </div>
-</section>
+</header>
 
-<!-- TRUST STRIP -->
-<section class="trust-strip">
-  <div class="trust-inner">
-    <div class="trust-item"><div class="trust-item-icon">🔐</div>Données sécurisées Supabase</div>
-    <div class="trust-item"><div class="trust-item-icon">📡</div>Mode hors-ligne intégré</div>
-    <div class="trust-item"><div class="trust-item-icon">🏆</div>Conçu par des aviculteurs</div>
-    <div class="trust-item"><div class="trust-item-icon">🌍</div>Adapté à l'Afrique</div>
-    <div class="trust-item"><div class="trust-item-icon">💬</div>Support WhatsApp réactif</div>
-  </div>
-</section>
+<!-- TRUST -->
+<div class="wrap rv"><div class="trust">
+  <div class="t" data-i18n="trust_free">🆓 Gratuit à vie</div>
+  <div class="t" data-i18n="trust_offline">📶 Marche hors-ligne</div>
+  <div class="t" data-i18n="trust_pay">📱 Mobile Money · FedaPay</div>
+  <div class="t" data-i18n="trust_africa">🌍 Pensé pour l'Afrique</div>
+</div></div>
 
-<!-- COMMENT ÇA MARCHE -->
-<section class="howit-section">
-  <div class="section-header">
-    <div class="section-label">Comment ça marche</div>
-    <div class="section-title">Démarrez en moins de 3 minutes</div>
-    <p class="section-sub">Aucune carte bancaire requise. Aucune clé d'activation. Inscription directe sur le plan de votre choix.</p>
-  </div>
-  <div class="howit-grid">
-    <div class="howit-step fade-up">
-      <div class="howit-num">1</div>
-      <span class="howit-icon">📝</span>
-      <div class="howit-title">Choisissez votre plan</div>
-      <div class="howit-desc">Sélectionnez le plan adapté à votre exploitation (Starter à Enterprise) ou démarrez avec l'essai gratuit complet à toutes les fonctionnalités.</div>
-      <div class="howit-arrow">→</div>
-    </div>
-    <div class="howit-step fade-up">
-      <div class="howit-num">2</div>
-      <span class="howit-icon">🎁</span>
-      <div class="howit-title">7 jours d'essai gratuit</div>
-      <div class="howit-desc">Testez l'application en conditions réelles pendant 7 jours. Saisissez vos rapports, gérez votre équipe, suivez vos ventes — sans engagement.</div>
-      <div class="howit-arrow">→</div>
-    </div>
-    <div class="howit-step fade-up">
-      <div class="howit-num">3</div>
-      <span class="howit-icon">💳</span>
-      <div class="howit-title">Activez votre plan</div>
-      <div class="howit-desc">À la fin de l'essai, payez en Mobile Money via FedaPay. Premier paiement à <strong style="color:var(--vert)">-50%</strong> automatique. Garantie 48h satisfait ou remboursé.</div>
+<!-- CABINET IA -->
+<section class="blk" id="cabinet">
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="cab_lbl">Cabinet IA</div><h2 data-i18n="cab_h2">Vos experts, dans votre poche</h2><p data-i18n="cab_p">Un vétérinaire et un agronome, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.</p></div>
+    <div class="grid3">
+      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-sankara"/></svg></div><h3 data-i18n="cab_sankara_t">Dr SANKARA — Vétérinaire</h3><p data-i18n="cab_sankara_p">Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.</p><span class="pill" data-i18n="cab_sankara_pill">2 consultations offertes</span></div>
+      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-savana"/></svg></div><h3 data-i18n="cab_savana_t">Dr SAVANA — Agronome</h3><p data-i18n="cab_savana_p">Maladies des plantes, fertilisation, calendrier cultural : votre conseiller cultures, adapté à votre région.</p></div>
+      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-yayra"/></svg></div><h3 data-i18n="cab_yayra_t">YAYRA — Assistante</h3><p data-i18n="cab_yayra_p">Elle connaît vos bandes et vos chiffres, saisit vos rapports, vous alerte, et vous passe le bon expert. Aussi sur WhatsApp.</p></div>
     </div>
   </div>
 </section>
 
 <!-- FONCTIONNALITÉS -->
-<section id="fonctionnalites" class="features-section">
-  <div class="section-header">
-    <div class="section-label">Fonctionnalités</div>
-    <div class="section-title">Tout pour gérer votre élevage</div>
-    <p class="section-sub">Conçu par des aviculteurs, pour des aviculteurs. Chaque fonctionnalité répond à un besoin réel du terrain.</p>
-  </div>
-  <div class="features-grid">
-    <div class="feature-card"><div class="feature-icon-wrap">📊</div><div class="feature-title">Tableau de bord temps réel</div><div class="feature-desc">Taux de ponte, mortalité, marge nette, stock œufs — alertes intelligentes si baisse détectée.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">📝</div><div class="feature-title">Rapports journaliers</div><div class="feature-desc">Saisie rapide par les techniciens. Détection automatique de la phase de ponte.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">💰</div><div class="feature-title">Gestion des ventes</div><div class="feature-desc">Caisse journalière, hebdo, mensuel, annuel. Suivi des œufs cassés. Rapport WhatsApp auto.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">💸</div><div class="feature-title">Dépenses & Charges</div><div class="feature-desc">Aliment, médicaments, main d'œuvre, équipements. Upload des reçus. Calcul automatique des marges.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">📦</div><div class="feature-title">Stock physique</div><div class="feature-desc">Sacs d'aliment restants, œufs disponibles, médicaments. Alertes si stock sous le seuil.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">👥</div><div class="feature-title">Gestion d'équipe</div><div class="feature-desc">4 rôles (Admin, Superviseur, Secrétaire, Technicien). Présence en ligne. Discussion en temps réel.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">💊</div><div class="feature-title">Calendrier prophylaxie</div><div class="feature-desc">Programme Hy-Line / Cobb500 automatique. Notifications 7 jours avant chaque acte.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">🛒</div><div class="feature-title">Boutique intégrée</div><div class="feature-desc">Commandez aliments, médicaments, formations directement depuis l'app.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">📱</div><div class="feature-title">Mode hors ligne</div><div class="feature-desc">Saisissez vos données même sans connexion. Synchronisation automatique dès que le réseau revient.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">💬</div><div class="feature-title">Rapport WhatsApp 🆕</div><div class="feature-desc">Un clic depuis le dashboard pour envoyer un récap quotidien (effectif, ponte, mortalité, finances) à votre manager ou comptable.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">🚨</div><div class="feature-title">Notifications transférables 🆕</div><div class="feature-desc">Transmettez en un clic les alertes critiques (mortalité élevée, stock bas, expiration) à un responsable via WhatsApp.</div></div>
-    <div class="feature-card"><div class="feature-icon-wrap">🏢</div><div class="feature-title">Comparaison Fermes 🆕</div><div class="feature-desc">Réservé Enterprise : comparez vos fermes côte à côte sur 30 jours (ponte, mortalité, marge) avec badges meilleure performance.</div></div>
-  </div>
-</section>
-
-<!-- APERÇU INTERFACE -->
-<section id="apercu" class="apercu-section">
-  <div class="section-header">
-    <div class="section-label">Aperçu</div>
-    <div class="section-title">Découvrez l'interface</div>
-    <p class="section-sub">Une interface pensée pour les éleveurs, avec ou sans expérience numérique. Faites défiler ci-dessous pour explorer.</p>
-  </div>
-  <!-- ═══ CAPTURES D'ÉCRAN ═══
-       Pour mettre les vraies captures de l'app :
-       1. Crée le dossier "screenshots/" à côté de ce fichier index.html
-       2. Place des PNG nommés : dashboard.png, rapport.png, bandes.png, ventes.png, equipe.png, licence.png
-       3. Commit + push. Le code détecte automatiquement les fichiers et remplace les placeholders.
-       Format conseillé : 1280×800px, ratio 16:10
-  ═══════════════════════════════════════════════ -->
-  <div class="apercu-track" id="apercuTrack">
-    <div class="apercu-card">
-      <div class="apercu-img-wrap" data-img="dashboard"><div class="apercu-placeholder">📊<div>Tableau de bord</div></div></div>
-      <div class="apercu-caption">
-        <div class="apercu-caption-title">Tableau de bord</div>
-        <div class="apercu-caption-desc">Vue d'ensemble : taux de ponte, mortalité, marge, stocks. Mise à jour en temps réel.</div>
-      </div>
-    </div>
-    <div class="apercu-card">
-      <div class="apercu-img-wrap" data-img="rapport"><div class="apercu-placeholder">📝<div>Rapport journalier</div></div></div>
-      <div class="apercu-caption">
-        <div class="apercu-caption-title">Rapport journalier</div>
-        <div class="apercu-caption-desc">Saisie en moins de 30 secondes par les techniciens. Détection auto de phase.</div>
-      </div>
-    </div>
-    <div class="apercu-card">
-      <div class="apercu-img-wrap" data-img="bandes"><div class="apercu-placeholder">🏷️<div>Gestion des bandes</div></div></div>
-      <div class="apercu-caption">
-        <div class="apercu-caption-title">Bandes & Campagnes</div>
-        <div class="apercu-caption-desc">Lancement de bande, suivi croissance/ponte, archivage des campagnes terminées.</div>
-      </div>
-    </div>
-    <div class="apercu-card">
-      <div class="apercu-img-wrap" data-img="ventes"><div class="apercu-placeholder">💰<div>Ventes & Caisse</div></div></div>
-      <div class="apercu-caption">
-        <div class="apercu-caption-title">Ventes & Caisse</div>
-        <div class="apercu-caption-desc">Caisse journalière, suivi des œufs cassés, rapport WhatsApp automatique.</div>
-      </div>
-    </div>
-    <div class="apercu-card">
-      <div class="apercu-img-wrap" data-img="equipe"><div class="apercu-placeholder">👥<div>Équipe & rôles</div></div></div>
-      <div class="apercu-caption">
-        <div class="apercu-caption-title">Équipe & rôles</div>
-        <div class="apercu-caption-desc">4 rôles (Admin, Superviseur, Secrétaire, Technicien). Présence en ligne live.</div>
-      </div>
-    </div>
-    <div class="apercu-card">
-      <div class="apercu-img-wrap" data-img="licence"><div class="apercu-placeholder">🪪<div>Ma licence</div></div></div>
-      <div class="apercu-caption">
-        <div class="apercu-caption-title">Ma licence</div>
-        <div class="apercu-caption-desc">Renouvellement Mobile Money, activation de clé, parrainage, historique paiements.</div>
-      </div>
-    </div>
-  </div>
-  <div class="apercu-dots" id="apercuDots"></div>
-  <div style="text-align:center;font-size:11px;color:var(--textl);margin-top:14px;font-weight:600;letter-spacing:1px;text-transform:uppercase">← Faites glisser pour voir plus →</div>
-</section>
-
-<!-- VIDÉO DÉMO -->
-<section class="video-section">
-  <div class="section-header">
-    <div class="section-label">Vidéo</div>
-    <div class="section-title">L'application en action</div>
-    <p class="section-sub">Découvrez comment vos techniciens, superviseurs et vous-même utilisez GFA au quotidien.</p>
-  </div>
-  <div class="video-wrap" id="videoWrap">
-    <!-- Placeholder ou iframe injecté par JS selon VIDEO_URL -->
-  </div>
-</section>
-
-<!-- GARANTIE 48H -->
-<section style="padding:60px 60px 20px;background:white">
-  <div class="garantie-banner">
-    <div class="garantie-badge-icon">✓</div>
-    <div style="flex:1">
-      <h4>Garantie 48h satisfait ou remboursé</h4>
-      <p>Pas convaincu après votre premier paiement ? Vous avez 48 heures pour demander un remboursement intégral, sans justification, par simple message WhatsApp au support.</p>
+<section class="blk" id="fonctions">
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="feat_lbl">Fonctionnalités</div><h2 data-i18n="feat_h2">Tout pour gérer votre exploitation</h2><p data-i18n="feat_p">Élevage multi-espèce <em>et</em> cultures, dans un seul outil pensé pour le terrain.</p></div>
+    <div class="grid4">
+      <div class="fcard rv"><div class="fic"><i data-lucide="bird"></i></div><h4 data-i18n="feat1_t">Élevage multi-espèce</h4><p data-i18n="feat1_p">Volaille, lapin, porc, caprin… avec reproduction.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="wheat"></i></div><h4 data-i18n="feat2_t">Agriculture</h4><p data-i18n="feat2_p">Parcelles, campagnes, intrants, ventes, bilan par culture.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="layout-dashboard"></i></div><h4 data-i18n="feat3_t">Tableau de bord</h4><p data-i18n="feat3_p">Ponte, mortalité, marge, stock — en temps réel.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="wallet"></i></div><h4 data-i18n="feat4_t">Finances</h4><p data-i18n="feat4_p">Ventes, dépenses, ROI, factures, salaires.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="users"></i></div><h4 data-i18n="feat5_t">Équipe</h4><p data-i18n="feat5_p">Rôles, présence en ligne, discussion.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="syringe"></i></div><h4 data-i18n="feat6_t">Prophylaxie</h4><p data-i18n="feat6_p">Calendriers de vaccination + rappels.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="wifi-off"></i></div><h4 data-i18n="feat7_t">Hors-ligne</h4><p data-i18n="feat7_p">Saisie sans réseau, synchro auto.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="building-2"></i></div><h4 data-i18n="feat8_t">Multi-fermes</h4><p data-i18n="feat8_p">Comparez vos sites d'un coup d'œil.</p></div>
     </div>
   </div>
 </section>
 
 <!-- PLANS -->
-<section id="plans" class="plans-section">
-  <div class="section-header">
-    <div class="section-label">Tarifs</div>
-    <div class="section-title">Choisissez votre plan</div>
-    <p class="section-sub">Commencez gratuitement. Évoluez selon vos besoins.</p>
-  </div>
-  <!-- Badges essai + garantie -->
-  <div style="display:flex;justify-content:center;gap:14px;margin-bottom:32px;flex-wrap:wrap">
-    <div style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#EFF6FF,#F0FDF4);border:1.5px solid var(--bleu3);border-radius:14px;padding:14px 24px">
-      <span style="font-size:22px">🎁</span>
-      <div style="text-align:left">
-        <div style="font-size:13px;font-weight:800;color:var(--bleu-sombre)">7 jours d'essai = Enterprise complet</div>
-        <div style="font-size:11px;color:var(--textm)">Toutes les fonctionnalités débloquées · sans carte bancaire</div>
-      </div>
-    </div>
-    <div style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#F0FDF4,#FEF3C7);border:1.5px solid #10B981;border-radius:14px;padding:14px 24px">
-      <span style="font-size:22px">✓</span>
-      <div style="text-align:left">
-        <div style="font-size:13px;font-weight:800;color:#065F46">Garantie 48h satisfait ou remboursé</div>
-        <div style="font-size:11px;color:var(--textm)">Si vous n'êtes pas convaincu après paiement</div>
-      </div>
-    </div>
-    <div style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#FEF3C7,#FEE2E2);border:1.5px solid var(--or);border-radius:14px;padding:14px 24px">
-      <span style="font-size:22px">💸</span>
-      <div style="text-align:left">
-        <div style="font-size:13px;font-weight:800;color:#92400E">-50% sur votre 1er paiement</div>
-        <div style="font-size:11px;color:var(--textm)">Bonus de bienvenue automatique</div>
-      </div>
-    </div>
-  </div>
+<section class="blk" id="plans">
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="plans_lbl">Tarifs</div><h2 data-i18n="plans_h2">Un plan pour chaque taille</h2><p data-i18n="plans_p">Le cœur est gratuit, à vie. Les prix affichés démarrent au plus petit palier et s'adaptent à la taille de votre exploitation.</p></div>
 
-  <!-- Toggle mensuel/annuel -->
-  <div style="display:flex;justify-content:center;gap:0;margin-bottom:40px">
-    <button id="toggle-mensuel" onclick="setPeriode('mensuel')" style="background:var(--bleu);color:white;border:none;padding:10px 28px;border-radius:8px 0 0 8px;font-weight:700;font-size:13px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Mensuel</button>
-    <button id="toggle-annuel" onclick="setPeriode('annuel')" style="background:var(--gris2);color:var(--textm);border:none;padding:10px 28px;border-radius:0 8px 8px 0;font-weight:700;font-size:13px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif">Annuel <span style="font-size:10px;background:#D1FAE5;color:var(--vert);padding:2px 6px;border-radius:4px;margin-left:4px">-17%</span></button>
-  </div>
+    <div class="welcome rv" data-i18n="plans_welcome">🎁 <b>Bienvenue</b> — votre 1ᵉʳ paiement bénéficie de <b>−50 %</b> sur 1 mois équivalent.</div>
 
-  <div class="plans-grid" style="grid-template-columns:repeat(4,1fr)">
-    <!-- Starter -->
-    <div class="plan-card">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price" id="price-starter">5 000 <span>FCFA/mois</span></div>
-      <div id="price-starter-annuel" style="display:none;font-size:12px;color:var(--vert);font-weight:700;margin-bottom:4px">50 000 FCFA/an</div>
-      <div class="plan-desc">Idéal pour débuter · Max 2 bandes</div>
-      <div style="font-size:11px;font-weight:700;color:var(--textl);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;margin-top:4px">Équipe</div>
-      <div style="font-size:12px;color:var(--textm);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">1 Admin · 1 Technicien</div>
-      <ul class="plan-features">
-        <li>Tableau de bord</li>
-        <li>Rapports journaliers</li>
-        <li>Bandes / Campagnes</li>
-        <li>Photos mortalité</li>
-        <li>Prophylaxie</li>
-        <li>Équipe</li>
-        <li>Boutique</li>
-        <li>Historique 15 jours</li>
-        <li class="non">Ventes & Caisse</li>
-        <li class="non">Bilan cumulé</li>
-      </ul>
-      <a href="https://app.avifarmer.net" class="btn-plan outline">Commencer →</a>
-    </div>
-    <!-- Élite -->
-    <div class="plan-card">
-      <div class="plan-name">Élite</div>
-      <div class="plan-price" id="price-elite">7 000 <span>FCFA/mois</span></div>
-      <div id="price-elite-annuel" style="display:none;font-size:12px;color:var(--vert);font-weight:700;margin-bottom:4px">70 000 FCFA/an</div>
-      <div class="plan-desc">Pour les élevages avec suivi complet</div>
-      <div style="font-size:11px;font-weight:700;color:var(--textl);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;margin-top:4px">Équipe</div>
-      <div style="font-size:12px;color:var(--textm);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">1 Admin · 2 Techniciens · 1 Superviseur</div>
-      <ul class="plan-features">
-        <li>Tout Starter</li>
-        <li>Historique complet</li>
-        <li>Bilan cumulé</li>
-        <li>Évolution des pesées</li>
-        <li>Calendriers prophy personnalisés</li>
-        <li>Stock Technicien (réception)</li>
-        <li>Corbeille (récupération)</li>
-        <li>Conseils & Ressources</li>
-        <li class="non">Ventes & Caisse</li>
-        <li class="non">Dépenses & Stock</li>
-      </ul>
-      <a href="https://app.avifarmer.net" class="btn-plan outline">Choisir →</a>
-    </div>
-    <!-- Pro -->
-    <div class="plan-card featured">
-      <div class="plan-name">Pro</div>
-      <div class="plan-price" id="price-pro">10 000 <span>FCFA/mois</span></div>
-      <div id="price-pro-annuel" style="display:none;font-size:12px;color:var(--vert);font-weight:700;margin-bottom:4px">100 000 FCFA/an</div>
-      <div class="plan-desc">Pour les exploitations avec secrétaire</div>
-      <div style="font-size:11px;font-weight:700;color:var(--textl);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;margin-top:4px">Équipe</div>
-      <div style="font-size:12px;color:var(--textm);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">2 Admin · 3 Techniciens · 1 Superviseur · 1 Secrétaire · 2 Fermes</div>
-      <ul class="plan-features">
-        <li>Tout Élite</li>
-        <li>Ventes & Caisse</li>
-        <li>Dépenses & Stock</li>
-        <li>Factures clients</li>
-        <li>Employés & Salaires</li>
-        <li>ROI / Rentabilité</li>
-        <li>Carnet clients</li>
-        <li>Graphiques avancés</li>
-        <li>Comparaison de bandes</li>
-        <li>Journal d'activité</li>
-      </ul>
-      <a href="https://app.avifarmer.net" class="btn-plan bleu">Démarrer →</a>
-    </div>
-    <!-- Enterprise -->
-    <div class="plan-card">
-      <div class="plan-name">Enterprise</div>
-      <div class="plan-price" id="price-entr">25 000 <span>FCFA/mois</span></div>
-      <div id="price-entr-annuel" style="display:none;font-size:12px;color:var(--vert);font-weight:700;margin-bottom:4px">250 000 FCFA/an</div>
-      <div class="plan-desc">Pour les grandes exploitations multi-sites</div>
-      <div style="font-size:11px;font-weight:700;color:var(--textl);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;margin-top:4px">Équipe</div>
-      <div style="font-size:12px;color:var(--textm);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)">5 Admin · 20 Techniciens · Superviseurs illimités · 3 Secrétaires · 10 Fermes</div>
-      <ul class="plan-features">
-        <li>Tout Pro</li>
-        <li>Multi-fermes (jusqu'à 10)</li>
-        <li>Comparaison Fermes 🆕</li>
-        <li>Stock Envoi multi-fermes</li>
-        <li>Poule Pondeuse (simulation)</li>
-        <li>Poulet de Chair (simulation)</li>
-        <li>Support prioritaire</li>
-        <li>Formation incluse</li>
-      </ul>
-      <a href="https://app.avifarmer.net" class="btn-plan outline">Démarrer →</a>
-    </div>
-  </div>
-
-    <!-- Code parrain -->
-  <div style="background:linear-gradient(135deg,var(--bleu-sombre),var(--bleu-mid));border-radius:20px;padding:36px 40px;margin-top:40px">
-    <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;margin-bottom:20px">
-      <div style="font-size:36px">🤝</div>
-      <div style="flex:1;min-width:280px">
-        <div style="font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6);font-weight:700;margin-bottom:6px">Programme Parrainage</div>
-        <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:white;margin-bottom:8px">Recommandez GFA · Gagnez 15% sur 3 paiements</div>
-        <div style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.7">Chaque éleveur GFA dispose de son code parrain unique (PRN-XXXX-XXXX). Quand un filleul s'inscrit avec votre code, vous gagnez <strong style="color:white">15% de commission</strong> sur ses 3 premiers paiements, et le filleul bénéficie de <strong style="color:white">-5% supplémentaires</strong>.</div>
+    <div class="pgrid5">
+      <!-- GRATUIT -->
+      <div class="pcard free-card rv">
+        <div class="pname" style="color:var(--green-d)" data-i18n="pn_free">Gratuit</div>
+        <div class="pprice" style="color:var(--green-d)" data-i18n="pprice_free">Gratuit <span>· à vie</span></div>
+        <div class="pdesc" data-i18n="pd_free">Pour démarrer, sans limite de temps</div>
+        <ul class="pf">
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>2 <span data-i18n="u_avie">à vie</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>2</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>7 <span data-i18n="u_jours">j</span></b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>1</b></li>
+          <li class="no" data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li class="no" data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li class="no" data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li class="no" data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li class="no" data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li class="no" data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li class="no" data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li class="no" data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li class="no" data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>1</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>1</b></li>
+        </ul>
+        <a href="https://app.avifarmer.net" class="pcta line" data-i18n="pcta_free">Toujours gratuit</a>
       </div>
-      <a href="https://app.avifarmer.net" style="background:white;color:var(--bleu);padding:13px 28px;border-radius:10px;font-weight:800;font-size:13px;text-decoration:none;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.2)">S'inscrire avec un code →</a>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;border-top:1px solid rgba(255,255,255,.1);padding-top:20px">
-      <div style="text-align:center"><div style="font-family:'Fraunces',serif;font-size:24px;font-weight:900;color:#FBBF24;margin-bottom:2px">+15%</div><div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:600">Commission parrain</div></div>
-      <div style="text-align:center"><div style="font-family:'Fraunces',serif;font-size:24px;font-weight:900;color:#10B981;margin-bottom:2px">-5%</div><div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:600">Réduction filleul</div></div>
-      <div style="text-align:center"><div style="font-family:'Fraunces',serif;font-size:24px;font-weight:900;color:#60A5FA;margin-bottom:2px">3 paie.</div><div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:600">Plafond commission</div></div>
-      <div style="text-align:center"><div style="font-family:'Fraunces',serif;font-size:24px;font-weight:900;color:#A78BFA;margin-bottom:2px">2 modes</div><div style="font-size:11px;color:rgba(255,255,255,.6);font-weight:600">Mobile Money ou licence</div></div>
+
+      <!-- STARTER -->
+      <div class="pcard rv">
+        <div class="pname">Starter</div>
+        <div class="pfrom" data-i18n="p_from">À partir de</div>
+        <div class="pprice">2 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
+        <div class="pdesc" data-i18n="pd_starter">Le suivi avancé de votre exploitation</div>
+        <ul class="pf">
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>3 <span data-i18n="u_mois">/ mois</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>4</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>15 <span data-i18n="u_jours">j</span></b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>2</b></li>
+          <li data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li class="no" data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li class="no" data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li class="no" data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li class="no" data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li class="no" data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>1</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>3</b></li>
+        </ul>
+        <a href="https://app.avifarmer.net" class="pcta line" data-i18n="pcta_starter">Choisir Starter →</a>
+      </div>
+
+      <!-- ÉLITE -->
+      <div class="pcard rv">
+        <div class="pname">Élite</div>
+        <div class="pfrom" data-i18n="p_from">À partir de</div>
+        <div class="pprice">4 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
+        <div class="pdesc" data-i18n="pd_elite">L'argent de votre exploitation</div>
+        <ul class="pf">
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>6 <span data-i18n="u_mois">/ mois</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>8</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>1 <span data-i18n="u_an">an</span></b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>10</b></li>
+          <li data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li class="no" data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li class="no" data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li class="no" data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>2</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>5</b></li>
+        </ul>
+        <a href="https://app.avifarmer.net" class="pcta line" data-i18n="pcta_elite">Choisir Élite →</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="pcard pop rv">
+        <div class="pname">Pro</div>
+        <div class="pfrom" data-i18n="p_from">À partir de</div>
+        <div class="pprice">7 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
+        <div class="pdesc" data-i18n="pd_pro">La gestion complète + l'analyse</div>
+        <ul class="pf">
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>12 <span data-i18n="u_mois">/ mois</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>∞</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>2 <span data-i18n="u_ans">ans</span></b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>50</b></li>
+          <li data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li class="no" data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>3</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>10</b></li>
+        </ul>
+        <a href="https://app.avifarmer.net" class="pcta full" data-i18n="pcta_start">Démarrer →</a>
+      </div>
+
+      <!-- ENTERPRISE -->
+      <div class="pcard rv">
+        <div class="pname">Enterprise</div>
+        <div class="pfrom" data-i18n="p_from">À partir de</div>
+        <div class="pprice">10 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
+        <div class="pdesc" data-i18n="pd_ent">Grandes exploitations multi-sites</div>
+        <ul class="pf">
+          <li data-i18n="pf_suivi">Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)</li>
+          <li data-i18n="pf_rappels">Rappels vaccins / prophylaxie</li>
+          <li data-i18n="pf_conseils">Conseils éleveur + YAYRA</li>
+          <li class="val"><span data-i18n="pf_sankara">🩺 Dr SANKARA</span> <b>25 <span data-i18n="u_mois">/ mois</span></b></li>
+          <li class="val"><span data-i18n="pf_filieres">Filières (élevage + agri)</span> <b>∞</b></li>
+          <li class="val"><span data-i18n="pf_histo">Historique</span> <b>∞</b></li>
+          <li class="val"><span data-i18n="pf_bandes">Bandes max</span> <b>∞</b></li>
+          <li data-i18n="pf_bilan">Bilan cumulé, évolution pesées</li>
+          <li data-i18n="pf_prophy">Prophylaxie custom, corbeille, stock technicien</li>
+          <li data-i18n="pf_equipe">Équipe &amp; discussion</li>
+          <li data-i18n="pf_depenses">Dépenses, Ventes, Clients, Stock</li>
+          <li data-i18n="pf_roi">ROI / Rentabilité</li>
+          <li data-i18n="pf_factures">Factures, Employés &amp; Salaires, Journal</li>
+          <li data-i18n="pf_graph">Graphiques &amp; Comparaisons</li>
+          <li data-i18n="pf_autopsie">Autopsie guidée (Dr SANKARA)</li>
+          <li data-i18n="pf_previ">Pondeuse / Chair — prévisionnel</li>
+          <li class="val"><span data-i18n="pf_multi">Multi-fermes / multi-sites</span> <b>∞</b></li>
+          <li class="val"><span data-i18n="pf_membres">Membres équipe</span> <b>∞</b></li>
+        </ul>
+        <a href="https://app.avifarmer.net" class="pcta line" data-i18n="pcta_start">Démarrer →</a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- BOUTIQUE -->
-<section id="boutique" class="boutique-section">
-  <div class="section-header">
-    <div class="section-label">🛒 Boutique</div>
-    <div class="section-title">Formations, livres, aliments, intrants</div>
-    <p class="section-sub">Paiement Mobile Money sécurisé. Sans création de compte. Livraison rapide au Togo pour les produits réels.</p>
-  </div>
-  <div class="boutique-track" id="boutiqueTrack">
-    <div class="empty-boutique">⏳ Chargement des produits...</div>
-  </div>
-  <div style="text-align:center;margin-top:36px">
-    <a href="/boutique" class="btn-voir-boutique">Voir toute la boutique →</a>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq" class="faq-section">
-  <div class="section-header">
-    <div class="section-label">FAQ</div>
-    <div class="section-title">Questions fréquentes</div>
-    <p class="section-sub">Tout ce que vous devez savoir avant de démarrer.</p>
-  </div>
-  <div class="faq-list">
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Comment se passe l'essai gratuit de 7 jours ?</div>
-      <div class="faq-a">Pendant 7 jours, vous accédez gratuitement à <strong>toutes les fonctionnalités du plan Enterprise</strong> (toutes les pages débloquées, multi-fermes, simulations, etc.) — quel que soit le plan que vous comptez prendre ensuite. Aucune carte bancaire requise. À la fin de l'essai, vous payez en Mobile Money sur le plan de votre choix.</div>
+<section class="blk" id="boutique">
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="b_lbl">🛒 Boutique</div><h2 data-i18n="b_h2">Formations, intrants, matériel</h2><p data-i18n="b_p">Paiement Mobile Money sécurisé, sans création de compte. Livraison rapide au Togo.</p></div>
+    <div class="boutique-track" id="boutiqueTrack">
+      <div class="empty-boutique" data-i18n="b_loading">⏳ Chargement des produits…</div>
     </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Quels modes de paiement acceptez-vous ?</div>
-      <div class="faq-a">Tous les paiements se font via FedaPay : Mobile Money (MTN, Moov, Wave), carte bancaire Visa/Mastercard. Activation immédiate de votre plan après confirmation du paiement.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Le bonus -50% s'applique-t-il sur l'abonnement annuel ?</div>
-      <div class="faq-a">Oui. Pour votre 1er paiement, vous bénéficiez de -50% sur l'équivalent d'un mois. Si vous choisissez l'annuel, la réduction est appliquée sur le 1er mois inclus dans l'abonnement. Pour Starter annuel par exemple : 50 000 - 2 500 = 47 500 FCFA pour 1 an.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Comment fonctionne le programme parrainage ?</div>
-      <div class="faq-a">Chaque utilisateur GFA dispose d'un code parrain unique (PRN-XXXX-XXXX) accessible dans "Ma Licence". Quand un filleul s'inscrit avec votre code et effectue un paiement, vous gagnez 15% de commission, et le filleul bénéficie de -5% supplémentaires. Plafond : 3 paiements par filleul. Vous choisissez votre mode de versement : Mobile Money manuel (versé par ATM) ou crédit automatique sur votre propre licence.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Puis-je utiliser GFA sans connexion internet ?</div>
-      <div class="faq-a">Oui, GFA fonctionne en mode hors ligne. Vous pouvez saisir vos rapports, mortalités et données sur le terrain sans réseau. La synchronisation se fait automatiquement dès que la connexion revient.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Combien de fermes / techniciens puis-je gérer ?</div>
-      <div class="faq-a">Cela dépend de votre plan. <strong>Starter</strong> : 1 ferme, 1 technicien (max 2 bandes). <strong>Élite</strong> : 1 ferme, 2 techniciens, 1 superviseur. <strong>Pro</strong> : 2 fermes, 3 techniciens, 1 superviseur, 1 secrétaire, 2 admins. <strong>Enterprise</strong> : jusqu'à 10 fermes, 20 techniciens, superviseurs illimités, 3 secrétaires, 5 admins. Détails complets dans la section Tarifs.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Que se passe-t-il si je ne renouvelle pas mon abonnement ?</div>
-      <div class="faq-a">Vos données restent stockées en sécurité dans nos bases. L'accès est bloqué jusqu'au renouvellement, mais aucune donnée n'est supprimée. Vous pouvez payer à tout moment pour réactiver votre compte et retrouver l'intégralité de votre historique.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Comment fonctionne la garantie 48h ?</div>
-      <div class="faq-a">Après votre premier paiement, si vous n'êtes pas satisfait dans les 48 heures, contactez notre support WhatsApp pour demander un remboursement intégral. Aucune justification requise. Le remboursement est effectué en Mobile Money sous 24h ouvrées.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Mes données sont-elles sécurisées ?</div>
-      <div class="faq-a">Oui. Nous utilisons Supabase (PostgreSQL géré, basé en Europe) avec chiffrement TLS en transit et au repos. L'authentification est gérée par JWT, les rôles strictement séparés (Row-Level Security). Aucune donnée n'est partagée avec des tiers.</div>
-    </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
-      <div class="faq-q">Une formation est-elle prévue ?</div>
-      <div class="faq-a">Pour les plans Pro et Enterprise, une session de formation de prise en main est incluse. Pour les autres plans, une boutique de formations (PDF, vidéos) est accessible dans l'application — gratuite ou payante selon les contenus.</div>
-    </div>
+    <div style="text-align:center;margin-top:32px"><a href="boutique.html" class="btn btn-pri" data-i18n="b_btn">Voir toute la boutique →</a></div>
   </div>
 </section>
 
 <!-- AVIS -->
-<section id="avis" class="avis-section">
-  <div class="section-header">
-    <div class="section-label">Témoignages</div>
-    <div class="section-title">Ce que disent nos éleveurs</div>
-    <p class="section-sub">Des éleveurs de toute l'Afrique font confiance à GFA.</p>
+<section class="blk" id="avis">
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="av_lbl">Témoignages</div><h2 data-i18n="av_h2">Ce que disent nos éleveurs</h2><p data-i18n="av_p">Des éleveurs de toute l'Afrique font confiance à AGRI-X.</p></div>
+    <div class="avis-grid">
+      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av1_q">« Je gère mes 3 poulaillers et mon champ de maïs depuis mon téléphone. Dr SANKARA m'a sauvé une bande de la coccidiose en pleine nuit. »</div><div class="avis-who">Kofi M. <small data-i18n="av1_w">Aviculteur · Tsévié</small></div></div>
+      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av2_q">« Avant je notais tout dans un cahier. Maintenant je vois ma marge en temps réel et mes techniciens saisissent les rapports eux-mêmes. »</div><div class="avis-who">Awa D. <small data-i18n="av2_w">Ferme avicole · Lomé</small></div></div>
+      <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av3_q">« Le mode hors-ligne change tout sur le terrain. Et c'est gratuit pour commencer — je n'ai payé que quand j'ai voulu les finances. »</div><div class="avis-who">Yawo K. <small data-i18n="av3_w">Éleveur · Kpalimé</small></div></div>
+    </div>
   </div>
-  <div id="avis-grid" class="avis-grid">
-    <div style="color:var(--textl);font-size:13px;padding:20px">Chargement des avis...</div>
-  </div>
-  <div class="avis-form-wrap">
-    <div class="avis-form-inner">
-      <h3>Partagez votre expérience</h3>
-      <p>Votre avis aide d'autres éleveurs à découvrir GFA.</p>
-      <div class="form-field">
-        <label>Votre note</label>
-        <div class="stars-input">
-          <button class="star-btn active" onclick="setEtoile(1)">★</button>
-          <button class="star-btn active" onclick="setEtoile(2)">★</button>
-          <button class="star-btn active" onclick="setEtoile(3)">★</button>
-          <button class="star-btn active" onclick="setEtoile(4)">★</button>
-          <button class="star-btn active" onclick="setEtoile(5)">★</button>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-field">
-          <label>Votre nom</label>
-          <input type="text" id="avis-nom" placeholder="Ex: Kofi Mensah">
-        </div>
-        <div class="form-field">
-          <label>Votre ferme (optionnel)</label>
-          <input type="text" id="avis-ferme" placeholder="Ex: Ferme Mensah">
-        </div>
-      </div>
-      <div class="form-field">
-        <label>Votre message</label>
-        <textarea id="avis-message" placeholder="Partagez votre expérience avec GFA..."></textarea>
-      </div>
-      <button class="btn-submit" onclick="soumettreAvis()">Envoyer mon avis →</button>
-      <div class="form-success" id="avis-success">✓ Merci ! Votre avis sera publié après validation.</div>
-      <div id="avis-err" style="color:rgba(255,100,100,.9);font-size:12px;margin-top:8px"></div>
+</section>
+
+<!-- FAQ -->
+<section class="blk" id="faq">
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="faq_lbl">FAQ</div><h2 data-i18n="faq_h2">Questions fréquentes</h2><p data-i18n="faq_p">Tout ce qu'il faut savoir avant de démarrer.</p></div>
+    <div class="faq-list">
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq1_q">C'est vraiment gratuit ?</div><div class="faq-a" data-i18n="faq1_a">Oui — le cœur de AGRI-X est <strong>gratuit à vie</strong> : 1 élevage + 1 culture, suivi quotidien, rappels vaccins et <strong>2 consultations Dr SANKARA offertes</strong>. Aucune carte bancaire. Vous payez seulement le jour où vous voulez plus (finances, analyses, plus de filières, plus de consultations).</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq2_q">Comment sont fixés les prix des plans ?</div><div class="faq-a" data-i18n="faq2_a">Le prix <strong>s'adapte à la taille</strong> de votre exploitation (nombre de sujets / hectares). Les tarifs affichés ici sont les prix d'entrée (« à partir de »). Dans l'app, vous voyez le prix exact pour votre taille. Bonus de bienvenue : <strong>−50 % sur le 1er paiement</strong>.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq3_q">Qu'est-ce que Dr SANKARA et Dr SAVANA ?</div><div class="faq-a" data-i18n="faq3_a">Ce sont vos <strong>experts IA</strong> : Dr SANKARA (vétérinaire — diagnostic, traitement, autopsie guidée) et Dr SAVANA (agronome — maladies des plantes, fertilisation, calendrier cultural). Disponibles 24/7, pour une fraction du prix d'une vraie consultation.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq4_q">Quels modes de paiement ?</div><div class="faq-a" data-i18n="faq4_a">Mobile Money (MTN, Moov, Wave) et carte bancaire via FedaPay. Activation immédiate après confirmation. Pour la diaspora, paiement par carte également disponible.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq5_q">Puis-je l'utiliser sans connexion ?</div><div class="faq-a" data-i18n="faq5_a">Oui, AGRI-X fonctionne <strong>hors-ligne</strong>. Vous saisissez vos données sur le terrain sans réseau, la synchronisation se fait automatiquement au retour de la connexion.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq6_q">Que gère AGRI-X, au juste ?</div><div class="faq-a" data-i18n="faq6_a">L'<strong>élevage multi-espèce</strong> (volaille, lapin, porc, caprin… avec reproduction) <strong>et l'agriculture</strong> (parcelles, campagnes, intrants, ventes, bilan par culture) — plus les finances, l'équipe, le stock, la prophylaxie et vos experts IA.</div></div>
+      <div class="faq-item rv" onclick="this.classList.toggle('open')"><div class="faq-q" data-i18n="faq7_q">Mes données sont-elles en sécurité ?</div><div class="faq-a" data-i18n="faq7_a">Oui. Hébergement Supabase (PostgreSQL, Europe), chiffrement TLS, authentification JWT et séparation stricte des rôles (Row-Level Security). Vos données ne sont jamais partagées.</div></div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section id="contact" class="contact-section">
-  <div class="section-label">Contact</div>
-  <div class="section-title" style="font-family:'Fraunces',serif;font-size:36px;font-weight:900;color:var(--bleu-sombre);letter-spacing:-1px;margin:12px 0">Parlons de votre élevage</div>
-  <p style="color:var(--textm);font-size:15px;max-width:480px;margin:0 auto">Notre équipe est disponible pour vous accompagner dans la prise en main du logiciel.</p>
-  <div class="contact-links">
-    <a href="https://wa.me/22870992018" class="contact-link" target="_blank">📲 WhatsApp · (+228) 70 99 20 18</a>
-    <a href="mailto:atm.farmvillage@gmail.com" class="contact-link">✉️ atm.farmvillage@gmail.com</a>
-    <a href="https://app.avifarmer.net" class="contact-link">🌐 app.avifarmer.net</a>
+<section class="blk" id="contact">
+  <div class="wrap" style="text-align:center">
+    <div class="lbl rv" data-i18n="ct_lbl">Contact</div>
+    <h2 class="rv" data-i18n="ct_h2">Parlons de votre exploitation</h2>
+    <p class="rv" style="color:var(--muted);max-width:480px;margin:12px auto 0" data-i18n="ct_p">Notre équipe vous accompagne dans la prise en main.</p>
+    <div class="contact-links rv">
+      <a href="https://wa.me/22870992018" class="contact-link" target="_blank" rel="noopener">📲 WhatsApp · (+228) 70 99 20 18</a>
+      <a href="mailto:atm.farmvillage@gmail.com" class="contact-link">✉️ atm.farmvillage@gmail.com</a>
+      <a href="https://app.avifarmer.net" class="contact-link">🌐 app.avifarmer.net</a>
+    </div>
+    <p class="rv" style="color:var(--muted);font-size:12.5px;margin-top:22px" data-i18n="ct_addr">📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo 🇹🇬</p>
   </div>
-  <p style="color:var(--textl);font-size:12px;margin-top:24px">📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo</p>
 </section>
 
-<!-- FOOTER -->
-<footer>
-  <div style="display:flex;align-items:center;gap:12px">
-    <img src="https://app.avifarmer.net/icons/icon-192.png" alt="GFA" style="width:36px;height:36px;border-radius:8px;background:white;padding:2px">
-    <div class="footer-logo">GFA · ATM Farm Village</div>
+<!-- CTA FINAL -->
+<section class="blk" style="padding-top:0">
+  <div class="final rv">
+    <div class="lbl" style="background:rgba(255,255,255,.15);color:#fff" data-i18n="final_lbl">Prêt ?</div>
+    <h2 data-i18n="final_h2">Votre ferme mérite mieux qu'un cahier.</h2>
+    <p data-i18n="final_p">Créez votre compte gratuit en 2 minutes. Élevage, cultures et vos experts IA — sans carte bancaire.</p>
+    <a href="https://app.avifarmer.net" class="btn btn-pri" style="background:#fff;color:var(--green-d)" data-i18n="hero_cta1">🚀 Commencer gratuitement</a>
   </div>
-  <div style="display:flex;gap:20px;flex-wrap:wrap">
-    <a href="/conditions.html" style="color:rgba(255,255,255,.7);text-decoration:none;font-size:12px">Conditions d'utilisation</a>
-    <a href="/confidentialite.html" style="color:rgba(255,255,255,.7);text-decoration:none;font-size:12px">Politique de confidentialité</a>
-  </div>
-  <p>© 2026 ATM Farm Village · Lomé, Togo · Conçu pour les éleveurs africains</p>
-</footer>
+</section>
 
+<footer data-i18n="footer_txt">AGRI-X — Gestion d'une Ferme Agricole · ATM Farm Village · Togo 🇹🇬</footer>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
 <script>
-// ═══════════════════════════════════════════════════════════════════
-// 📺 À ÉDITER QUAND LA VIDÉO DÉMO SERA DISPONIBLE :
-//    Collez l'URL embed YouTube/Vimeo ci-dessous (laissez vide sinon)
-//    Exemples valides :
-//      'https://www.youtube.com/embed/dQw4w9WgXcQ'
-//      'https://player.vimeo.com/video/123456789'
-// ═══════════════════════════════════════════════════════════════════
-const VIDEO_URL = '';
-// ═══════════════════════════════════════════════════════════════════
-
-const SUPA_URL = 'https://ikdzmzlleemkegnpqgvu.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZHptemxsZWVta2VnbnBxZ3Z1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NjIxNDUsImV4cCI6MjA5MTIzODE0NX0.FYJrw4JfwFlbirITmX2f7Y_pixr7KdeMzRMNn_3k0d4';
-const SB = supabase.createClient(SUPA_URL, SUPA_KEY);
-let etoilesSelectionnees = 5;
-
-// ── Injection de la vidéo démo (ou placeholder si VIDEO_URL est vide) ──
-function injecterVideo(){
-  const wrap = document.getElementById('videoWrap');
-  if(!wrap) return;
-  if(VIDEO_URL && VIDEO_URL.trim().length > 5){
-    wrap.innerHTML = `<iframe src="${VIDEO_URL}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-  } else {
-    wrap.innerHTML = `
-      <div class="video-placeholder">
-        <div class="video-placeholder-icon">▶</div>
-        <div class="video-placeholder-text">Vidéo démo bientôt disponible</div>
-        <div class="video-placeholder-sub">Nous préparons une présentation complète de l'application. Restez connecté ! En attendant, parcourez l'aperçu de l'interface ci-dessus.</div>
-      </div>`;
-  }
-}
-injecterVideo();
-
-// ── Compteurs animés au scroll ──
-function animateCounter(el, target, suffix=''){
-  if(!el) return;
-  // Si cible = 0, afficher "—" au lieu d'animer 0→0
-  if(target <= 0){ el.textContent = '—'; return; }
-  // Si cible petite (1-5), démarrer à 0 visible mais animation plus courte
-  const duration = target < 10 ? 800 : 1600;
-  const start = performance.now();
-  function tick(now){
-    const t = Math.min(1, (now - start) / duration);
-    const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
-    const val = Math.round(target * eased);
-    el.textContent = val.toLocaleString('fr-FR') + suffix;
-    if(t < 1) requestAnimationFrame(tick);
-  }
-  el.textContent = '0' + suffix; // visible avant que requestAnimationFrame ne fire
-  setTimeout(()=>requestAnimationFrame(tick), 200); // petit délai pour que l'utilisateur perçoive le démarrage
-}
-
-// ── Auto-détection des screenshots placés dans screenshots/<nom>.png ──
-function chargerScreenshots(){
-  document.querySelectorAll('.apercu-img-wrap[data-img]').forEach(wrap => {
-    const name = wrap.getAttribute('data-img');
-    if(!name) return;
-    const img = new Image();
-    img.onload = () => {
-      // Image existe : remplace le placeholder
-      wrap.innerHTML = '';
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
-      img.alt = name;
-      wrap.appendChild(img);
-    };
-    img.onerror = () => {}; // Silencieux : placeholder reste
-    img.src = 'screenshots/' + name + '.png';
-  });
-}
-chargerScreenshots();
-
-// ── Aperçu boutique (chargement dynamique des produits actifs) ──
+// icônes premium Lucide
+if(window.lucide) lucide.createIcons();
+// ── Aperçu boutique (mêmes tables que l'ancien landing : Supabase gfa-prod) ──
+const SHOP_URL='https://ikdzmzlleemkegnpqgvu.supabase.co';
+const SHOP_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrZHptemxsZWVta2VnbnBxZ3Z1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NjIxNDUsImV4cCI6MjA5MTIzODE0NX0.FYJrw4JfwFlbirITmX2f7Y_pixr7KdeMzRMNn_3k0d4';
+const SHOP_SB=(typeof supabase!=='undefined')?supabase.createClient(SHOP_URL,SHOP_KEY):null;
+function slugifyMini(s){return (s||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,80)}
+function escapeHtmlMini(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
 async function chargerApercuBoutique(){
-  const track = document.getElementById('boutiqueTrack');
-  if(!track) return;
-  try {
-    const [formationsRes, marcheRes] = await Promise.all([
-      SB.from('formations').select('*').eq('actif', true).order('created_at',{ascending:false}).limit(8),
-      SB.from('prix_marche').select('*').eq('vendable', true).order('produit').limit(8),
+  const track=document.getElementById('boutiqueTrack');
+  if(!track||!SHOP_SB) return;
+  try{
+    const [formationsRes,marcheRes]=await Promise.all([
+      SHOP_SB.from('formations').select('*').eq('actif',true).order('created_at',{ascending:false}).limit(8),
+      SHOP_SB.from('prix_marche').select('*').eq('vendable',true).order('produit').limit(8),
     ]);
-    const virtuels = (formationsRes.data || []).map(f => ({
-      titre: f.titre,
-      prix: f.gratuit ? 0 : (f.prix || 0),
-      gratuit: !!f.gratuit,
-      image_url: f.image_url || f.miniature || '',
-      type: 'virtuel',
-      sous_type: f.type,
-      slug: f.slug || slugifyMini(f.titre),
-    }));
-    const reels = (marcheRes.data || []).map(p => ({
-      titre: p.produit,
-      prix: p.prix_vente || 0,
-      gratuit: false,
-      image_url: p.image_url || '',
-      type: 'reel',
-      slug: p.slug || slugifyMini(p.produit),
-    }));
-    const tous = [...virtuels, ...reels].slice(0, 8);
-    if(tous.length === 0){
-      track.innerHTML = `<div class="empty-boutique">🛒 La boutique sera bientôt disponible. <a href="https://wa.me/22870992018" style="color:var(--bleu);font-weight:700">Contactez-nous</a> pour être informé.</div>`;
-      return;
-    }
-    track.innerHTML = tous.map(p => `
-      <a href="/produit?slug=${p.slug}" class="boutique-card">
+    const virtuels=(formationsRes.data||[]).map(f=>({titre:f.titre,prix:f.gratuit?0:(f.prix||0),gratuit:!!f.gratuit,image_url:f.image_url||f.miniature||'',type:'virtuel',sous_type:f.type,slug:f.slug||slugifyMini(f.titre)}));
+    const reels=(marcheRes.data||[]).map(p=>({titre:p.produit,prix:p.prix_vente||0,gratuit:false,image_url:p.image_url||'',type:'reel',slug:p.slug||slugifyMini(p.produit)}));
+    const tous=[...virtuels,...reels].slice(0,8);
+    if(tous.length===0){track.innerHTML=`<div class="empty-boutique">🛒 La boutique sera bientôt disponible. <a href="https://wa.me/22870992018" style="color:#2F6BFF;font-weight:700">Contactez-nous</a>.</div>`;return}
+    track.innerHTML=tous.map(p=>`
+      <a href="boutique.html" class="boutique-card">
         <div class="boutique-img-wrap">
-          ${p.image_url ? `<img src="${p.image_url}" alt="${escapeHtmlMini(p.titre)}" loading="lazy" onerror="this.style.display='none'">` : ''}
-          ${!p.image_url ? `<div class="boutique-img-ph">${p.type==='virtuel'?'📚':'🌾'}</div>` : ''}
+          ${p.image_url?`<img src="${p.image_url}" alt="${escapeHtmlMini(p.titre)}" loading="lazy" onerror="this.style.display='none'">`:`<div class="boutique-img-ph">${p.type==='virtuel'?'📚':'🌾'}</div>`}
           <div class="boutique-badge ${p.type}">${p.type==='virtuel'?(p.sous_type==='video'?'🎬 Vidéo':'📄 PDF'):'📦 Livré'}</div>
-          ${p.gratuit ? '<div class="boutique-badge-gratuit">GRATUIT</div>' : ''}
+          ${p.gratuit?'<div class="boutique-badge-gratuit">GRATUIT</div>':''}
         </div>
         <div class="boutique-body">
           <div class="boutique-titre">${escapeHtmlMini(p.titre)}</div>
           <div class="boutique-prix ${p.gratuit?'gratuit':''}">${p.gratuit?'Gratuit':Number(p.prix).toLocaleString('fr-FR')+' FCFA'}</div>
         </div>
-      </a>
-    `).join('');
-  } catch(e){
-    console.error('Erreur chargement boutique:', e);
-    track.innerHTML = `<div class="empty-boutique">⚠️ Erreur de chargement. <a href="/boutique" style="color:var(--bleu);font-weight:700">Réessayer</a></div>`;
+      </a>`).join('');
+  }catch(e){
+    console.error('Erreur chargement boutique:',e);
+    track.innerHTML=`<div class="empty-boutique">⚠️ Erreur de chargement. <a href="boutique.html" style="color:#2F6BFF;font-weight:700">Voir la boutique</a></div>`;
   }
-}
-function slugifyMini(s){
-  return (s||'').normalize('NFD').replace(/\p{Diacritic}/gu,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,80);
-}
-function escapeHtmlMini(s){
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 chargerApercuBoutique();
-
-// ── Détection ?ref=CODE&t=ton_x sur la landing (parrainage) ──
-(function detecterParrainage(){
-  const params = new URLSearchParams(location.search);
-  let ref = params.get('ref');
-  let ton = params.get('t');
-
-  // Persister dans localStorage si présent dans l'URL
-  if(ref){
-    try {
-      localStorage.setItem('gfa_ref', ref);
-      if(ton) localStorage.setItem('gfa_ref_ton', ton);
-      else localStorage.removeItem('gfa_ref_ton');
-    } catch(e){}
-  } else {
-    try {
-      ref = localStorage.getItem('gfa_ref');
-      ton = localStorage.getItem('gfa_ref_ton');
-    } catch(e){}
+// thème clair / sombre (mémorisé)
+function toggleTheme(){const d=document.documentElement;const isDark=d.getAttribute('data-theme')==='dark';const next=isDark?'light':'dark';d.setAttribute('data-theme',next);try{localStorage.setItem('agrix_theme',next)}catch(e){}const _tb=document.getElementById('themeBtn');if(_tb)_tb.textContent=next==='dark'?'☀️':'🌙'}
+window.toggleTheme=toggleTheme;
+(function(){try{const t=localStorage.getItem('agrix_theme');if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');const _tb=document.getElementById('themeBtn');if(_tb)_tb.textContent='☀️'}}catch(e){}})();
+// ── i18n FR / EN ──
+const I18N={
+  fr:{
+    nav_cabinet:`Cabinet IA`,nav_features:`Fonctionnalités`,nav_pricing:`Tarifs`,cta_start:`Commencer gratuitement`,
+    brand_sub:`Gestion d'une Ferme Agricole`,
+    hero_badge:`Élevage &amp; cultures · Cabinet IA`,
+    hero_h1:`Toute votre ferme,<br>avec vos <span class="grad">experts IA</span><br>dans la poche.`,
+    hero_sub:`AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie</b>, vous payez seulement quand vous voulez plus.`,
+    hero_cta1:`🚀 Commencer gratuitement`,hero_cta2:`Découvrir le Cabinet IA`,
+    meta_eleveurs:`Éleveurs`,meta_filieres:`Filières &amp; cultures`,meta_experts:`Experts IA`,
+    dash_title:`📊 Tableau de bord — Ferme Espoir`,dash_live:`● en direct`,dash_ponte:`Taux de ponte`,dash_mais:`Maïs en culture`,dash_marge:`Marge FCFA`,dash_filieres:`Filières actives`,
+    day_mon:`Lun`,day_tue:`Mar`,day_wed:`Mer`,day_thu:`Jeu`,
+    chip_sankara:`diagnostic en 30s`,chip_savana:`conseil cultures`,chip_yayra:`sur WhatsApp`,
+    trust_free:`🆓 Gratuit à vie`,trust_offline:`📶 Marche hors-ligne`,trust_pay:`📱 Mobile Money · FedaPay`,trust_africa:`🌍 Pensé pour l'Afrique`,
+    cab_lbl:`Cabinet IA`,cab_h2:`Vos experts, dans votre poche`,cab_p:`Un vétérinaire et un agronome, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.`,
+    cab_sankara_t:`Dr SANKARA — Vétérinaire`,cab_sankara_p:`Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.`,cab_sankara_pill:`2 consultations offertes`,
+    cab_savana_t:`Dr SAVANA — Agronome`,cab_savana_p:`Maladies des plantes, fertilisation, calendrier cultural : votre conseiller cultures, adapté à votre région.`,
+    cab_yayra_t:`YAYRA — Assistante`,cab_yayra_p:`Elle connaît vos bandes et vos chiffres, saisit vos rapports, vous alerte, et vous passe le bon expert. Aussi sur WhatsApp.`,
+    feat_lbl:`Fonctionnalités`,feat_h2:`Tout pour gérer votre exploitation`,feat_p:`Élevage multi-espèce <em>et</em> cultures, dans un seul outil pensé pour le terrain.`,
+    feat1_t:`Élevage multi-espèce`,feat1_p:`Volaille, lapin, porc, caprin… avec reproduction.`,
+    feat2_t:`Agriculture`,feat2_p:`Parcelles, campagnes, intrants, ventes, bilan par culture.`,
+    feat3_t:`Tableau de bord`,feat3_p:`Ponte, mortalité, marge, stock — en temps réel.`,
+    feat4_t:`Finances`,feat4_p:`Ventes, dépenses, ROI, factures, salaires.`,
+    feat5_t:`Équipe`,feat5_p:`Rôles, présence en ligne, discussion.`,
+    feat6_t:`Prophylaxie`,feat6_p:`Calendriers de vaccination + rappels.`,
+    feat7_t:`Hors-ligne`,feat7_p:`Saisie sans réseau, synchro auto.`,
+    feat8_t:`Multi-fermes`,feat8_p:`Comparez vos sites d'un coup d'œil.`,
+    plans_lbl:`Tarifs`,plans_h2:`Un plan pour chaque taille`,plans_p:`Le cœur est gratuit, à vie. Les prix affichés démarrent au plus petit palier et s'adaptent à la taille de votre exploitation.`,
+    plans_welcome:`🎁 <b>Bienvenue</b> — votre 1ᵉʳ paiement bénéficie de <b>−50 %</b> sur 1 mois équivalent.`,
+    pf_suivi:`Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)`,pf_rappels:`Rappels vaccins / prophylaxie`,pf_conseils:`Conseils éleveur + YAYRA`,
+    pf_bilan:`Bilan cumulé, évolution pesées`,pf_prophy:`Prophylaxie custom, corbeille, stock technicien`,pf_equipe:`Équipe &amp; discussion`,
+    pf_depenses:`Dépenses, Ventes, Clients, Stock`,pf_roi:`ROI / Rentabilité`,pf_factures:`Factures, Employés &amp; Salaires, Journal`,pf_graph:`Graphiques &amp; Comparaisons`,
+    pf_autopsie:`Autopsie guidée (Dr SANKARA)`,pf_previ:`Pondeuse / Chair — prévisionnel`,
+    pf_sankara:`🩺 Dr SANKARA`,pf_filieres:`Filières (élevage + agri)`,pf_histo:`Historique`,pf_bandes:`Bandes max`,pf_multi:`Multi-fermes / multi-sites`,pf_membres:`Membres équipe`,
+    u_avie:`à vie`,u_mois:`/ mois`,u_jours:`j`,u_an:`an`,u_ans:`ans`,
+    p_from:`À partir de`,p_permonth:`F/mois`,p_badge:`−50 % le 1ᵉʳ mois`,
+    pn_free:`Gratuit`,pprice_free:`Gratuit <span>· à vie</span>`,
+    pd_free:`Pour démarrer, sans limite de temps`,pd_starter:`Le suivi avancé de votre exploitation`,pd_elite:`L'argent de votre exploitation`,pd_pro:`La gestion complète + l'analyse`,pd_ent:`Grandes exploitations multi-sites`,
+    pcta_free:`Toujours gratuit`,pcta_starter:`Choisir Starter →`,pcta_elite:`Choisir Élite →`,pcta_start:`Démarrer →`,
+    b_lbl:`🛒 Boutique`,b_h2:`Formations, intrants, matériel`,b_p:`Paiement Mobile Money sécurisé, sans création de compte. Livraison rapide au Togo.`,b_loading:`⏳ Chargement des produits…`,b_btn:`Voir toute la boutique →`,
+    av_lbl:`Témoignages`,av_h2:`Ce que disent nos éleveurs`,av_p:`Des éleveurs de toute l'Afrique font confiance à AGRI-X.`,
+    av1_q:`« Je gère mes 3 poulaillers et mon champ de maïs depuis mon téléphone. Dr SANKARA m'a sauvé une bande de la coccidiose en pleine nuit. »`,av1_w:`Aviculteur · Tsévié`,
+    av2_q:`« Avant je notais tout dans un cahier. Maintenant je vois ma marge en temps réel et mes techniciens saisissent les rapports eux-mêmes. »`,av2_w:`Ferme avicole · Lomé`,
+    av3_q:`« Le mode hors-ligne change tout sur le terrain. Et c'est gratuit pour commencer — je n'ai payé que quand j'ai voulu les finances. »`,av3_w:`Éleveur · Kpalimé`,
+    faq_lbl:`FAQ`,faq_h2:`Questions fréquentes`,faq_p:`Tout ce qu'il faut savoir avant de démarrer.`,
+    faq1_q:`C'est vraiment gratuit ?`,faq1_a:`Oui — le cœur de AGRI-X est <strong>gratuit à vie</strong> : 1 élevage + 1 culture, suivi quotidien, rappels vaccins et <strong>2 consultations Dr SANKARA offertes</strong>. Aucune carte bancaire. Vous payez seulement le jour où vous voulez plus (finances, analyses, plus de filières, plus de consultations).`,
+    faq2_q:`Comment sont fixés les prix des plans ?`,faq2_a:`Le prix <strong>s'adapte à la taille</strong> de votre exploitation (nombre de sujets / hectares). Les tarifs affichés ici sont les prix d'entrée (« à partir de »). Dans l'app, vous voyez le prix exact pour votre taille. Bonus de bienvenue : <strong>−50 % sur le 1er paiement</strong>.`,
+    faq3_q:`Qu'est-ce que Dr SANKARA et Dr SAVANA ?`,faq3_a:`Ce sont vos <strong>experts IA</strong> : Dr SANKARA (vétérinaire — diagnostic, traitement, autopsie guidée) et Dr SAVANA (agronome — maladies des plantes, fertilisation, calendrier cultural). Disponibles 24/7, pour une fraction du prix d'une vraie consultation.`,
+    faq4_q:`Quels modes de paiement ?`,faq4_a:`Mobile Money (MTN, Moov, Wave) et carte bancaire via FedaPay. Activation immédiate après confirmation. Pour la diaspora, paiement par carte également disponible.`,
+    faq5_q:`Puis-je l'utiliser sans connexion ?`,faq5_a:`Oui, AGRI-X fonctionne <strong>hors-ligne</strong>. Vous saisissez vos données sur le terrain sans réseau, la synchronisation se fait automatiquement au retour de la connexion.`,
+    faq6_q:`Que gère AGRI-X, au juste ?`,faq6_a:`L'<strong>élevage multi-espèce</strong> (volaille, lapin, porc, caprin… avec reproduction) <strong>et l'agriculture</strong> (parcelles, campagnes, intrants, ventes, bilan par culture) — plus les finances, l'équipe, le stock, la prophylaxie et vos experts IA.`,
+    faq7_q:`Mes données sont-elles en sécurité ?`,faq7_a:`Oui. Hébergement Supabase (PostgreSQL, Europe), chiffrement TLS, authentification JWT et séparation stricte des rôles (Row-Level Security). Vos données ne sont jamais partagées.`,
+    ct_lbl:`Contact`,ct_h2:`Parlons de votre exploitation`,ct_p:`Notre équipe vous accompagne dans la prise en main.`,ct_addr:`📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo 🇹🇬`,
+    final_lbl:`Prêt ?`,final_h2:`Votre ferme mérite mieux qu'un cahier.`,final_p:`Créez votre compte gratuit en 2 minutes. Élevage, cultures et vos experts IA — sans carte bancaire.`,
+    footer_txt:`AGRI-X — Gestion d'une Ferme Agricole · ATM Farm Village · Togo 🇹🇬`
+  },
+  en:{
+    nav_cabinet:`AI Clinic`,nav_features:`Features`,nav_pricing:`Pricing`,cta_start:`Start for free`,
+    brand_sub:`Smart Farm Management`,
+    hero_badge:`Livestock &amp; crops · AI Clinic`,
+    hero_h1:`Your whole farm,<br>with your <span class="grad">AI experts</span><br>in your pocket.`,
+    hero_sub:`AGRI-X manages your <b>animals</b> (poultry, rabbit, pig, goat…) <b>and your crops</b> — with Dr&nbsp;SANKARA (vet) &amp; Dr&nbsp;SAVANA (agronomist). <b>Free forever</b>, pay only when you want more.`,
+    hero_cta1:`🚀 Start for free`,hero_cta2:`Explore the AI Clinic`,
+    meta_eleveurs:`Farmers`,meta_filieres:`Sectors &amp; crops`,meta_experts:`AI experts`,
+    dash_title:`📊 Dashboard — Espoir Farm`,dash_live:`● live`,dash_ponte:`Laying rate`,dash_mais:`Maize grown`,dash_marge:`Margin FCFA`,dash_filieres:`Active sectors`,
+    day_mon:`Mon`,day_tue:`Tue`,day_wed:`Wed`,day_thu:`Thu`,
+    chip_sankara:`diagnosis in 30s`,chip_savana:`crop advice`,chip_yayra:`on WhatsApp`,
+    trust_free:`🆓 Free forever`,trust_offline:`📶 Works offline`,trust_pay:`📱 Mobile Money · FedaPay`,trust_africa:`🌍 Built for Africa`,
+    cab_lbl:`AI Clinic`,cab_h2:`Your experts, in your pocket`,cab_p:`A vet and an agronomist, 24/7, for a fraction of the price of a real consultation. This is what makes AGRI-X unique.`,
+    cab_sankara_t:`Dr SANKARA — Vet`,cab_sankara_p:`Disease, mortality, symptom? Describe it or send a photo: diagnosis, treatment and what to do next.`,cab_sankara_pill:`2 free consultations`,
+    cab_savana_t:`Dr SAVANA — Agronomist`,cab_savana_p:`Plant diseases, fertilization, crop calendar: your crop advisor, tailored to your region.`,
+    cab_yayra_t:`YAYRA — Assistant`,cab_yayra_p:`She knows your flocks and your numbers, logs your reports, alerts you, and hands you to the right expert. Also on WhatsApp.`,
+    feat_lbl:`Features`,feat_h2:`Everything to run your farm`,feat_p:`Multi-species livestock <em>and</em> crops, in one tool built for the field.`,
+    feat1_t:`Multi-species livestock`,feat1_p:`Poultry, rabbit, pig, goat… with breeding.`,
+    feat2_t:`Crops`,feat2_p:`Plots, seasons, inputs, sales, P&L per crop.`,
+    feat3_t:`Dashboard`,feat3_p:`Laying, mortality, margin, stock — in real time.`,
+    feat4_t:`Finances`,feat4_p:`Sales, expenses, ROI, invoices, payroll.`,
+    feat5_t:`Team`,feat5_p:`Roles, online presence, chat.`,
+    feat6_t:`Prophylaxis`,feat6_p:`Vaccination schedules + reminders.`,
+    feat7_t:`Offline`,feat7_p:`Enter data with no network, auto-sync.`,
+    feat8_t:`Multi-farm`,feat8_p:`Compare all your sites at a glance.`,
+    plans_lbl:`Pricing`,plans_h2:`A plan for every size`,plans_p:`The core is free, forever. Listed prices start at the smallest tier and scale with the size of your operation.`,
+    plans_welcome:`🎁 <b>Welcome</b> — your 1st payment gets <b>−50%</b> on one equivalent month.`,
+    pf_suivi:`Daily tracking (Dashboard, Report, Flocks, Weighing, Mortality)`,pf_rappels:`Vaccine / prophylaxis reminders`,pf_conseils:`Farmer tips + YAYRA`,
+    pf_bilan:`Cumulative report, weighing trends`,pf_prophy:`Custom prophylaxis, trash, technician stock`,pf_equipe:`Team &amp; chat`,
+    pf_depenses:`Expenses, Sales, Clients, Stock`,pf_roi:`ROI / Profitability`,pf_factures:`Invoices, Employees &amp; Payroll, Ledger`,pf_graph:`Charts &amp; Comparisons`,
+    pf_autopsie:`Guided necropsy (Dr SANKARA)`,pf_previ:`Layer / Broiler — forecast`,
+    pf_sankara:`🩺 Dr SANKARA`,pf_filieres:`Sectors (livestock + crops)`,pf_histo:`History`,pf_bandes:`Max flocks`,pf_multi:`Multi-farm / multi-site`,pf_membres:`Team members`,
+    u_avie:`lifetime`,u_mois:`/ mo`,u_jours:`d`,u_an:`yr`,u_ans:`yr`,
+    p_from:`From`,p_permonth:`F/mo`,p_badge:`−50% first month`,
+    pn_free:`Free`,pprice_free:`Free <span>· forever</span>`,
+    pd_free:`To get started, no time limit`,pd_starter:`Advanced tracking for your farm`,pd_elite:`Your farm's money`,pd_pro:`Full management + analytics`,pd_ent:`Large multi-site operations`,
+    pcta_free:`Always free`,pcta_starter:`Choose Starter →`,pcta_elite:`Choose Élite →`,pcta_start:`Get started →`,
+    b_lbl:`🛒 Shop`,b_h2:`Courses, inputs, equipment`,b_p:`Secure Mobile Money payment, no account needed. Fast delivery in Togo.`,b_loading:`⏳ Loading products…`,b_btn:`See the full shop →`,
+    av_lbl:`Testimonials`,av_h2:`What our farmers say`,av_p:`Farmers across Africa trust AGRI-X.`,
+    av1_q:`“I run my 3 poultry houses and my maize field from my phone. Dr SANKARA saved a flock from coccidiosis in the middle of the night.”`,av1_w:`Poultry farmer · Tsévié`,
+    av2_q:`“I used to write everything in a notebook. Now I see my margin in real time and my technicians log the reports themselves.”`,av2_w:`Poultry farm · Lomé`,
+    av3_q:`“Offline mode changes everything in the field. And it's free to start — I only paid when I wanted the finances.”`,av3_w:`Farmer · Kpalimé`,
+    faq_lbl:`FAQ`,faq_h2:`Frequently asked questions`,faq_p:`Everything you need to know before getting started.`,
+    faq1_q:`Is it really free?`,faq1_a:`Yes — the core of AGRI-X is <strong>free forever</strong>: 1 livestock sector + 1 crop, daily tracking, vaccine reminders and <strong>2 free Dr SANKARA consultations</strong>. No credit card. You only pay the day you want more (finances, analytics, more sectors, more consultations).`,
+    faq2_q:`How are plan prices set?`,faq2_a:`The price <strong>scales with the size</strong> of your operation (number of animals / hectares). Prices shown here are entry prices (“from”). In the app you see the exact price for your size. Welcome bonus: <strong>−50% on your 1st payment</strong>.`,
+    faq3_q:`What are Dr SANKARA and Dr SAVANA?`,faq3_a:`They are your <strong>AI experts</strong>: Dr SANKARA (vet — diagnosis, treatment, guided necropsy) and Dr SAVANA (agronomist — plant diseases, fertilization, crop calendar). Available 24/7, for a fraction of the price of a real consultation.`,
+    faq4_q:`What payment methods?`,faq4_a:`Mobile Money (MTN, Moov, Wave) and bank card via FedaPay. Instant activation after confirmation. Card payment is also available for the diaspora.`,
+    faq5_q:`Can I use it without a connection?`,faq5_a:`Yes, AGRI-X works <strong>offline</strong>. You enter your data in the field with no network, and it syncs automatically once you're back online.`,
+    faq6_q:`What exactly does AGRI-X manage?`,faq6_a:`<strong>Multi-species livestock</strong> (poultry, rabbit, pig, goat… with breeding) <strong>and crops</strong> (plots, seasons, inputs, sales, P&L per crop) — plus finances, team, stock, prophylaxis and your AI experts.`,
+    faq7_q:`Is my data safe?`,faq7_a:`Yes. Supabase hosting (PostgreSQL, Europe), TLS encryption, JWT authentication and strict role separation (Row-Level Security). Your data is never shared.`,
+    ct_lbl:`Contact`,ct_h2:`Let's talk about your farm`,ct_p:`Our team helps you get up and running.`,ct_addr:`📍 ATM Farm Village — Provenderie Sadari · Lomé, Togo 🇹🇬`,
+    final_lbl:`Ready?`,final_h2:`Your farm deserves better than a notebook.`,final_p:`Create your free account in 2 minutes. Livestock, crops and your AI experts — no credit card.`,
+    footer_txt:`AGRI-X — Smart Farm Management · ATM Farm Village · Togo 🇹🇬`
   }
-
-  if(!ref) return;
-
-  // 1. Modifier tous les liens vers app.avifarmer.net pour ajouter ?ref=CODE
-  document.querySelectorAll('a[href^="https://app.avifarmer.net"]').forEach(a => {
-    try {
-      const u = new URL(a.href);
-      u.searchParams.set('ref', ref);
-      a.href = u.toString();
-    } catch(e){}
-  });
-
-  // 2. Bandeau en haut de page (au-dessus de la nav)
-  if(!document.getElementById('parrainage-bandeau')){
-    const bandeau = document.createElement('div');
-    bandeau.id = 'parrainage-bandeau';
-    bandeau.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:200;background:linear-gradient(90deg,#22c55e,#059669);color:white;padding:10px 16px;text-align:center;font-size:13px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap';
-    bandeau.innerHTML = `
-      🎁 <span>Code parrain <strong style="background:rgba(255,255,255,.25);padding:2px 8px;border-radius:4px;font-family:monospace">${ref.replace(/[<>]/g,'')}</strong> activé : <b>-5% sur votre 1er paiement</b></span>
-      <button onclick="document.getElementById('parrainage-bandeau').remove();document.querySelector('nav').style.top='0'" style="background:rgba(0,0,0,.15);border:none;color:white;padding:2px 10px;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px">×</button>
-    `;
-    document.body.insertBefore(bandeau, document.body.firstChild);
-    const nav = document.querySelector('nav');
-    if(nav){
-      nav.style.top = bandeau.offsetHeight + 'px';
-      nav.style.transition = 'top .3s';
-    }
-  }
-
-  // 3. Enregistrer le clic dans parrain_clics (best-effort, seulement si vient d'un lien parrain)
-  if(params.get('ref')){
-    (async () => {
-      try {
-        let tonKey = null, varianteIdx = null;
-        if(ton){
-          const match = ton.match(/^([a-z]+)_(\d+)$/);
-          if(match){ tonKey = match[1]; varianteIdx = +match[2]; }
-        }
-        await SB.from('parrain_clics').insert({
-          code_parrain: ref,
-          ton: tonKey,
-          variante: varianteIdx,
-          source: 'landing',
-          user_agent: navigator.userAgent.slice(0, 200),
-          referer: document.referrer.slice(0, 200),
-        });
-      } catch(e){ /* silencieux */ }
-    })();
-  }
-})();
-
-// ── Carousel aperçu (dots + scroll) ──
-function initApercuCarousel(){
-  const track = document.getElementById('apercuTrack');
-  const dotsWrap = document.getElementById('apercuDots');
-  if(!track || !dotsWrap) return;
-  const cards = track.querySelectorAll('.apercu-card');
-  cards.forEach((c, i)=>{
-    const d = document.createElement('div');
-    d.className = 'apercu-dot' + (i===0?' active':'');
-    d.onclick = ()=>{ c.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'}); };
-    dotsWrap.appendChild(d);
-  });
-  // Update active dot on scroll
-  const dots = dotsWrap.querySelectorAll('.apercu-dot');
-  track.addEventListener('scroll', ()=>{
-    const trackCenter = track.scrollLeft + track.clientWidth/2;
-    let closest = 0, minDist = Infinity;
-    cards.forEach((c, i)=>{
-      const cardCenter = c.offsetLeft + c.clientWidth/2;
-      const dist = Math.abs(cardCenter - trackCenter);
-      if(dist < minDist){ minDist = dist; closest = i; }
-    });
-    dots.forEach((d, i)=>d.classList.toggle('active', i===closest));
-  });
+};
+let LANG='fr';
+function applyLang(l){LANG=(l==='en')?'en':'fr';const d=I18N[LANG];document.querySelectorAll('[data-i18n]').forEach(el=>{const v=d[el.getAttribute('data-i18n')];if(v!=null)el.innerHTML=v;});document.documentElement.lang=LANG;const b=document.getElementById('langBtn');if(b)b.textContent=(LANG==='fr')?'EN':'FR';try{localStorage.setItem('agrix_lang',LANG)}catch(e){}}
+function toggleLang(){applyLang(LANG==='fr'?'en':'fr')}
+window.toggleLang=toggleLang;
+(function(){try{const l=localStorage.getItem('agrix_lang');if(l==='en')applyLang('en');}catch(e){}})();
+// reveal on scroll
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14});
+document.querySelectorAll('.rv:not(.in)').forEach(el=>io.observe(el));
+// compteurs
+function count(el){const t=+el.dataset.count;let n=0;const step=Math.max(1,Math.round(t/60));const id=setInterval(()=>{n+=step;if(n>=t){n=t;clearInterval(id)}el.textContent=n.toLocaleString('fr-FR')+(t>=1000?'+':'')},22)}
+const io2=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){count(e.target);io2.unobserve(e.target)}})},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>io2.observe(el));
+// tilt 3D du visuel hero (souris)
+const card=document.getElementById('card3d');
+if(card&&window.matchMedia('(min-width:981px)').matches){
+  const stage=card.parentElement;
+  stage.addEventListener('mousemove',e=>{const r=stage.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;card.style.transform=`rotateY(${-14+x*16}deg) rotateX(${8-y*16}deg)`});
+  stage.addEventListener('mouseleave',()=>{card.style.transform='rotateY(-14deg) rotateX(8deg)'});
 }
-initApercuCarousel();
-
-// ── Parallax léger sur le hero ──
-window.addEventListener('scroll', ()=>{
-  const sc = window.scrollY;
-  const hero = document.querySelector('.hero');
-  if(hero && sc < window.innerHeight){
-    hero.style.setProperty('--parallax', sc*0.15+'px');
-    const beforeEl = document.querySelector('.hero');
-    if(beforeEl) beforeEl.style.backgroundPosition = `0 ${-sc*0.05}px`;
-  }
-}, {passive:true});
-
-async function loadStats(){
-  const [{data:fermes},{data:rapports}] = await Promise.all([
-    SB.from('fermes').select('id'),
-    SB.from('rapports').select('id')
-  ]);
-  const nbFermes = fermes?.length || 0;
-  const nbRapports = rapports?.length || 0;
-  const elF = document.getElementById('stat-fermes');
-  const elR = document.getElementById('stat-rapports');
-  // Animation au scroll (déclenchée par IntersectionObserver sur .hero-stats)
-  const statObs = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        animateCounter(elF, nbFermes, '+');
-        animateCounter(elR, nbRapports>100 ? Math.floor(nbRapports/100)*100 : nbRapports, nbRapports>100?'+':'');
-        statObs.disconnect();
-      }
-    });
-  }, {threshold:.3});
-  if(elF) statObs.observe(elF.parentElement);
-}
-
-async function loadAvis(){
-  const{data} = await SB.from('avis').select('*').eq('approuve',true).order('created_at',{ascending:false}).limit(6);
-  const grid = document.getElementById('avis-grid');
-  if(!data?.length){
-    grid.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:48px 24px;background:linear-gradient(135deg,#F0F7FF,#F0FDF4);border-radius:18px;border:1.5px dashed var(--bleu3)">
-        <div style="font-size:42px;margin-bottom:14px">✨</div>
-        <div style="font-family:'Fraunces',serif;font-size:22px;font-weight:900;color:var(--bleu-sombre);margin-bottom:6px">Soyez le premier à témoigner</div>
-        <div style="font-size:13px;color:var(--textm);max-width:420px;margin:0 auto;line-height:1.6">Aucun avis publié pour le moment. Vous utilisez GFA ? Partagez votre expérience ci-dessous — votre retour aide d'autres éleveurs à se lancer.</div>
-      </div>`;
-    return;
-  }
-  grid.innerHTML = data.map(a=>`
-    <div class="avis-card">
-      <div class="avis-stars">${'★'.repeat(a.etoiles)}${'☆'.repeat(5-a.etoiles)}</div>
-      <div class="avis-msg">"${a.message}"</div>
-      <div class="avis-auteur">${a.nom}</div>
-      ${a.ferme?`<div class="avis-ferme">${a.ferme}</div>`:''}
-    </div>`).join('');
-}
-
-function setEtoile(n){
-  etoilesSelectionnees = n;
-  document.querySelectorAll('.star-btn').forEach((btn,i)=>{
-    btn.classList.toggle('active', i < n);
-  });
-}
-
-async function soumettreAvis(){
-  const nom = document.getElementById('avis-nom').value.trim();
-  const ferme = document.getElementById('avis-ferme').value.trim();
-  const message = document.getElementById('avis-message').value.trim();
-  const errEl = document.getElementById('avis-err');
-  errEl.textContent = '';
-  if(!nom){ errEl.textContent = 'Votre nom est requis'; return; }
-  if(!message||message.length<10){ errEl.textContent = 'Message trop court (min 10 caractères)'; return; }
-  const{error} = await SB.from('avis').insert({nom,ferme,etoiles:etoilesSelectionnees,message});
-  if(error){ errEl.textContent = 'Erreur: '+error.message; return; }
-  document.getElementById('avis-success').style.display = 'block';
-  document.getElementById('avis-nom').value = '';
-  document.getElementById('avis-ferme').value = '';
-  document.getElementById('avis-message').value = '';
-  setEtoile(5);
-  setTimeout(()=>{ document.getElementById('avis-success').style.display='none'; },4000);
-}
-
-// Animations scroll
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; e.target.classList.add('in'); }});
-},{threshold:.1});
-// NB : on EXCLUT .apercu-card car elles sont dans un carousel horizontal — toutes ne sont pas en viewport,
-// elles resteraient cachées. On les laisse visibles dès le départ.
-document.querySelectorAll('.feature-card,.plan-card,.avis-card,.howit-step,.faq-item').forEach(el=>{
-  el.style.opacity='0'; el.style.transform='translateY(24px)'; el.style.transition='opacity .55s ease, transform .55s ease';
-  obs.observe(el);
+// tilt 3D sur les cartes (cabinet IA + fonctionnalités)
+document.querySelectorAll('.tcard,.fcard').forEach(c=>{
+  c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(900px) rotateY(${x*7}deg) rotateX(${-y*7}deg) translateY(-6px)`});
+  c.addEventListener('mouseleave',()=>{c.style.transform=''});
 });
-document.querySelectorAll('.fade-up').forEach(el=>{
-  // Skip si c'est un apercu-card (déjà géré ci-dessus pour exclusion)
-  if(el.classList.contains('apercu-card')) return;
-  obs.observe(el);
-});
-
-loadStats(); loadAvis();
-
-function setPeriode(p){
-  const mensuel = p==='mensuel';
-  document.getElementById('toggle-mensuel').style.background = mensuel?'var(--bleu)':'var(--gris2)';
-  document.getElementById('toggle-mensuel').style.color = mensuel?'white':'var(--textm)';
-  document.getElementById('toggle-annuel').style.background = !mensuel?'var(--bleu)':'var(--gris2)';
-  document.getElementById('toggle-annuel').style.color = !mensuel?'white':'var(--textm)';
-  
-  [['starter','5 000','50 000'],['elite','7 000','70 000'],['pro','10 000','100 000'],['entr','25 000','250 000']].forEach(([k,m,a])=>{
-    document.getElementById('price-'+k).innerHTML = (mensuel?m:Math.round(+a.replace(/\s/g,'')/12).toLocaleString('fr-FR'))+' <span>FCFA/mois</span>';
-    const annuelEl = document.getElementById('price-'+k+'-annuel');
-    if(annuelEl) annuelEl.style.display = mensuel?'none':'block';
-  });
-}
-
-// ── Menu mobile (hamburger) ──
-function toggleNavMenu(){
-  const m=document.getElementById('mobileMenu');
-  const b=document.getElementById('navBurger');
-  const open=m.classList.toggle('open');
-  b.classList.toggle('open',open);
-  b.setAttribute('aria-expanded',open?'true':'false');
-}
-function closeNavMenu(){
-  document.getElementById('mobileMenu').classList.remove('open');
-  const b=document.getElementById('navBurger');
-  b.classList.remove('open');
-  b.setAttribute('aria-expanded','false');
-}
-
 </script>
 </body>
 </html>
