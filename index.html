@@ -574,7 +574,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <section class="blk" id="avis">
   <div class="wrap">
     <div class="head rv"><div class="lbl" data-i18n="av_lbl">Témoignages</div><h2 data-i18n="av_h2">Ce que disent nos éleveurs</h2><p data-i18n="av_p">Des éleveurs de toute l'Afrique font confiance à AGRI-X.</p></div>
-    <div class="avis-grid">
+    <div class="avis-grid" id="avisGrid">
       <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av1_q">« Je gère mes 3 poulaillers et mon champ de maïs depuis mon téléphone. Dr SANKARA m'a sauvé une bande de la coccidiose en pleine nuit. »</div><div class="avis-who">Kofi M. <small data-i18n="av1_w">Aviculteur · Tsévié</small></div></div>
       <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av2_q">« Avant je notais tout dans un cahier. Maintenant je vois ma marge en temps réel et mes techniciens saisissent les rapports eux-mêmes. »</div><div class="avis-who">Awa D. <small data-i18n="av2_w">Ferme avicole · Lomé</small></div></div>
       <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av3_q">« Le mode hors-ligne change tout sur le terrain. Et c'est gratuit pour commencer — je n'ai payé que quand j'ai voulu les finances. »</div><div class="avis-who">Yawo K. <small data-i18n="av3_w">Éleveur · Kpalimé</small></div></div>
@@ -666,6 +666,21 @@ async function chargerApercuBoutique(){
   }
 }
 chargerApercuBoutique();
+// ── Avis réels (RPC publique get_temoignages_publics) — repli sur les avis par défaut si vide ──
+(async function(){
+  const grid = document.getElementById('avisGrid');
+  if(!grid || typeof SHOP_SB === 'undefined' || !SHOP_SB || typeof SHOP_SB.rpc !== 'function') return;
+  try{
+    const { data, error } = await SHOP_SB.rpc('get_temoignages_publics', { p_filiere: null, p_limit: 6 });
+    if(error || !Array.isArray(data) || data.length < 3) return;   // <3 → on garde les avis par défaut
+    const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    grid.innerHTML = data.slice(0,3).map(t => {
+      const who = [esc(t.auteur_prenom), esc(t.ville)].filter(Boolean).join(' · ');
+      const note = Math.max(1, Math.min(5, t.note || 5));
+      return `<div class="avis-card"><div class="avis-stars">${'★'.repeat(note)}</div><div class="q">«&nbsp;${esc(t.texte)}&nbsp;»</div><div class="avis-who">${who}${t.resultat?` <small>${esc(t.resultat)}</small>`:''}</div></div>`;
+    }).join('');
+  }catch(e){}
+})();
 // ── Chiffre éleveurs en direct (RPC publique agrégée gfa-prod) ──
 (async function(){
   const el=document.getElementById('statEleveurs'); const box=document.getElementById('metaEleveurs');
