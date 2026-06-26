@@ -192,6 +192,21 @@ footer{text-align:center;padding:50px 0 40px;color:var(--muted);font-size:13px}
 .welcome{max-width:1000px;margin:0 auto 26px;background:linear-gradient(135deg,var(--green-l),#FFF7E6);border:1px solid rgba(14,159,110,.3);border-radius:16px;padding:14px 22px;text-align:center;font-size:14px;font-weight:600}
 .pgrid5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:start}
 #plans .wrap{max-width:1340px}
+/* calculateur de tarif */
+.calc-box{max-width:1000px;margin:0 auto 22px;background:linear-gradient(135deg,#0c4a32,#0a3d2a);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:22px;color:#fff}
+.calc-h{font-weight:800;font-size:17px;margin-bottom:14px}
+.calc-controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+.calc-controls input{flex:1;min-width:220px;padding:13px 15px;border-radius:11px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.96);color:#0a3d2a;font-size:15px;font-weight:600}
+.calc-pays{min-width:210px;padding:13px 14px;border-radius:11px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.96);color:#0a3d2a;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.calc-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:680px){.calc-cards{grid-template-columns:repeat(2,1fr)}}
+.calc-card{background:rgba(255,255,255,.08);border-radius:12px;padding:14px;text-align:center}
+.cc-plan{font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.cc-price{font-size:20px;font-weight:900;line-height:1.1}
+.cc-price span{font-size:12px;font-weight:600;opacity:.7}
+.cc-sub{font-size:11px;opacity:.75;margin-top:4px}
+.calc-hint{grid-column:1/-1;text-align:center;padding:18px;opacity:.85;font-size:14px}
+.calc-note{font-size:12px;opacity:.75;margin-top:12px;text-align:center}
 .pcard{padding:26px 20px}
 .pf li.val{justify-content:space-between;gap:6px}
 .pf li.val b{color:var(--green-d);font-weight:800;white-space:nowrap}
@@ -405,6 +420,39 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
   <div class="wrap">
     <div class="head rv"><div class="lbl" data-i18n="plans_lbl">Tarifs</div><h2 data-i18n="plans_h2">Un plan pour chaque taille</h2><p data-i18n="plans_p">Le cœur est gratuit, à vie. Les prix affichés démarrent au plus petit palier et s'adaptent à la taille de votre exploitation.</p></div>
 
+    <!-- CALCULATEUR DE TARIF -->
+    <div class="calc-box rv">
+      <div class="calc-h">💡 Calcule ton tarif en 5 secondes</div>
+      <div class="calc-controls">
+        <input id="calcN" type="number" min="0" inputmode="numeric" placeholder="Combien de sujets ? (poules, lapins, porcs…)">
+        <select id="calcPays" class="calc-pays" onchange="calcMaj()" aria-label="Ton pays">
+          <optgroup label="🌍 Paiement local (Mobile Money / carte)">
+            <option value="loc" selected>🇹🇬 Togo</option>
+            <option value="loc">🇧🇯 Bénin</option>
+            <option value="loc">🇨🇮 Côte d'Ivoire</option>
+            <option value="loc">🇸🇳 Sénégal</option>
+            <option value="loc">🇲🇱 Mali</option>
+            <option value="loc">🇳🇪 Niger</option>
+            <option value="loc">🇬🇳 Guinée</option>
+            <option value="loc">🇧🇫 Burkina Faso</option>
+          </optgroup>
+          <optgroup label="✈️ Diaspora / étranger">
+            <option value="dia">🇫🇷 France</option>
+            <option value="dia">🇺🇸 États-Unis</option>
+            <option value="dia">🇨🇦 Canada</option>
+            <option value="dia">🇧🇪 Belgique</option>
+            <option value="dia">🇩🇪 Allemagne</option>
+            <option value="dia">🇬🇧 Royaume-Uni</option>
+            <option value="dia">🇮🇹 Italie</option>
+            <option value="dia">🇪🇸 Espagne</option>
+            <option value="dia">🌍 Autre pays…</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="calc-cards" id="calcCards"><div class="calc-hint">Entre ton nombre de sujets pour voir les 4 tarifs 👆</div></div>
+      <div class="calc-note">Tarif <b>au sujet, dégressif</b> : moins cher au sujet quand tu grossis. Le cœur reste <b>gratuit à vie</b>.</div>
+    </div>
+
     <div class="welcome rv" data-i18n="plans_welcome">🎁 <b>Bienvenue</b> — votre 1ᵉʳ paiement bénéficie de <b>−50 %</b> sur 1 mois équivalent.</div>
 
     <div class="pgrid5">
@@ -440,7 +488,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
       <div class="pcard rv">
         <div class="pname">Starter</div>
         <div class="pfrom" data-i18n="p_from">À partir de</div>
-        <div class="pprice">2 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pprice">1 <span data-i18n="p_permonth">F/sujet/mois</span></div>
         <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
         <div class="pdesc" data-i18n="pd_starter">Le suivi avancé de votre exploitation</div>
         <ul class="pf">
@@ -470,7 +518,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
       <div class="pcard rv">
         <div class="pname">Élite</div>
         <div class="pfrom" data-i18n="p_from">À partir de</div>
-        <div class="pprice">4 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pprice">1,5 <span data-i18n="p_permonth">F/sujet/mois</span></div>
         <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
         <div class="pdesc" data-i18n="pd_elite">L'argent de votre exploitation</div>
         <ul class="pf">
@@ -500,7 +548,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
       <div class="pcard pop rv">
         <div class="pname">Pro</div>
         <div class="pfrom" data-i18n="p_from">À partir de</div>
-        <div class="pprice">7 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pprice">2 <span data-i18n="p_permonth">F/sujet/mois</span></div>
         <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
         <div class="pdesc" data-i18n="pd_pro">La gestion complète + l'analyse</div>
         <ul class="pf">
@@ -530,7 +578,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
       <div class="pcard rv">
         <div class="pname">Enterprise</div>
         <div class="pfrom" data-i18n="p_from">À partir de</div>
-        <div class="pprice">10 000 <span data-i18n="p_permonth">F/mois</span></div>
+        <div class="pprice">3 <span data-i18n="p_permonth">F/sujet/mois</span></div>
         <div class="pbadge" data-i18n="p_badge">−50 % le 1ᵉʳ mois</div>
         <div class="pdesc" data-i18n="pd_ent">Grandes exploitations multi-sites</div>
         <ul class="pf">
@@ -724,7 +772,7 @@ const I18N={
     feat6_t:`Prophylaxie`,feat6_p:`Calendriers de vaccination + rappels.`,
     feat7_t:`Hors-ligne`,feat7_p:`Saisie sans réseau, synchro auto.`,
     feat8_t:`Multi-fermes`,feat8_p:`Comparez vos sites d'un coup d'œil.`,
-    plans_lbl:`Tarifs`,plans_h2:`Un plan pour chaque taille`,plans_p:`Le cœur est gratuit, à vie. Les prix affichés démarrent au plus petit palier et s'adaptent à la taille de votre exploitation.`,
+    plans_lbl:`Tarifs`,plans_h2:`Un plan pour chaque taille`,plans_p:`Le cœur est gratuit, à vie. Le tarif est <b>au sujet</b> (à partir de 1 F/sujet/mois, dégressif), avec une <b>entrée dès 2 000 F/mois</b>. Calcule ton prix exact ci-dessous 👇`,
     plans_welcome:`🎁 <b>Bienvenue</b> — votre 1ᵉʳ paiement bénéficie de <b>−50 %</b> sur 1 mois équivalent.`,
     pf_suivi:`Suivi quotidien (Dashboard, Rapport, Bandes, Pesée, Mortalité)`,pf_rappels:`Rappels vaccins / prophylaxie`,pf_conseils:`Conseils éleveur + YAYRA`,
     pf_bilan:`Bilan cumulé, évolution pesées`,pf_prophy:`Prophylaxie custom, corbeille, stock technicien`,pf_equipe:`Équipe &amp; discussion`,
@@ -732,7 +780,7 @@ const I18N={
     pf_autopsie:`Autopsie guidée (Dr SANKARA)`,pf_previ:`Pondeuse / Chair — prévisionnel`,
     pf_sankara:`🩺 Dr SANKARA`,pf_filieres:`Filières (élevage + agri)`,pf_histo:`Historique`,pf_bandes:`Bandes max`,pf_multi:`Multi-fermes / multi-sites`,pf_membres:`Membres équipe`,
     u_avie:`à vie`,u_mois:`/ mois`,u_jours:`j`,u_an:`an`,u_ans:`ans`,
-    p_from:`À partir de`,p_permonth:`F/mois`,p_badge:`−50 % le 1ᵉʳ mois`,
+    p_from:`À partir de`,p_permonth:`F/sujet/mois`,p_badge:`−50 % le 1ᵉʳ mois`,
     pn_free:`Gratuit`,pprice_free:`Gratuit <span>· à vie</span>`,
     pd_free:`Pour démarrer, sans limite de temps`,pd_starter:`Le suivi avancé de votre exploitation`,pd_elite:`L'argent de votre exploitation`,pd_pro:`La gestion complète + l'analyse`,pd_ent:`Grandes exploitations multi-sites`,
     pcta_free:`Toujours gratuit`,pcta_starter:`Choisir Starter →`,pcta_elite:`Choisir Élite →`,pcta_start:`Démarrer →`,
@@ -743,7 +791,7 @@ const I18N={
     av3_q:`« Le mode hors-ligne change tout sur le terrain. Et c'est gratuit pour commencer — je n'ai payé que quand j'ai voulu les finances. »`,av3_w:`Éleveur · Kpalimé`,
     faq_lbl:`FAQ`,faq_h2:`Questions fréquentes`,faq_p:`Tout ce qu'il faut savoir avant de démarrer.`,
     faq1_q:`C'est vraiment gratuit ?`,faq1_a:`Oui — le cœur de AGRI-X est <strong>gratuit à vie</strong> : 1 élevage + 1 culture, suivi quotidien, rappels vaccins et <strong>2 consultations Dr SANKARA offertes</strong>. Aucune carte bancaire. Vous payez seulement le jour où vous voulez plus (finances, analyses, plus de filières, plus de consultations).`,
-    faq2_q:`Comment sont fixés les prix des plans ?`,faq2_a:`Le prix <strong>s'adapte à la taille</strong> de votre exploitation (nombre de sujets / hectares). Les tarifs affichés ici sont les prix d'entrée (« à partir de »). Dans l'app, vous voyez le prix exact pour votre taille. Bonus de bienvenue : <strong>−50 % sur le 1er paiement</strong>.`,
+    faq2_q:`Comment sont fixés les prix des plans ?`,faq2_a:`Le prix est <strong>au sujet et dégressif</strong> : vous payez un petit montant par animal et par mois (à partir de 1 F), <strong>moins cher au sujet quand vous grossissez</strong>. Utilisez le <strong>calculateur ci-dessus</strong> pour votre prix exact. Le cœur reste <strong>gratuit à vie</strong>. Bonus : <strong>−50 % sur le 1er paiement</strong>.`,
     faq3_q:`Qu'est-ce que Dr SANKARA et Dr SAVANA ?`,faq3_a:`Ce sont vos <strong>experts IA</strong> : Dr SANKARA (vétérinaire — diagnostic, traitement, autopsie guidée) et Dr SAVANA (agronome — maladies des plantes, fertilisation, calendrier cultural). Disponibles 24/7, pour une fraction du prix d'une vraie consultation.`,
     faq4_q:`Quels modes de paiement ?`,faq4_a:`Mobile Money (MTN, Moov, Wave) et carte bancaire via FedaPay. Activation immédiate après confirmation. Pour la diaspora, paiement par carte également disponible.`,
     faq5_q:`Puis-je l'utiliser sans connexion ?`,faq5_a:`Oui, AGRI-X fonctionne <strong>hors-ligne</strong>. Vous saisissez vos données sur le terrain sans réseau, la synchronisation se fait automatiquement au retour de la connexion.`,
@@ -778,7 +826,7 @@ const I18N={
     feat6_t:`Prophylaxis`,feat6_p:`Vaccination schedules + reminders.`,
     feat7_t:`Offline`,feat7_p:`Enter data with no network, auto-sync.`,
     feat8_t:`Multi-farm`,feat8_p:`Compare all your sites at a glance.`,
-    plans_lbl:`Pricing`,plans_h2:`A plan for every size`,plans_p:`The core is free, forever. Listed prices start at the smallest tier and scale with the size of your operation.`,
+    plans_lbl:`Pricing`,plans_h2:`A plan for every size`,plans_p:`The core is free, forever. Pricing is <b>per animal</b> (from 1 F/animal/mo, degressive), with an <b>entry from 2,000 F/mo</b>. Calculate your exact price below 👇`,
     plans_welcome:`🎁 <b>Welcome</b> — your 1st payment gets <b>−50%</b> on one equivalent month.`,
     pf_suivi:`Daily tracking (Dashboard, Report, Flocks, Weighing, Mortality)`,pf_rappels:`Vaccine / prophylaxis reminders`,pf_conseils:`Farmer tips + YAYRA`,
     pf_bilan:`Cumulative report, weighing trends`,pf_prophy:`Custom prophylaxis, trash, technician stock`,pf_equipe:`Team &amp; chat`,
@@ -786,7 +834,7 @@ const I18N={
     pf_autopsie:`Guided necropsy (Dr SANKARA)`,pf_previ:`Layer / Broiler — forecast`,
     pf_sankara:`🩺 Dr SANKARA`,pf_filieres:`Sectors (livestock + crops)`,pf_histo:`History`,pf_bandes:`Max flocks`,pf_multi:`Multi-farm / multi-site`,pf_membres:`Team members`,
     u_avie:`lifetime`,u_mois:`/ mo`,u_jours:`d`,u_an:`yr`,u_ans:`yr`,
-    p_from:`From`,p_permonth:`F/mo`,p_badge:`−50% first month`,
+    p_from:`From`,p_permonth:`F/animal/mo`,p_badge:`−50% first month`,
     pn_free:`Free`,pprice_free:`Free <span>· forever</span>`,
     pd_free:`To get started, no time limit`,pd_starter:`Advanced tracking for your farm`,pd_elite:`Your farm's money`,pd_pro:`Full management + analytics`,pd_ent:`Large multi-site operations`,
     pcta_free:`Always free`,pcta_starter:`Choose Starter →`,pcta_elite:`Choose Élite →`,pcta_start:`Get started →`,
@@ -832,6 +880,34 @@ document.querySelectorAll('.tcard,.fcard').forEach(c=>{
   c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5;const y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(900px) rotateY(${x*7}deg) rotateX(${-y*7}deg) translateY(-6px)`});
   c.addEventListener('mouseleave',()=>{c.style.transform=''});
 });
+// ── Calculateur de tarif (au sujet, dégressif par tranche) ──
+(function(){
+  var TR=[
+    {max:5000,STAR:1.00,ELIT:1.50,PROV:2.00,ENTR:3.00},
+    {max:10000,STAR:0.75,ELIT:1.13,PROV:1.50,ENTR:2.25},
+    {max:20000,STAR:0.60,ELIT:0.90,PROV:1.20,ENTR:1.80},
+    {max:50000,STAR:0.45,ELIT:0.68,PROV:0.90,ENTR:1.35},
+    {max:100000,STAR:0.35,ELIT:0.53,PROV:0.70,ENTR:1.05},
+    {max:Infinity,STAR:0.25,ELIT:0.38,PROV:0.50,ENTR:0.75}
+  ];
+  var SEUIL=2000; // entrée : facturation sur au moins 2000 sujets
+  function mensuel(p,n){var r=Math.max(SEUIL,+n||0),b=0,t=0;for(var i=0;i<TR.length;i++){if(r<=0)break;var d=Math.min(r,TR[i].max-b);t+=d*(TR[i][p]||0);r-=d;b=TR[i].max;}return Math.round(t);}
+  function fmt(x){return x.toLocaleString('fr-FR')+' F';}
+  function maj(){
+    var inp=document.getElementById('calcN'),el=document.getElementById('calcCards'),sel=document.getElementById('calcPays');if(!el)return;
+    var dia = sel ? sel.value==='dia' : false;
+    var n=Math.max(0,+(inp&&inp.value)||0);
+    if(!n){el.innerHTML='<div class="calc-hint">Entre ton nombre de sujets pour voir les 4 tarifs 👆</div>';return;}
+    var plans=[['STAR','Starter','#60A5FA'],['ELIT','Élite','#F59E0B'],['PROV','Pro','#22C55E'],['ENTR','Enterprise','#A78BFA']];
+    el.innerHTML=plans.map(function(pl){
+      var m=mensuel(pl[0],n);
+      if(dia){var an=Math.round(m*10*1.2);return '<div class="calc-card" style="border-top:3px solid '+pl[2]+'"><div class="cc-plan" style="color:'+pl[2]+'">'+pl[1]+'</div><div class="cc-price">'+fmt(an)+'<span>/an</span></div><div class="cc-sub">tarif international · via WhatsApp</div></div>';}
+      return '<div class="calc-card" style="border-top:3px solid '+pl[2]+'"><div class="cc-plan" style="color:'+pl[2]+'">'+pl[1]+'</div><div class="cc-price">'+fmt(m)+'<span>/mois</span></div><div class="cc-sub">soit '+fmt(m*10)+'/an</div></div>';
+    }).join('');
+  }
+  window.calcMaj=maj;
+  var inp=document.getElementById('calcN');if(inp){inp.addEventListener('input',maj);}
+})();
 </script>
 </body>
 </html>
