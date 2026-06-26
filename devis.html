@@ -22,7 +22,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:
     radial-gradient(1200px 600px at 50% -10%,#0c3a28,transparent),var(--bg);color:var(--txt);
-    min-height:100vh;padding:18px 14px 60px;-webkit-text-size-adjust:100%}
+    min-height:100vh;padding:18px 14px 60px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
   .wrap{max-width:1040px;margin:0 auto}
   .brand{display:flex;align-items:center;gap:9px;justify-content:center;margin-bottom:6px}
   .brand b{font-size:18px;letter-spacing:.5px}
@@ -35,6 +35,8 @@
   .controls input,.controls select{flex:1;min-width:160px;background:rgba(0,0,0,.25);border:1px solid var(--line);
     color:#fff;padding:13px 14px;border-radius:11px;font-size:15px;font-family:inherit;outline:none}
   .controls input::placeholder{color:#bfe0cf}
+  .controls select option{background:#0c2218;color:#e8f5ee}
+  .controls select optgroup{background:#0c2218;color:#7fd1a8;font-weight:700}
   .toggle{display:flex;gap:6px;max-width:300px;margin:14px auto 0}
   .toggle button{flex:1;padding:9px;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.2);
     color:var(--txtm);font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
@@ -120,8 +122,8 @@
   </div>
 
   <div class="ctas">
-    <a class="btn btn-wa" id="waBtn" href="#" target="_blank">💬 Parler à KEPELA (WhatsApp)</a>
-    <a class="btn btn-go" href="https://avifarmer.net" target="_blank">🚀 Créer mon compte gratuit</a>
+    <a class="btn btn-wa" id="waBtn" href="#" target="_blank" rel="noopener">💬 Parler à KEPELA (WhatsApp)</a>
+    <a class="btn btn-go" href="https://avifarmer.net" target="_blank" rel="noopener">🚀 Créer mon compte gratuit</a>
     <button class="btn btn-img" id="imgBtn" type="button">📸 Enregistrer mon devis (image)</button>
   </div>
 
