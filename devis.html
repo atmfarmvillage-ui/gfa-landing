@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mon devis AGRI-X — calcule ton tarif</title>
+<meta name="description" content="Calcule en 5 secondes le tarif AGRI-X pour ta ferme : entre ton nombre de bêtes et compare les 4 plans (mois, année, diaspora) avec leurs consultations Dr SANKARA.">
+<!-- Aperçu WhatsApp / réseaux -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ton devis AGRI-X personnalisé">
+<meta property="og:description" content="Entre ton nombre de bêtes → vois instantanément tes 4 tarifs + ce que chaque plan inclut. À partir de 1 F par bête. Gratuit jusqu'à 1 000 bêtes.">
+<meta property="og:image" content="https://avifarmer.net/og-agrix.png">
+<meta property="og:url" content="https://avifarmer.net/devis">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<style>
+  :root{
+    --green:#16a34a; --green-d:#0c4a32; --gold:#F59E0B; --blue:#60A5FA; --purple:#A78BFA;
+    --bg:#06140d; --card:#0c2218; --line:rgba(255,255,255,.12); --txt:#e8f5ee; --txtm:#9fc4b1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:
+    radial-gradient(1200px 600px at 50% -10%,#0c3a28,transparent),var(--bg);color:var(--txt);
+    min-height:100vh;padding:18px 14px 60px;-webkit-text-size-adjust:100%}
+  .wrap{max-width:1040px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:9px;justify-content:center;margin-bottom:6px}
+  .brand b{font-size:18px;letter-spacing:.5px}
+  .brand span{font-size:11px;color:var(--txtm)}
+  h1{text-align:center;font-size:clamp(22px,5vw,34px);line-height:1.15;margin:10px 0 6px;font-weight:800}
+  h1 .hl{color:var(--gold)}
+  .sub{text-align:center;color:var(--txtm);font-size:14px;margin-bottom:18px}
+  .panel{background:linear-gradient(135deg,#0c4a32,#0a3d2a);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px}
+  .controls{display:flex;gap:10px;flex-wrap:wrap}
+  .controls input,.controls select{flex:1;min-width:160px;background:rgba(0,0,0,.25);border:1px solid var(--line);
+    color:#fff;padding:13px 14px;border-radius:11px;font-size:15px;font-family:inherit;outline:none}
+  .controls input::placeholder{color:#bfe0cf}
+  .toggle{display:flex;gap:6px;max-width:300px;margin:14px auto 0}
+  .toggle button{flex:1;padding:9px;border:1px solid var(--line);border-radius:10px;background:rgba(0,0,0,.2);
+    color:var(--txtm);font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+  .toggle button.on{background:var(--green);color:#fff;border-color:var(--green)}
+  .hint{text-align:center;color:#bfe0cf;font-size:13px;padding:18px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:6px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 14px;position:relative;border-top-width:3px}
+  .card.reco{box-shadow:0 0 0 2px var(--gold)55;transform:translateY(-2px)}
+  .badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold);color:#1a1205;
+    font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;white-space:nowrap}
+  .pname{font-size:13px;font-weight:800;letter-spacing:.5px;margin-bottom:6px}
+  .pprice{font-size:26px;font-weight:800;line-height:1}
+  .pprice span{font-size:12px;color:var(--txtm);font-weight:600}
+  .psub{font-size:11px;color:var(--txtm);margin:3px 0 10px}
+  .pf{list-style:none;font-size:12px;line-height:1.7;color:var(--txt)}
+  .pf li::before{content:"✓ ";color:var(--green);font-weight:800}
+  .pf li.x{color:var(--txtm)}
+  .pf li.x::before{content:"– ";color:var(--txtm)}
+  .anchor{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.4);border-radius:12px;
+    padding:13px 16px;margin:16px 0;font-size:13px;line-height:1.5;text-align:center}
+  .anchor b{color:var(--gold)}
+  .ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .btn{flex:1;min-width:180px;padding:14px;border:none;border-radius:12px;font-size:14px;font-weight:800;
+    cursor:pointer;font-family:inherit;text-decoration:none;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+  .btn-wa{background:#25D366;color:#04130b}
+  .btn-go{background:linear-gradient(135deg,var(--gold),#d97706);color:#1a1205}
+  .btn-img{background:rgba(255,255,255,.08);color:var(--txt);border:1px solid var(--line)}
+  .lead{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:16px}
+  .lead h3{font-size:14px;margin-bottom:4px}
+  .lead p{font-size:12px;color:var(--txtm);margin-bottom:10px}
+  .lead-row{display:flex;gap:8px;flex-wrap:wrap}
+  .lead-row input{flex:1;min-width:160px;background:rgba(0,0,0,.25);border:1px solid var(--line);color:#fff;
+    padding:12px;border-radius:10px;font-size:14px;font-family:inherit;outline:none}
+  .lead-msg{font-size:12px;color:var(--green);margin-top:8px;min-height:16px}
+  .foot{text-align:center;color:var(--txtm);font-size:11px;margin-top:26px;line-height:1.6}
+  .note-dia{font-size:11px;color:var(--gold);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><b>🐔 AGRI-X</b><span>· par ATM Farm Village</span></div>
+  <h1>Ton devis <span class="hl">personnalisé</span></h1>
+  <div class="sub">À partir de <b>1 F par bête</b> · Gratuit jusqu'à 1 000 bêtes, à vie.</div>
+
+  <div class="panel">
+    <div class="controls">
+      <input id="calcN" type="number" min="0" inputmode="numeric" placeholder="Combien de bêtes ? (poules, lapins, porcs…)">
+      <select id="calcPays" aria-label="Ton pays">
+        <optgroup label="🌍 Paiement local (Mobile Money / carte)">
+          <option value="loc" data-c="TG" selected>🇹🇬 Togo</option>
+          <option value="loc" data-c="BJ">🇧🇯 Bénin</option>
+          <option value="loc" data-c="CI">🇨🇮 Côte d'Ivoire</option>
+          <option value="loc" data-c="SN">🇸🇳 Sénégal</option>
+          <option value="loc" data-c="ML">🇲🇱 Mali</option>
+          <option value="loc" data-c="NE">🇳🇪 Niger</option>
+          <option value="loc" data-c="GN">🇬🇳 Guinée</option>
+          <option value="loc" data-c="BF">🇧🇫 Burkina Faso</option>
+        </optgroup>
+        <optgroup label="✈️ Diaspora / étranger">
+          <option value="dia" data-c="FR">🇫🇷 France</option>
+          <option value="dia" data-c="US">🇺🇸 États-Unis</option>
+          <option value="dia" data-c="CA">🇨🇦 Canada</option>
+          <option value="dia" data-c="BE">🇧🇪 Belgique</option>
+          <option value="dia" data-c="DE">🇩🇪 Allemagne</option>
+          <option value="dia" data-c="GB">🇬🇧 Royaume-Uni</option>
+          <option value="dia" data-c="IT">🇮🇹 Italie</option>
+          <option value="dia" data-c="ES">🇪🇸 Espagne</option>
+          <option value="dia" data-c="XX">🌍 Autre pays…</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="toggle" id="cycleTog">
+      <button data-cy="mois" class="on">📅 Mensuel</button>
+      <button data-cy="an">🗓️ Annuel · 2 mois offerts</button>
+    </div>
+    <div class="cards" id="cards"><div class="hint">Entre ton nombre de bêtes pour voir tes 4 tarifs 👆</div></div>
+    <div class="note-dia" id="noteDia"></div>
+  </div>
+
+  <div class="anchor">
+    🩺 <b>Le vrai avantage :</b> une seule visite d'un vétérinaire coûte souvent <b>≈ 50 000 F</b>.
+    Avec AGRI-X, <b>Dr SANKARA</b> te répond toute l'année, inclus dans ton plan.
+  </div>
+
+  <div class="ctas">
+    <a class="btn btn-wa" id="waBtn" href="#" target="_blank">💬 Parler à KEPELA (WhatsApp)</a>
+    <a class="btn btn-go" href="https://avifarmer.net" target="_blank">🚀 Créer mon compte gratuit</a>
+    <button class="btn btn-img" id="imgBtn" type="button">📸 Enregistrer mon devis (image)</button>
+  </div>
+
+  <div class="lead">
+    <h3>📲 Tu veux qu'on t'accompagne ?</h3>
+    <p>Laisse ton numéro : KEPELA, notre conseillère, te guide pas à pas (sans engagement).</p>
+    <div class="lead-row">
+      <input id="leadTel" type="tel" inputmode="tel" placeholder="Ton numéro WhatsApp">
+      <button class="btn btn-wa" id="leadBtn" type="button" style="flex:0 0 auto;min-width:120px">Envoyer</button>
+    </div>
+    <div class="lead-msg" id="leadMsg"></div>
+  </div>
+
+  <div class="foot">
+    AGRI-X — la gestion d'élevage tout-en-un + l'équipe IA (YAYRA, Dr SANKARA, Dr SAVANA, KEPELA).<br>
+    Prix indicatifs en FCFA, calculés sur le nombre de bêtes. Le tarif exact est confirmé à l'abonnement.
+  </div>
+</div>
+
+<script>
+(function(){
+  // ── Barème « 1 F » dégressif (identique à l'app/worker) ──
+  var TR=[
+    {max:5000,STAR:1.00,ELIT:1.50,PROV:2.00,ENTR:3.00},
+    {max:10000,STAR:0.75,ELIT:1.13,PROV:1.50,ENTR:2.25},
+    {max:20000,STAR:0.60,ELIT:0.90,PROV:1.20,ENTR:1.80},
+    {max:50000,STAR:0.45,ELIT:0.68,PROV:0.90,ENTR:1.35},
+    {max:100000,STAR:0.35,ELIT:0.53,PROV:0.70,ENTR:1.05},
+    {max:Infinity,STAR:0.25,ELIT:0.38,PROV:0.50,ENTR:0.75}
+  ];
+  var SEUIL=2000, MAJ_DIA=0.20, GRATUIT_MAX=1000, WA='22890378888';
+  function mensuel(p,n){var r=Math.max(SEUIL,+n||0),b=0,t=0;for(var i=0;i<TR.length;i++){if(r<=0)break;var d=Math.min(r,TR[i].max-b);t+=d*(TR[i][p]||0);r-=d;b=TR[i].max;}return Math.round(t);}
+  function fmt(x){return x.toLocaleString('fr-FR')+' F';}
+  // Plan recommandé selon la taille (guide ; tous restent disponibles)
+  function reco(n){ if(n<=5000) return 'STAR'; if(n<=10000) return 'ELIT'; if(n<=20000) return 'PROV'; return 'ENTR'; }
+
+  var PLANS=[
+    {k:'STAR',nom:'Starter',col:'#60A5FA',f:['6 consultations Dr SANKARA / mois','50 messages YAYRA / mois','1 admin + 1 technicien','Historique, campagnes, rapports PDF']},
+    {k:'ELIT',nom:'Élite',col:'#F59E0B',f:['10 consultations / mois','150 messages YAYRA / mois','Équipe 6 · 2 fermes','Ventes, dépenses, ROI simplifié','🌍 Paiement diaspora']},
+    {k:'PROV',nom:'Pro',col:'#22C55E',f:['20 consultations / mois','200 messages YAYRA / mois','Équipe 12 · 2 fermes','ROI complet, comparaisons, finances']},
+    {k:'ENTR',nom:'Enterprise',col:'#A78BFA',f:['30 consultations / mois','250 messages YAYRA / mois','Équipe 38 · multi-site','Modules avancés pondeuse/chair']}
+  ];
+
+  var cycle='mois', diaspora=false, lastN=0, lastPays='TG';
+  var elN=document.getElementById('calcN'), elPays=document.getElementById('calcPays'),
+      elCards=document.getElementById('cards'), elNote=document.getElementById('noteDia'),
+      elWa=document.getElementById('waBtn');
+
+  function paysCode(){ var o=elPays.options[elPays.selectedIndex]; return o?o.getAttribute('data-c'):'TG'; }
+
+  function maj(){
+    var n=Math.max(0,+(elN.value)||0); lastN=n; lastPays=paysCode();
+    diaspora = elPays.value==='dia';
+    if(!n){ elCards.innerHTML='<div class="hint">Entre ton nombre de bêtes pour voir tes 4 tarifs 👆</div>'; elNote.textContent=''; majWa(); return; }
+    var r=reco(n);
+    var html='';
+    // Carte Gratuit si petite ferme
+    if(n<=GRATUIT_MAX && !diaspora){
+      html+='<div class="card" style="border-top-color:#22C55E"><div class="pname" style="color:#22C55E">Gratuit</div>'+
+        '<div class="pprice" style="color:#22C55E">0 F</div><div class="psub">à vie · jusqu\'à 1 000 bêtes</div>'+
+        '<ul class="pf"><li>Suivi complet (bandes, ponte, mortalité, aliment)</li><li>Rappels vaccins</li>'+
+        '<li>2 consultations Dr SANKARA à vie</li><li>20 messages YAYRA / mois</li></ul></div>';
+    }
+    html+=PLANS.map(function(pl){
+      var m=mensuel(pl.k,n);
+      // Diaspora : seulement Élite/Pro/Enterprise
+      if(diaspora && pl.k==='STAR'){
+        return '<div class="card" style="border-top-color:'+pl.col+';opacity:.6"><div class="pname" style="color:'+pl.col+'">'+pl.nom+'</div>'+
+          '<div class="pprice" style="font-size:15px;color:var(--txtm)">Diaspora dès Élite</div>'+
+          '<div class="psub">Choisis Élite, Pro ou Enterprise →</div></div>';
+      }
+      var isReco = (pl.k===r);
+      var prixTxt, subTxt;
+      if(diaspora){ var an=Math.round(m*10*(1+MAJ_DIA)); prixTxt=fmt(an)+'<span>/an</span>'; subTxt='tarif international (+20%) · via WhatsApp'; }
+      else if(cycle==='an'){ prixTxt=fmt(m*10)+'<span>/an</span>'; subTxt='2 mois offerts · soit '+fmt(m)+'/mois'; }
+      else { prixTxt=fmt(m)+'<span>/mois</span>'; subTxt='soit '+fmt(m*10)+'/an'; }
+      return '<div class="card'+(isReco?' reco':'')+'" style="border-top-color:'+pl.col+'">'+
+        (isReco?'<div class="badge">⭐ Recommandé pour ta taille</div>':'')+
+        '<div class="pname" style="color:'+pl.col+'">'+pl.nom+'</div>'+
+        '<div class="pprice">'+prixTxt+'</div><div class="psub">'+subTxt+'</div>'+
+        '<ul class="pf">'+pl.f.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';
+    }).join('');
+    elCards.innerHTML=html;
+    elNote.textContent = diaspora
+      ? '✈️ Diaspora : abonnement annuel, réglé par Wise / Western Union / virement — KEPELA t\'accompagne.'
+      : (n<=GRATUIT_MAX ? '✅ À ta taille, le plan Gratuit suffit déjà — passe payant pour plus de consultations et de fonctions.' : '');
+    majWa();
+  }
+
+  function majWa(){
+    var msg='Bonjour KEPELA 👋 Je viens du calculateur AGRI-X.';
+    if(lastN) msg+=' J\'ai environ '+lastN+' bêtes';
+    msg+=' (pays: '+lastPays+'). Peux-tu m\'aider pour mon abonnement ?';
+    elWa.href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
+  }
+
+  // ── Cycle toggle ──
+  document.getElementById('cycleTog').addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b)return;
+    cycle=b.getAttribute('data-cy');
+    [].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});
+    maj();
+  });
+  elN.addEventListener('input',maj);
+  elPays.addEventListener('change',maj);
+
+  // ── Pré-remplissage par KEPELA : ?betes=5000&pays=TG&ref=xxx ──
+  var qs=new URLSearchParams(location.search);
+  var ref=qs.get('ref')||qs.get('r')||'';
+  var qb=qs.get('betes')||qs.get('b')||qs.get('n');
+  var qp=(qs.get('pays')||qs.get('p')||'').toUpperCase();
+  if(qb){ elN.value=Math.max(0,parseInt(qb,10)||0); }
+  if(qp){ for(var i=0;i<elPays.options.length;i++){ if(elPays.options[i].getAttribute('data-c')===qp){ elPays.selectedIndex=i; break; } } }
+  maj();
+
+  // ── Devis en image (html2canvas) ──
+  document.getElementById('imgBtn').addEventListener('click',function(){
+    if(typeof html2canvas==='undefined'){ alert('Réessaie dans un instant…'); return; }
+    var node=document.querySelector('.wrap');
+    html2canvas(node,{backgroundColor:'#06140d',scale:2}).then(function(c){
+      var a=document.createElement('a'); a.download='devis-agrix.png'; a.href=c.toDataURL('image/png'); a.click();
+    }).catch(function(){ alert('Impossible de générer l\'image ici.'); });
+  });
+
+  // ── Capture lead → worker KEPELA (best-effort, sans clé exposée) ──
+  document.getElementById('leadBtn').addEventListener('click',function(){
+    var tel=(document.getElementById('leadTel').value||'').replace(/[^0-9+]/g,'');
+    var msg=document.getElementById('leadMsg');
+    if(tel.replace(/\D/g,'').length<8){ msg.style.color='#fca5a5'; msg.textContent='Entre un numéro valide 🙏'; return; }
+    msg.style.color='var(--green)'; msg.textContent='Envoi…';
+    fetch('https://gfa-ia.avifarmer.net/devis-lead',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({tel:tel,betes:lastN,pays:lastPays,ref:ref,source:'devis'})})
+      .then(function(r){ return r.ok?r.json():Promise.reject(); })
+      .then(function(){ msg.textContent='✅ Reçu ! KEPELA va te contacter très vite.'; document.getElementById('leadTel').value=''; })
+      .catch(function(){ // repli : ouvrir WhatsApp directement
+        msg.textContent='On t\'ouvre WhatsApp pour finaliser…';
+        window.open('https://wa.me/'+WA+'?text='+encodeURIComponent('Bonjour KEPELA, mon numéro : '+tel+' — '+(lastN||'?')+' bêtes ('+lastPays+').'),'_blank');
+      });
+  });
+})();
+</script>
+</body>
+</html>
