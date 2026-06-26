@@ -177,6 +177,13 @@
   function maj(){
     var n=Math.max(0,+(elN.value)||0); lastN=n; lastPays=paysCode();
     diaspora = elPays.value==='dia';
+    // Diaspora = annuel uniquement → on grise « Mensuel » et on force « Annuel ».
+    var _tm=document.querySelector('#cycleTog button[data-cy="mois"]');
+    var _ta=document.querySelector('#cycleTog button[data-cy="an"]');
+    if(diaspora){ cycle='an';
+      if(_tm){ _tm.disabled=true; _tm.style.opacity='.4'; _tm.style.cursor='not-allowed'; _tm.classList.remove('on'); _tm.title="La diaspora est facturée à l'année"; }
+      if(_ta){ _ta.classList.add('on'); }
+    } else if(_tm){ _tm.disabled=false; _tm.style.opacity=''; _tm.style.cursor=''; _tm.title=''; }
     if(!n){ elCards.innerHTML='<div class="hint">Entre ton nombre de bêtes pour voir tes 4 tarifs 👆</div>'; elNote.textContent=''; majWa(); return; }
     var r=reco(n);
     var html='';
@@ -222,7 +229,7 @@
 
   // ── Cycle toggle ──
   document.getElementById('cycleTog').addEventListener('click',function(e){
-    var b=e.target.closest('button'); if(!b)return;
+    var b=e.target.closest('button'); if(!b||b.disabled)return;
     cycle=b.getAttribute('data-cy');
     [].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});
     maj();
