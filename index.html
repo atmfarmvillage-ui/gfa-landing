@@ -17,6 +17,7 @@
 <meta name="twitter:description" content="Élevage & cultures + cabinet IA (Dr SANKARA, Dr SAVANA, YAYRA). Gratuit à vie.">
 <meta name="twitter:image" content="https://avifarmer.net/og-agrix.png">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/jpeg" href="logo-agrix.jpg">
 <link rel="alternate icon" type="image/png" href="icon-agrix-192.png">
 <link rel="apple-touch-icon" href="icon-agrix-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap" rel="stylesheet">
@@ -48,6 +49,7 @@ a{text-decoration:none;color:inherit}
 nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);background:rgba(250,252,251,.7);border-bottom:1px solid var(--border)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
 .logo{display:flex;align-items:center;gap:11px}
+.logomark{width:40px;height:40px;border-radius:9px;object-fit:cover;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .logo b{font-family:'Fraunces',serif;font-weight:900;font-size:21px;letter-spacing:-.5px;display:inline-flex;align-items:center;line-height:1}
 .logo .bx{width:1.5em;height:1.5em;margin-left:-.05em}
 .logo small{display:block;font-size:10.5px;color:var(--muted);font-weight:600;margin-top:1px}
@@ -337,7 +339,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <div class="mesh"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 
 <nav><div class="wrap nav-in">
-  <a class="logo" href="#"><div><b>AGRI-<svg class="bx" viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(50 50)"><g transform="rotate(45)"><path d="M0,-44 C8,-25 8,25 0,44 C-8,25 -8,-25 0,-44 Z" fill="#C49A3C"/></g><g transform="rotate(-45)"><path fill-rule="evenodd" fill="#0E9F6E" d="M0,-44 C8,-25 8,25 0,44 C-8,25 -8,-25 0,-44 Z M0,-38 C4.6,-22 4.6,22 0,38 C-4.6,22 -4.6,-22 0,-38 Z"/></g></g></svg></b><small data-i18n="brand_sub">Gestion d'une Ferme Agricole</small></div></a>
+  <a class="logo" href="#"><img class="logomark" src="logo-agrix.jpg" alt="AGRI-X" width="40" height="40"><div><b>AGRI-<svg class="bx" viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(50 50)"><g transform="rotate(45)"><path d="M0,-44 C8,-25 8,25 0,44 C-8,25 -8,-25 0,-44 Z" fill="#C49A3C"/></g><g transform="rotate(-45)"><path fill-rule="evenodd" fill="#0E9F6E" d="M0,-44 C8,-25 8,25 0,44 C-8,25 -8,-25 0,-44 Z M0,-38 C4.6,-22 4.6,22 0,38 C-4.6,22 -4.6,-22 0,-38 Z"/></g></g></svg></b><small data-i18n="brand_sub">Gestion d'une Ferme Agricole</small></div></a>
   <div class="nav-links">
     <a href="#cabinet" data-i18n="nav_cabinet">Cabinet IA</a>
     <a href="#fonctions" data-i18n="nav_features">Fonctionnalités</a>
@@ -415,11 +417,12 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <!-- CABINET IA -->
 <section class="blk" id="cabinet">
   <div class="wrap">
-    <div class="head rv"><div class="lbl" data-i18n="cab_lbl">Cabinet IA</div><h2 data-i18n="cab_h2">Vos experts, dans votre poche</h2><p data-i18n="cab_p">Un vétérinaire et un agronome, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.</p></div>
+    <div class="head rv"><div class="lbl" data-i18n="cab_lbl">Cabinet IA</div><h2 data-i18n="cab_h2">Vos experts, dans votre poche</h2><p data-i18n="cab_p">Un vétérinaire IA, un agronome et un <b>vrai vétérinaire</b> en renfort, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.</p></div>
     <div class="grid3">
       <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-sankara"/></svg></div><h3 data-i18n="cab_sankara_t">Dr SANKARA — Vétérinaire</h3><p data-i18n="cab_sankara_p">Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.</p><span class="pill" data-i18n="cab_sankara_pill">2 consultations offertes</span></div>
       <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-savana"/></svg></div><h3 data-i18n="cab_savana_t">Dr SAVANA — Agronome</h3><p data-i18n="cab_savana_p">Maladies des plantes, fertilisation, calendrier cultural : votre conseiller cultures, adapté à votre région.</p></div>
       <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-yayra"/></svg></div><h3 data-i18n="cab_yayra_t">YAYRA — Assistante</h3><p data-i18n="cab_yayra_p">Elle connaît vos bandes et vos chiffres, saisit vos rapports, vous alerte, et vous passe le bon expert. Aussi sur WhatsApp.</p></div>
+      <div class="tcard rv"><div class="iclogo" style="display:flex;align-items:center;justify-content:center;font-size:26px">🩺</div><h3 data-i18n="cab_sonhaye_t">Dr SONHAYE — Véto humain</h3><p data-i18n="cab_sonhaye_p">Un cas grave que l'IA ne suffit pas à trancher ? Le dossier est transmis à un <b>vrai vétérinaire du réseau</b>, qui prend le relais. L'IA au quotidien, l'humain quand ça compte.</p><span class="pill" data-i18n="cab_sonhaye_pill">escalade depuis Dr SANKARA</span></div>
     </div>
   </div>
 </section>
@@ -429,7 +432,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
   <div class="wrap">
     <div class="head rv"><div class="lbl" data-i18n="feat_lbl">Fonctionnalités</div><h2 data-i18n="feat_h2">Tout pour gérer votre exploitation</h2><p data-i18n="feat_p">Élevage multi-espèce <em>et</em> cultures, dans un seul outil pensé pour le terrain.</p></div>
     <div class="grid4">
-      <div class="fcard rv"><div class="fic"><i data-lucide="bird"></i></div><h4 data-i18n="feat1_t">Élevage multi-espèce</h4><p data-i18n="feat1_p">Volaille, lapin, porc, caprin… avec reproduction.</p></div>
+      <div class="fcard rv"><div class="fic"><i data-lucide="bird"></i></div><h4 data-i18n="feat1_t">Élevage multi-espèce</h4><p data-i18n="feat1_p">Volaille, lapin, porc, caprin, <b>abeilles</b> (miel) &amp; <b>poisson</b>… avec reproduction.</p></div>
       <div class="fcard rv"><div class="fic"><i data-lucide="wheat"></i></div><h4 data-i18n="feat2_t">Agriculture</h4><p data-i18n="feat2_p">Parcelles, campagnes, intrants, ventes, bilan par culture.</p></div>
       <div class="fcard rv"><div class="fic"><i data-lucide="layout-dashboard"></i></div><h4 data-i18n="feat3_t">Tableau de bord</h4><p data-i18n="feat3_p">Ponte, mortalité, marge, stock — en temps réel.</p></div>
       <div class="fcard rv"><div class="fic"><i data-lucide="wallet"></i></div><h4 data-i18n="feat4_t">Finances</h4><p data-i18n="feat4_p">Ventes, dépenses, ROI, factures, salaires.</p></div>
@@ -806,12 +809,13 @@ const I18N={
     day_mon:`Lun`,day_tue:`Mar`,day_wed:`Mer`,day_thu:`Jeu`,
     chip_sankara:`diagnostic en 30s`,chip_savana:`conseil cultures`,chip_yayra:`sur WhatsApp`,
     trust_free:`🆓 Gratuit à vie`,trust_offline:`📶 Marche hors-ligne`,trust_pay:`📱 Mobile Money · FedaPay`,trust_africa:`🌍 Pensé pour l'Afrique`,
-    cab_lbl:`Cabinet IA`,cab_h2:`Vos experts, dans votre poche`,cab_p:`Un vétérinaire et un agronome, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.`,
+    cab_lbl:`Cabinet IA`,cab_h2:`Vos experts, dans votre poche`,cab_p:`Un vétérinaire IA, un agronome et un <b>vrai vétérinaire</b> en renfort, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.`,
     cab_sankara_t:`Dr SANKARA — Vétérinaire`,cab_sankara_p:`Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.`,cab_sankara_pill:`2 consultations offertes`,
     cab_savana_t:`Dr SAVANA — Agronome`,cab_savana_p:`Maladies des plantes, fertilisation, calendrier cultural : votre conseiller cultures, adapté à votre région.`,
     cab_yayra_t:`YAYRA — Assistante`,cab_yayra_p:`Elle connaît vos bandes et vos chiffres, saisit vos rapports, vous alerte, et vous passe le bon expert. Aussi sur WhatsApp.`,
+    cab_sonhaye_t:`Dr SONHAYE — Véto humain`,cab_sonhaye_p:`Un cas grave que l'IA ne suffit pas à trancher ? Le dossier est transmis à un <b>vrai vétérinaire du réseau</b>, qui prend le relais. L'IA au quotidien, l'humain quand ça compte.`,cab_sonhaye_pill:`escalade depuis Dr SANKARA`,
     feat_lbl:`Fonctionnalités`,feat_h2:`Tout pour gérer votre exploitation`,feat_p:`Élevage multi-espèce <em>et</em> cultures, dans un seul outil pensé pour le terrain.`,
-    feat1_t:`Élevage multi-espèce`,feat1_p:`Volaille, lapin, porc, caprin… avec reproduction.`,
+    feat1_t:`Élevage multi-espèce`,feat1_p:`Volaille, lapin, porc, caprin, <b>abeilles</b> (miel) &amp; <b>poisson</b>… avec reproduction.`,
     feat2_t:`Agriculture`,feat2_p:`Parcelles, campagnes, intrants, ventes, bilan par culture.`,
     feat3_t:`Tableau de bord`,feat3_p:`Ponte, mortalité, marge, stock — en temps réel.`,
     feat4_t:`Finances`,feat4_p:`Ventes, dépenses, ROI, factures, salaires.`,
@@ -861,12 +865,13 @@ const I18N={
     day_mon:`Mon`,day_tue:`Tue`,day_wed:`Wed`,day_thu:`Thu`,
     chip_sankara:`diagnosis in 30s`,chip_savana:`crop advice`,chip_yayra:`on WhatsApp`,
     trust_free:`🆓 Free forever`,trust_offline:`📶 Works offline`,trust_pay:`📱 Mobile Money · FedaPay`,trust_africa:`🌍 Built for Africa`,
-    cab_lbl:`AI Clinic`,cab_h2:`Your experts, in your pocket`,cab_p:`A vet and an agronomist, 24/7, for a fraction of the price of a real consultation. This is what makes AGRI-X unique.`,
+    cab_lbl:`AI Clinic`,cab_h2:`Your experts, in your pocket`,cab_p:`An AI vet, an agronomist and a <b>real vet</b> as backup, 24/7, for a fraction of the price of a real consultation. This is what makes AGRI-X unique.`,
     cab_sankara_t:`Dr SANKARA — Vet`,cab_sankara_p:`Disease, mortality, symptom? Describe it or send a photo: diagnosis, treatment and what to do next.`,cab_sankara_pill:`2 free consultations`,
     cab_savana_t:`Dr SAVANA — Agronomist`,cab_savana_p:`Plant diseases, fertilization, crop calendar: your crop advisor, tailored to your region.`,
     cab_yayra_t:`YAYRA — Assistant`,cab_yayra_p:`She knows your flocks and your numbers, logs your reports, alerts you, and hands you to the right expert. Also on WhatsApp.`,
+    cab_sonhaye_t:`Dr SONHAYE — Human vet`,cab_sonhaye_p:`A serious case the AI can't settle alone? The file is handed to a <b>real vet from the network</b>, who takes over. AI every day, a human when it matters.`,cab_sonhaye_pill:`escalated from Dr SANKARA`,
     feat_lbl:`Features`,feat_h2:`Everything to run your farm`,feat_p:`Multi-species livestock <em>and</em> crops, in one tool built for the field.`,
-    feat1_t:`Multi-species livestock`,feat1_p:`Poultry, rabbit, pig, goat… with breeding.`,
+    feat1_t:`Multi-species livestock`,feat1_p:`Poultry, rabbit, pig, goat, <b>bees</b> (honey) &amp; <b>fish</b>… with breeding.`,
     feat2_t:`Crops`,feat2_p:`Plots, seasons, inputs, sales, P&L per crop.`,
     feat3_t:`Dashboard`,feat3_p:`Laying, mortality, margin, stock — in real time.`,
     feat4_t:`Finances`,feat4_p:`Sales, expenses, ROI, invoices, payroll.`,
