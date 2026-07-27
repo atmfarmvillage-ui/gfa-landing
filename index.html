@@ -59,6 +59,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);ba
 .btn-pri:hover{transform:translateY(-2px);box-shadow:0 16px 30px -8px rgba(14,159,110,.8)}
 .btn-ghost{background:var(--glass);border:1px solid var(--border);color:var(--ink);padding:12px 22px;backdrop-filter:blur(8px)}
 .btn-ghost:hover{transform:translateY(-2px)}
+.btn-diag{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:800;padding:14px 24px;box-shadow:0 12px 26px -8px rgba(37,211,102,.5)}
+.btn-diag:hover{transform:translateY(-2px);box-shadow:0 16px 30px -8px rgba(37,211,102,.7)}
 
 /* ── hero ── */
 .hero{padding:150px 0 90px;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
@@ -348,6 +350,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
     <p class="sub" data-i18n="hero_sub">AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie jusqu'à 1 000 bêtes</b> — ensuite <b>à partir de 1 F par bête</b>.</p>
     <div class="hero-btns">
       <a href="https://app.avifarmer.net" class="btn btn-pri" data-i18n="hero_cta1">🚀 Commencer gratuitement</a>
+      <a href="https://wa.me/22890378888?text=Bonjour%2C%20je%20veux%20le%20diagnostic%20gratuit%20de%20Dr%20SANKARA%20pour%20ma%20b%C3%AAte.%20Je%20vais%20envoyer%20une%20photo." class="btn btn-diag" data-i18n="hero_cta_diag">🩺 Diagnostic gratuit de ta bête</a>
       <a href="#cabinet" class="btn btn-ghost" data-i18n="hero_cta2">Découvrir le Cabinet IA</a>
     </div>
     <div class="hero-meta">
@@ -671,6 +674,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
     <h2 data-i18n="final_h2">Votre ferme mérite mieux qu'un cahier.</h2>
     <p data-i18n="final_p">Créez votre compte gratuit en 2 minutes. Élevage, cultures et vos experts IA — sans carte bancaire.</p>
     <a href="https://app.avifarmer.net" class="btn btn-pri" style="background:#fff;color:var(--green-d)" data-i18n="hero_cta1">🚀 Commencer gratuitement</a>
+    <a href="https://wa.me/22890378888?text=Bonjour%2C%20je%20veux%20le%20diagnostic%20gratuit%20de%20Dr%20SANKARA%20pour%20ma%20b%C3%AAte.%20Je%20vais%20envoyer%20une%20photo." class="btn btn-diag" style="background:rgba(255,255,255,.15);box-shadow:none;border:1.5px solid rgba(255,255,255,.6);color:#fff;margin:12px 0 0 8px" data-i18n="hero_cta_diag">🩺 Diagnostic gratuit de ta bête</a>
   </div>
 </section>
 
@@ -756,7 +760,7 @@ const I18N={
     hero_badge:`Élevage &amp; cultures · Cabinet IA`,
     hero_h1:`Entrez dans l'ère <span class="grad">AGRI-X</span><br>— l'IA prend les commandes.`,
     hero_sub:`AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie jusqu'à 1 000 bêtes</b> — ensuite <b>à partir de 1 F par bête</b>.`,
-    hero_cta1:`🚀 Commencer gratuitement`,hero_cta2:`Découvrir le Cabinet IA`,
+    hero_cta1:`🚀 Commencer gratuitement`,hero_cta_diag:`🩺 Diagnostic gratuit de ta bête`,hero_cta2:`Découvrir le Cabinet IA`,
     meta_eleveurs:`Éleveurs`,meta_filieres:`Filières &amp; cultures`,meta_experts:`Experts IA`,meta_dispo:`Disponibilité`,meta_free_n:`Gratuit`,meta_free_l:`à vie`,
     dash_title:`📊 Tableau de bord — Ferme Espoir`,dash_live:`● en direct`,dash_ponte:`Taux de ponte`,dash_mais:`Maïs en culture`,dash_marge:`Marge FCFA`,dash_filieres:`Filières actives`,
     day_mon:`Lun`,day_tue:`Mar`,day_wed:`Mer`,day_thu:`Jeu`,
@@ -810,7 +814,7 @@ const I18N={
     hero_badge:`Livestock &amp; crops · AI Clinic`,
     hero_h1:`Enter the <span class="grad">AGRI-X</span> era<br>— AI takes control of your farm.`,
     hero_sub:`AGRI-X manages your <b>animals</b> (poultry, rabbit, pig, goat…) <b>and your crops</b> — with Dr&nbsp;SANKARA (vet) &amp; Dr&nbsp;SAVANA (agronomist). <b>Free forever up to 1,000 animals</b> — then <b>from 1 F per animal</b>.`,
-    hero_cta1:`🚀 Start for free`,hero_cta2:`Explore the AI Clinic`,
+    hero_cta1:`🚀 Start for free`,hero_cta_diag:`🩺 Free animal diagnosis`,hero_cta2:`Explore the AI Clinic`,
     meta_eleveurs:`Farmers`,meta_filieres:`Sectors &amp; crops`,meta_experts:`AI experts`,meta_dispo:`Availability`,meta_free_n:`Free`,meta_free_l:`forever`,
     dash_title:`📊 Dashboard — Espoir Farm`,dash_live:`● live`,dash_ponte:`Laying rate`,dash_mais:`Maize grown`,dash_marge:`Margin FCFA`,dash_filieres:`Active sectors`,
     day_mon:`Mon`,day_tue:`Tue`,day_wed:`Wed`,day_thu:`Thu`,
