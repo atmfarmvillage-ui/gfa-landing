@@ -61,6 +61,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(16px);ba
 .btn-ghost:hover{transform:translateY(-2px)}
 .btn-diag{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:800;padding:14px 24px;box-shadow:0 12px 26px -8px rgba(37,211,102,.5)}
 .btn-diag:hover{transform:translateY(-2px);box-shadow:0 16px 30px -8px rgba(37,211,102,.7)}
+/* ── compteurs agents ── */
+.stats-agents{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px;margin-top:14px}
+.sa-card{background:var(--glass);border:1px solid var(--border);border-radius:16px;padding:22px 16px;text-align:center;backdrop-filter:blur(8px)}
+.sa-ic{font-size:26px;margin-bottom:6px}
+.sa-n{font-family:'Fraunces',serif;font-weight:900;font-size:32px;color:var(--green-d);line-height:1}
+.sa-l{font-size:12.5px;color:var(--muted);font-weight:600;margin-top:6px}
 
 /* ── hero ── */
 .hero{padding:150px 0 90px;display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
@@ -390,6 +396,21 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
   <div class="t" data-i18n="trust_pay">📱 Mobile Money · FedaPay</div>
   <div class="t" data-i18n="trust_africa">🌍 Pensé pour l'Afrique</div>
 </div></div>
+
+<!-- CHIFFRES AGENTS -->
+<section class="blk" id="chiffres" hidden>
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="stats_lbl">En direct</div><h2 data-i18n="stats_h2">Nos agents au travail</h2><p data-i18n="stats_p">Des chiffres réels — la preuve que la plateforme tourne pour de vraies fermes.</p></div>
+    <div class="stats-agents rv" id="statsAgents">
+      <div class="sa-card" data-k="fermes" hidden><div class="sa-ic">🏡</div><div class="sa-n" id="sa_fermes">0</div><div class="sa-l" data-i18n="stats_fermes">Fermes</div></div>
+      <div class="sa-card" data-k="diagnostics" hidden><div class="sa-ic">🩺</div><div class="sa-n" id="sa_diagnostics">0</div><div class="sa-l" data-i18n="stats_diag">Diagnostics Dr SANKARA</div></div>
+      <div class="sa-card" data-k="formations" hidden><div class="sa-ic">🎓</div><div class="sa-n" id="sa_formations">0</div><div class="sa-l" data-i18n="stats_form">Formations HOSANA</div></div>
+      <div class="sa-card" data-k="ventes" hidden><div class="sa-ic">👑</div><div class="sa-n" id="sa_ventes">0</div><div class="sa-l" data-i18n="stats_ventes">Ventes suivies (KEPELA)</div></div>
+      <div class="sa-card" data-k="rapports" hidden><div class="sa-ic">🐔</div><div class="sa-n" id="sa_rapports">0</div><div class="sa-l" data-i18n="stats_suivies">Rapports suivis par YAYRA</div></div>
+      <div class="sa-card" data-k="conseils" hidden><div class="sa-ic">💬</div><div class="sa-n" id="sa_conseils">0</div><div class="sa-l" data-i18n="stats_conseils">Conseils IA donnés</div></div>
+    </div>
+  </div>
+</section>
 
 <!-- CABINET IA -->
 <section class="blk" id="cabinet">
@@ -748,6 +769,24 @@ chargerApercuBoutique();
     el.dataset.count=n; if(typeof count==='function') count(el); else el.textContent=n.toLocaleString('fr-FR');
   }catch(e){ if(box) box.style.display='none'; }
 })();
+// ── Compteurs des agents (chiffres RÉELS, RPC publique agrégée gfa-prod) ──
+(async function(){
+  const sec=document.getElementById('chiffres'); const wrap=document.getElementById('statsAgents');
+  if(!sec||!wrap||typeof SHOP_SB==='undefined'||!SHOP_SB||typeof SHOP_SB.rpc!=='function') return;
+  try{
+    const {data,error}=await SHOP_SB.rpc('stats_publiques');
+    if(error||!data) throw error||new Error('no data');
+    let shown=0;
+    wrap.querySelectorAll('.sa-card').forEach(card=>{
+      const n=Number((data&&data[card.dataset.k])||0);
+      if(!n){ card.hidden=true; return; }
+      const el=card.querySelector('.sa-n'); el.dataset.count=n;
+      if(typeof count==='function') count(el); else el.textContent=n.toLocaleString('fr-FR');
+      card.hidden=false; shown++;
+    });
+    if(shown) sec.hidden=false;
+  }catch(e){}
+})();
 // thème clair / sombre (mémorisé)
 function toggleTheme(){const d=document.documentElement;const isDark=d.getAttribute('data-theme')==='dark';const next=isDark?'light':'dark';d.setAttribute('data-theme',next);try{localStorage.setItem('agrix_theme',next)}catch(e){}const _tb=document.getElementById('themeBtn');if(_tb)_tb.textContent=next==='dark'?'☀️':'🌙'}
 window.toggleTheme=toggleTheme;
@@ -762,6 +801,7 @@ const I18N={
     hero_sub:`AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie jusqu'à 1 000 bêtes</b> — ensuite <b>à partir de 1 F par bête</b>.`,
     hero_cta1:`🚀 Commencer gratuitement`,hero_cta_diag:`🩺 Diagnostic gratuit de ta bête`,hero_cta2:`Découvrir le Cabinet IA`,
     meta_eleveurs:`Éleveurs`,meta_filieres:`Filières &amp; cultures`,meta_experts:`Experts IA`,meta_dispo:`Disponibilité`,meta_free_n:`Gratuit`,meta_free_l:`à vie`,
+    stats_lbl:`En direct`,stats_h2:`Nos agents au travail`,stats_p:`Des chiffres réels — la preuve que la plateforme tourne pour de vraies fermes.`,stats_fermes:`Fermes`,stats_diag:`Diagnostics Dr SANKARA`,stats_form:`Formations HOSANA`,stats_ventes:`Ventes suivies (KEPELA)`,stats_suivies:`Rapports suivis par YAYRA`,stats_conseils:`Conseils IA donnés`,
     dash_title:`📊 Tableau de bord — Ferme Espoir`,dash_live:`● en direct`,dash_ponte:`Taux de ponte`,dash_mais:`Maïs en culture`,dash_marge:`Marge FCFA`,dash_filieres:`Filières actives`,
     day_mon:`Lun`,day_tue:`Mar`,day_wed:`Mer`,day_thu:`Jeu`,
     chip_sankara:`diagnostic en 30s`,chip_savana:`conseil cultures`,chip_yayra:`sur WhatsApp`,
@@ -816,6 +856,7 @@ const I18N={
     hero_sub:`AGRI-X manages your <b>animals</b> (poultry, rabbit, pig, goat…) <b>and your crops</b> — with Dr&nbsp;SANKARA (vet) &amp; Dr&nbsp;SAVANA (agronomist). <b>Free forever up to 1,000 animals</b> — then <b>from 1 F per animal</b>.`,
     hero_cta1:`🚀 Start for free`,hero_cta_diag:`🩺 Free animal diagnosis`,hero_cta2:`Explore the AI Clinic`,
     meta_eleveurs:`Farmers`,meta_filieres:`Sectors &amp; crops`,meta_experts:`AI experts`,meta_dispo:`Availability`,meta_free_n:`Free`,meta_free_l:`forever`,
+    stats_lbl:`Live`,stats_h2:`Our agents at work`,stats_p:`Real numbers — proof the platform runs for real farms.`,stats_fermes:`Farms`,stats_diag:`Dr SANKARA diagnoses`,stats_form:`HOSANA trainings`,stats_ventes:`Sales tracked (KEPELA)`,stats_suivies:`Reports tracked by YAYRA`,stats_conseils:`AI advice given`,
     dash_title:`📊 Dashboard — Espoir Farm`,dash_live:`● live`,dash_ponte:`Laying rate`,dash_mais:`Maize grown`,dash_marge:`Margin FCFA`,dash_filieres:`Active sectors`,
     day_mon:`Mon`,day_tue:`Tue`,day_wed:`Wed`,day_thu:`Thu`,
     chip_sankara:`diagnosis in 30s`,chip_savana:`crop advice`,chip_yayra:`on WhatsApp`,
