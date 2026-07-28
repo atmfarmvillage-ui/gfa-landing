@@ -656,6 +656,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
 <section class="blk" id="avis">
   <div class="wrap">
     <div class="head rv"><div class="lbl" data-i18n="av_lbl">Témoignages</div><h2 data-i18n="av_h2">Ce que disent nos éleveurs</h2><p data-i18n="av_p">Des éleveurs de toute l'Afrique font confiance à AGRI-X.</p></div>
+    <div id="avisNote" class="rv" style="text-align:center;margin:-4px 0 22px;font-size:17px;font-weight:800;color:var(--gold,#C7A24B);display:none"></div>
     <div class="avis-grid" id="avisGrid">
       <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av1_q">« Je gère mes 3 poulaillers et mon champ de maïs depuis mon téléphone. Dr SANKARA m'a sauvé une bande de la coccidiose en pleine nuit. »</div><div class="avis-who">Kofi M. <small data-i18n="av1_w">Aviculteur · Tsévié</small></div></div>
       <div class="avis-card rv"><div class="avis-stars">★★★★★</div><div class="q" data-i18n="av2_q">« Avant je notais tout dans un cahier. Maintenant je vois ma marge en temps réel et mes techniciens saisissent les rapports eux-mêmes. »</div><div class="avis-who">Awa D. <small data-i18n="av2_w">Ferme avicole · Lomé</small></div></div>
@@ -760,9 +761,14 @@ chargerApercuBoutique();
   const grid = document.getElementById('avisGrid');
   if(!grid || typeof SHOP_SB === 'undefined' || !SHOP_SB || typeof SHOP_SB.rpc !== 'function') return;
   try{
-    const { data, error } = await SHOP_SB.rpc('get_temoignages_publics', { p_filiere: null, p_limit: 6 });
+    const { data, error } = await SHOP_SB.rpc('get_temoignages_publics', { p_filiere: null, p_limit: 24 });
     if(error || !Array.isArray(data) || data.length < 3) return;   // <3 → on garde les avis par défaut
     const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    // Note moyenne réelle (preuve sociale) — affichée seulement si de vrais avis existent.
+    const notes = data.map(t => Math.max(1, Math.min(5, Number(t.note) || 5)));
+    const moy = notes.reduce((s,x)=>s+x,0) / notes.length;
+    const nb = document.getElementById('avisNote');
+    if(nb){ nb.innerHTML = `★★★★★ &nbsp; <b>${moy.toFixed(1)} / 5</b> <span style="color:var(--muted);font-weight:600;font-size:14px">· ${notes.length} avis vérifié${notes.length>1?'s':''}</span>`; nb.style.display='block'; }
     grid.innerHTML = data.slice(0,3).map(t => {
       const who = [esc(t.auteur_prenom), esc(t.ville)].filter(Boolean).join(' · ');
       const note = Math.max(1, Math.min(5, t.note || 5));
