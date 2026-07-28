@@ -110,6 +110,7 @@ h1 .grad{background:linear-gradient(120deg,var(--green),var(--gold));-webkit-bac
 .chip.c1{top:-26px;right:-10px;animation-delay:-1s}
 .chip.c2{bottom:40px;left:-40px;animation-delay:-3s}
 .chip.c3{bottom:-24px;right:30px;animation-delay:-2s}
+.chip.c4{top:-24px;left:-34px;animation-delay:-4s}
 @keyframes float{50%{transform:translateY(-12px)}}
 
 /* ── sections ── */
@@ -389,6 +390,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
     <div class="chip c1"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-sankara"/></svg><div>Dr SANKARA<small data-i18n="chip_sankara">diagnostic en 30s</small></div></div>
     <div class="chip c2"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-savana"/></svg><div>Dr SAVANA<small data-i18n="chip_savana">conseil cultures</small></div></div>
     <div class="chip c3"><svg class="chiplogo" viewBox="0 0 48 48"><use href="#logo-yayra"/></svg><div>YAYRA<small data-i18n="chip_yayra">sur WhatsApp</small></div></div>
+    <div class="chip c4"><span class="e">👑</span><div>KEPELA<small data-i18n="chip_kepela">trouve tes acheteurs</small></div></div>
   </div>
 </header>
 
@@ -822,7 +824,7 @@ const I18N={
     stats_lbl:`En direct`,stats_h2:`Nos agents au travail`,stats_p:`Des chiffres réels — la preuve que la plateforme tourne pour de vraies fermes.`,stats_fermes:`Fermes`,stats_diag:`Diagnostics Dr SANKARA`,stats_form:`Formations HOSANA`,stats_ventes:`Ventes suivies (KEPELA)`,stats_suivies:`Rapports suivis par YAYRA`,stats_conseils:`Conseils IA donnés`,
     dash_title:`📊 Tableau de bord — Ferme Espoir`,dash_live:`● en direct`,dash_ponte:`Taux de ponte`,dash_mais:`Maïs en culture`,dash_marge:`Marge FCFA`,dash_filieres:`Filières actives`,
     day_mon:`Lun`,day_tue:`Mar`,day_wed:`Mer`,day_thu:`Jeu`,
-    chip_sankara:`diagnostic en 30s`,chip_savana:`conseil cultures`,chip_yayra:`sur WhatsApp`,
+    chip_sankara:`diagnostic en 30s`,chip_savana:`conseil cultures`,chip_yayra:`sur WhatsApp`,chip_kepela:`trouve tes acheteurs`,
     trust_free:`🆓 Gratuit à vie`,trust_offline:`📶 Marche hors-ligne`,trust_pay:`📱 Mobile Money · FedaPay`,trust_africa:`🌍 Pensé pour l'Afrique`,
     cab_lbl:`Cabinet IA`,cab_h2:`Vos experts, dans votre poche`,cab_p:`Un vétérinaire IA, un agronome et un <b>vrai vétérinaire</b> en renfort, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.`,
     cab_sankara_t:`Dr SANKARA — Vétérinaire`,cab_sankara_p:`Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.`,cab_sankara_pill:`2 consultations offertes`,
@@ -881,7 +883,7 @@ const I18N={
     stats_lbl:`Live`,stats_h2:`Our agents at work`,stats_p:`Real numbers — proof the platform runs for real farms.`,stats_fermes:`Farms`,stats_diag:`Dr SANKARA diagnoses`,stats_form:`HOSANA trainings`,stats_ventes:`Sales tracked (KEPELA)`,stats_suivies:`Reports tracked by YAYRA`,stats_conseils:`AI advice given`,
     dash_title:`📊 Dashboard — Espoir Farm`,dash_live:`● live`,dash_ponte:`Laying rate`,dash_mais:`Maize grown`,dash_marge:`Margin FCFA`,dash_filieres:`Active sectors`,
     day_mon:`Mon`,day_tue:`Tue`,day_wed:`Wed`,day_thu:`Thu`,
-    chip_sankara:`diagnosis in 30s`,chip_savana:`crop advice`,chip_yayra:`on WhatsApp`,
+    chip_sankara:`diagnosis in 30s`,chip_savana:`crop advice`,chip_yayra:`on WhatsApp`,chip_kepela:`finds your buyers`,
     trust_free:`🆓 Free forever`,trust_offline:`📶 Works offline`,trust_pay:`📱 Mobile Money · FedaPay`,trust_africa:`🌍 Built for Africa`,
     cab_lbl:`AI Clinic`,cab_h2:`Your experts, in your pocket`,cab_p:`An AI vet, an agronomist and a <b>real vet</b> as backup, 24/7, for a fraction of the price of a real consultation. This is what makes AGRI-X unique.`,
     cab_sankara_t:`Dr SANKARA — Vet`,cab_sankara_p:`Disease, mortality, symptom? Describe it or send a photo: diagnosis, treatment and what to do next.`,cab_sankara_pill:`2 free consultations`,
