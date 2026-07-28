@@ -1,0 +1,166 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AGRI-X Crédit — Prêtez aux éleveurs, en confiance</title>
+<style>
+  :root{
+    --ground:#f6f4ec; --panel:#fffdf8; --ink:#12261b; --muted:#5c6b61;
+    --green:#15803d; --green-d:#0f5c2e; --amber:#b8860b; --amber-bg:#fbf3dd;
+    --blue:#1d4ed8; --blue-bg:#e8eefc; --line:#e6e1d3; --shadow:0 10px 34px -18px rgba(15,40,25,.4);
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --ground:#0d1411; --panel:#141d18; --ink:#e9efe9; --muted:#9cb0a4;
+    --green:#3bbd6b; --green-d:#7ee0a3; --amber:#e2b34a; --amber-bg:#2a2314;
+    --blue:#7aa2f7; --blue-bg:#161f33; --line:#26332c; --shadow:0 10px 34px -18px rgba(0,0,0,.6);
+  }}
+  :root[data-theme="light"]{--ground:#f6f4ec;--panel:#fffdf8;--ink:#12261b;--muted:#5c6b61;--green:#15803d;--green-d:#0f5c2e;--amber:#b8860b;--amber-bg:#fbf3dd;--blue:#1d4ed8;--blue-bg:#e8eefc;--line:#e6e1d3;--shadow:0 10px 34px -18px rgba(15,40,25,.4);}
+  :root[data-theme="dark"]{--ground:#0d1411;--panel:#141d18;--ink:#e9efe9;--muted:#9cb0a4;--green:#3bbd6b;--green-d:#7ee0a3;--amber:#e2b34a;--amber-bg:#2a2314;--blue:#7aa2f7;--blue-bg:#161f33;--line:#26332c;--shadow:0 10px 34px -18px rgba(0,0,0,.6);}
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .serif{font-family:Georgia,"Iowan Old Style","Times New Roman",serif}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px}
+  section{padding:46px 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--green)}
+  h1{font-size:clamp(30px,6vw,52px);line-height:1.08;margin:14px 0 10px;font-weight:800;text-wrap:balance}
+  h2{font-size:clamp(21px,3.4vw,30px);margin:0 0 6px;font-weight:800;text-wrap:balance}
+  h1 .hl{color:var(--green)}
+  p.lead{font-size:clamp(16px,2.2vw,20px);color:var(--muted);max-width:60ch}
+  .muted{color:var(--muted)}
+
+  /* hero */
+  header.hero{padding:52px 0 30px}
+  .brandbar{display:flex;align-items:center;gap:10px;font-weight:800}
+  .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--green),var(--green-d));display:grid;place-items:center;color:#fff;font-size:16px}
+  .brandbar small{font-weight:600;color:var(--muted)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:26px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:center;box-shadow:var(--shadow)}
+  .kpi .n{font-size:26px;font-weight:800;color:var(--green);font-variant-numeric:tabular-nums;line-height:1}
+  .kpi .l{font-size:11.5px;color:var(--muted);margin-top:5px}
+
+  /* generic cards */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 18px;box-shadow:var(--shadow)}
+  .card .ic{font-size:22px}
+  .card h3{margin:8px 0 4px;font-size:16px}
+  .card p{margin:0;font-size:14px;color:var(--muted)}
+  .prob{border-left:3px solid var(--amber)}
+  .prob h3{color:var(--ink)}
+
+  /* flow */
+  .flow{display:flex;flex-direction:column;gap:0;margin-top:22px}
+  .step{display:flex;gap:14px;align-items:flex-start}
+  .rail{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+  .dot{width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+  .bar{width:2px;flex:1;background:var(--line);min-height:20px}
+  .step .body{padding-bottom:20px}
+  .step .body b{color:var(--ink)}
+  .step:last-child .bar{display:none}
+  .guard{margin-top:8px;background:var(--green-d);color:#fff;border-radius:12px;padding:12px 16px;font-weight:600;font-size:14px}
+  :root[data-theme="dark"] .guard,@media (prefers-color-scheme:dark){.guard{background:#12321f}}
+
+  /* offer / bullets */
+  ul.check{list-style:none;padding:0;margin:8px 0 0}
+  ul.check li{padding-left:26px;position:relative;margin:9px 0;font-size:14.5px}
+  ul.check li::before{content:"✓";position:absolute;left:0;top:0;color:var(--green);font-weight:800}
+
+  .badge{display:inline-block;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);border-radius:20px;padding:2px 11px;font-size:12px;font-weight:700}
+  .model{background:var(--blue-bg);border:1px solid var(--line);border-radius:16px;padding:20px}
+  .model .big{font-size:30px;font-weight:800;color:var(--blue)}
+
+  .cta{background:linear-gradient(135deg,var(--green),var(--green-d));color:#fff;border-radius:20px;padding:30px;text-align:center;box-shadow:var(--shadow)}
+  .cta h2{color:#fff}
+  .cta p{color:#eafff1;opacity:.95;max-width:52ch;margin:6px auto 0}
+  .contact{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);border-radius:22px;padding:9px 17px;color:#fff;font-weight:600;font-size:14px;text-decoration:none;display:inline-block;transition:background .15s,transform .15s}
+  a.pill:hover{background:rgba(255,255,255,.3);transform:translateY(-1px)}
+  a.pill:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  footer{padding:26px 0 40px;color:var(--muted);font-size:12px;text-align:center}
+  .stripe{color:var(--amber);font-weight:700}
+</style></head><body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="brandbar"><span class="logo">🌾</span> AGRI-X <small>· par ATM Farm Village · Togo</small></div>
+    <div class="eyebrow" style="margin-top:26px">Financement agricole · Data-as-a-service</div>
+    <h1 class="serif">Prêtez aux éleveurs.<br><span class="hl">Sans risquer votre argent.</span></h1>
+    <p class="lead">Les banques ne prêtent pas aux petits éleveurs : pas de comptes, pas d'historique, aucun suivi. <b style="color:var(--ink)">AGRI-X transforme la donnée réelle des fermes en confiance bancaire</b> — et vous rembourse cette confiance en prêts qui se remboursent.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="n">73</div><div class="l">fermes sur la plateforme</div></div>
+      <div class="kpi"><div class="n">451</div><div class="l">rapports quotidiens saisis</div></div>
+      <div class="kpi"><div class="n">104</div><div class="l">diagnostics vétérinaires</div></div>
+      <div class="kpi"><div class="n">100%</div><div class="l">données horodatées</div></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">Le problème</div>
+    <h2 class="serif">Un marché énorme, jugé « trop risqué »</h2>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card prob"><div class="ic">📄</div><h3>Aucune preuve</h3><p>L'éleveur n'a ni comptes ni bilans. Impossible d'évaluer sa fiabilité ou sa rentabilité.</p></div>
+      <div class="card prob"><div class="ic">💸</div><h3>Argent détournable</h3><p>Un prêt en cash peut partir ailleurs. Le prêteur perd le contrôle de l'usage des fonds.</p></div>
+      <div class="card prob"><div class="ic">🕳️</div><h3>Zéro suivi</h3><p>Après le décaissement, le prêteur est aveugle : la ferme produit-elle ? va-t-elle rembourser ?</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">La solution</div>
+    <h2 class="serif">AGRI-X, le tiers de confiance entre l'éleveur et l'argent</h2>
+    <p class="muted" style="max-width:62ch">Chaque jour, l'éleveur saisit sa production dans AGRI-X (ponte, mortalité, ventes, dépenses). On en tire un <b style="color:var(--ink)">Score de crédit</b>, un <b style="color:var(--ink)">dossier vérifié</b>, et un <b style="color:var(--ink)">suivi vivant</b>. Le crédit est décaissé <b style="color:var(--ink)">en nature</b> — tout est tracé, rien ne se perd.</p>
+
+    <div class="flow">
+      <div class="step"><div class="rail"><div class="dot">1</div><div class="bar"></div></div><div class="body"><b>Le prêteur finance</b> — et verse directement au fournisseur (SADARI / ATM), jamais à l'éleveur.</div></div>
+      <div class="step"><div class="rail"><div class="dot">2</div><div class="bar"></div></div><div class="body"><b>SADARI livre les intrants</b> (aliment, poussins). L'éleveur reçoit des sacs, pas du cash → <b>impossible à détourner</b>.</div></div>
+      <div class="step"><div class="rail"><div class="dot">3</div><div class="bar"></div></div><div class="body"><b>La production est suivie</b> en temps réel : vous voyez que votre argent travaille (feu tricolore 🟢🟠🔴).</div></div>
+      <div class="step"><div class="rail"><div class="dot">4</div><div class="bar"></div></div><div class="body"><b>L'éleveur vend et rembourse</b> — vous scannez son QR à l'agence, le versement est enregistré, sa progression monte.</div></div>
+    </div>
+    <div class="guard">🔒 AGRI-X ne prête pas et ne détient jamais l'argent. Il <b>atteste la donnée</b>, <b>trace l'usage</b> et <b>outille le remboursement</b>. Vous restez le prêteur ; nous sommes les rails de confiance.</div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Ce que vous obtenez</div>
+    <h2 class="serif">Des prêts qui se remboursent</h2>
+    <div class="grid2" style="margin-top:20px">
+      <div class="card"><div class="ic">🟢</div><h3>Emprunteurs pré-qualifiés</h3><p>Un <b style="color:var(--ink)">Score AGRI-X</b> (A/B/C/D) sur données réelles. Le badge <span class="badge">⭐ Assidu</span> signale les plus fiables — un pipeline filtré, pas une loterie.</p></div>
+      <div class="card"><div class="ic">📊</div><h3>Dossier de financement vérifié</h3><p>Production, marges sur 6 mois, cheptel, historique de remboursement — en 1 clic, <b style="color:var(--ink)">téléchargeable en PDF et Excel</b>.</p></div>
+      <div class="card"><div class="ic">👁️</div><h3>Suivi post-prêt & alerte précoce</h3><p>Un tableau de bord vivant : dès qu'une ferme ralentit (saisies, marge, mortalité), vous êtes prévenu <b style="color:var(--ink)">avant</b> l'impayé.</p></div>
+      <div class="card"><div class="ic">📲</div><h3>Remboursement infalsifiable</h3><p>Le versement s'enregistre par <b style="color:var(--ink)">scan du QR de l'éleveur</b> — seule votre agence peut valider. Réconciliation automatique avec ses ventes.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Le modèle</div>
+    <h2 class="serif">Vous prêtez. Nous fournissons les rails.</h2>
+    <div class="model" style="margin-top:18px">
+      <div class="big">≈ 2%</div>
+      <p style="margin:2px 0 0"><b>de commission par crédit facilité</b>, payée par le prêteur — pour la qualification, le suivi et l'outil de remboursement.</p>
+      <ul class="check" style="margin-top:14px">
+        <li>Zéro risque de crédit pour AGRI-X — nous ne prêtons pas, nous ne tenons pas l'argent.</li>
+        <li>Vous fixez votre taux (10–13 % typique) ; AGRI-X calcule l'échéancier et trace tout.</li>
+        <li>Chaque crédit génère une commande d'intrants locale : l'économie tourne.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="cta">
+      <h2 class="serif">Testons-le ensemble.</h2>
+      <p>Nous vous proposons un <b>pilote</b> : un lot d'éleveurs qualifiés, leurs dossiers vérifiés, et un accès démo au suivi en temps réel. Vous prêtez petit, vous mesurez le remboursement, vous décidez d'accélérer.</p>
+      <p style="margin-top:12px;font-size:14px"><b>🌍 Modèle réplicable dans toute l'Afrique de l'Ouest</b> — même donnée, même confiance, quel que soit le pays.</p>
+      <div class="contact">
+        <a class="pill" href="tel:+22870992018">📞 +228 70 99 20 18</a>
+        <a class="pill" href="https://avifarmer.net" target="_blank" rel="noopener">🌐 avifarmer.net</a>
+        <span class="pill">📍 ATM Farm Village · Lomé, Togo</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    AGRI-X — ATM Farm Village · Le financement agricole, prouvé par la donnée.<br>
+    <span class="stripe">Document de présentation non contractuel.</span>
+  </footer>
+
+</div>
+</body></html>

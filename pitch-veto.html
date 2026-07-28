@@ -1,0 +1,153 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Réseau Vétérinaire AGRI-X — Des patients qui viennent à vous</title>
+<style>
+  :root{
+    --ground:#f6f4ec; --panel:#fffdf8; --ink:#12261b; --muted:#5c6b61;
+    --green:#15803d; --green-d:#0f5c2e; --teal:#0e7490; --teal-bg:#e2f2f5;
+    --amber:#b8860b; --amber-bg:#fbf3dd; --line:#e6e1d3; --shadow:0 10px 34px -18px rgba(15,40,25,.4);
+  }
+  @media (prefers-color-scheme:dark){:root{
+    --ground:#0d1411; --panel:#141d18; --ink:#e9efe9; --muted:#9cb0a4;
+    --green:#3bbd6b; --green-d:#7ee0a3; --teal:#4cc3da; --teal-bg:#132a30;
+    --amber:#e2b34a; --amber-bg:#2a2314; --line:#26332c; --shadow:0 10px 34px -18px rgba(0,0,0,.6);
+  }}
+  :root[data-theme="light"]{--ground:#f6f4ec;--panel:#fffdf8;--ink:#12261b;--muted:#5c6b61;--green:#15803d;--green-d:#0f5c2e;--teal:#0e7490;--teal-bg:#e2f2f5;--amber:#b8860b;--amber-bg:#fbf3dd;--line:#e6e1d3;--shadow:0 10px 34px -18px rgba(15,40,25,.4);}
+  :root[data-theme="dark"]{--ground:#0d1411;--panel:#141d18;--ink:#e9efe9;--muted:#9cb0a4;--green:#3bbd6b;--green-d:#7ee0a3;--teal:#4cc3da;--teal-bg:#132a30;--amber:#e2b34a;--amber-bg:#2a2314;--line:#26332c;--shadow:0 10px 34px -18px rgba(0,0,0,.6);}
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .serif{font-family:Georgia,"Iowan Old Style","Times New Roman",serif}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px}
+  section{padding:46px 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+  h1{font-size:clamp(30px,6vw,52px);line-height:1.08;margin:14px 0 10px;font-weight:800;text-wrap:balance}
+  h2{font-size:clamp(21px,3.4vw,30px);margin:0 0 6px;font-weight:800;text-wrap:balance}
+  h1 .hl{color:var(--teal)}
+  p.lead{font-size:clamp(16px,2.2vw,20px);color:var(--muted);max-width:60ch}
+  .muted{color:var(--muted)}
+
+  header.hero{padding:52px 0 30px}
+  .brandbar{display:flex;align-items:center;gap:10px;font-weight:800}
+  .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--green-d));display:grid;place-items:center;color:#fff;font-size:16px}
+  .brandbar small{font-weight:600;color:var(--muted)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:26px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:center;box-shadow:var(--shadow)}
+  .kpi .n{font-size:23px;font-weight:800;color:var(--teal);line-height:1.05}
+  .kpi .l{font-size:11.5px;color:var(--muted);margin-top:5px}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+  .card .ic{font-size:22px}
+  .card h3{margin:8px 0 4px;font-size:16px}
+  .card p{margin:0;font-size:14px;color:var(--muted)}
+  .prob{border-left:3px solid var(--amber)}
+  .prob h3{color:var(--ink)}
+
+  .flow{display:flex;flex-direction:column;margin-top:22px}
+  .step{display:flex;gap:14px;align-items:flex-start}
+  .rail{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+  .dot{width:34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px}
+  .bar{width:2px;flex:1;background:var(--line);min-height:20px}
+  .step .body{padding-bottom:20px}
+  .step .body b{color:var(--ink)}
+  .step:last-child .bar{display:none}
+  .guard{margin-top:8px;background:var(--teal-bg);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:12px 16px;font-size:14px}
+
+  ul.check{list-style:none;padding:0;margin:8px 0 0}
+  ul.check li{padding-left:26px;position:relative;margin:9px 0;font-size:14.5px}
+  ul.check li::before{content:"✓";position:absolute;left:0;top:0;color:var(--teal);font-weight:800}
+  .badge{display:inline-block;background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);border-radius:20px;padding:2px 11px;font-size:12px;font-weight:700}
+
+  .cta{background:linear-gradient(135deg,var(--teal),var(--green-d));color:#fff;border-radius:20px;padding:30px;text-align:center;box-shadow:var(--shadow)}
+  .cta h2{color:#fff}
+  .cta p{color:#eafcff;opacity:.96;max-width:54ch;margin:6px auto 0}
+  .contact{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  .pill{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);border-radius:22px;padding:9px 17px;color:#fff;font-weight:600;font-size:14px;text-decoration:none;display:inline-block;transition:background .15s,transform .15s}
+  a.pill:hover{background:rgba(255,255,255,.3);transform:translateY(-1px)}
+  a.pill:focus-visible{outline:2px solid #fff;outline-offset:2px}
+  footer{padding:26px 0 40px;color:var(--muted);font-size:12px;text-align:center}
+</style></head><body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="brandbar"><span class="logo">🩺</span> AGRI-X <small>· Réseau Vétérinaire · ATM Farm Village</small></div>
+    <div class="eyebrow" style="margin-top:26px">Pour les vétérinaires & techniciens d'élevage</div>
+    <h1 class="serif">Des patients qui<br><span class="hl">viennent à vous.</span></h1>
+    <p class="lead">Fini la prospection. Les éleveurs d'AGRI-X vous envoient leurs cas <b style="color:var(--ink)">déjà documentés</b> — photo, symptômes, historique — et <b style="color:var(--ink)">dans votre zone</b>. Vous soignez, vous vendez vos produits, vous bâtissez votre réputation.</p>
+    <div class="kpis">
+      <div class="kpi"><div class="n">🎯</div><div class="l">cas qualifiés, sans prospecter</div></div>
+      <div class="kpi"><div class="n">🏪</div><div class="l">votre boutique de produits</div></div>
+      <div class="kpi"><div class="n">📍</div><div class="l">le véto de référence de la zone</div></div>
+      <div class="kpi"><div class="n">💵</div><div class="l">revenus récurrents</div></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="eyebrow">Le problème</div>
+    <h2 class="serif">Le savoir est là. Les patients manquent.</h2>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card prob"><div class="ic">🔎</div><h3>Prospecter épuise</h3><p>Trouver et fidéliser des éleveurs prend un temps fou — au détriment du soin.</p></div>
+      <div class="card prob"><div class="ic">⏰</div><h3>On vous appelle trop tard</h3><p>L'éleveur attend, tente des remèdes, et appelle quand la bête est mourante — voire jamais.</p></div>
+      <div class="card prob"><div class="ic">📦</div><h3>Produits durs à écouler</h3><p>Vaccins et médicaments dorment en stock, faute d'un canal pour les vendre.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">La solution</div>
+    <h2 class="serif">Le réseau vétérinaire AGRI-X</h2>
+    <p class="muted" style="max-width:62ch">Sur AGRI-X, l'éleveur envoie la photo de sa bête malade. Notre assistant <b style="color:var(--ink)">Dr SANKARA</b> gère les cas simples et <b style="color:var(--ink)">escalade les cas sérieux vers le vétérinaire de la zone</b> — vous. Vous recevez un dossier prêt : ce que l'éleveur a décrit, la photo, l'historique de la ferme.</p>
+
+    <div class="flow">
+      <div class="step"><div class="rail"><div class="dot">1</div><div class="bar"></div></div><div class="body"><b>L'éleveur envoie une photo</b> de sa bête malade, depuis WhatsApp.</div></div>
+      <div class="step"><div class="rail"><div class="dot">2</div><div class="bar"></div></div><div class="body"><b>Dr SANKARA trie</b> : il gère les cas bénins, et <b>escalade les cas graves au vétérinaire le plus proche</b>.</div></div>
+      <div class="step"><div class="rail"><div class="dot">3</div><div class="bar"></div></div><div class="body"><b>Vous recevez le cas</b>, déjà documenté (symptômes, photo, historique). Vous consultez et prescrivez.</div></div>
+      <div class="step"><div class="rail"><div class="dot">4</div><div class="bar"></div></div><div class="body"><b>Vous vendez vos produits</b> via votre boutique AGRI-X, et l'éleveur note votre intervention → votre réputation grandit.</div></div>
+    </div>
+    <div class="guard">🌍 <b>Veille sanitaire collective</b> : vous êtes alerté des épidémies de votre zone et devenez le référent local — plus de visibilité, plus de patients.</div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Ce que vous gagnez</div>
+    <h2 class="serif">Votre cabinet, sans les murs</h2>
+    <div class="grid2" style="margin-top:20px">
+      <div class="card"><div class="ic">🎯</div><h3>Des cas qualifiés, dans votre zone</h3><p>AGRI-X vous amène l'éleveur — avec la photo et l'historique. Vous soignez, vous ne courez plus après le client.</p></div>
+      <div class="card"><div class="ic">🏪</div><h3>Votre boutique de produits</h3><p>Vaccins, médicaments, matériel : proposez-les directement à l'éleveur au moment où il en a besoin. <span class="badge">Diagnostic → vente</span></p></div>
+      <div class="card"><div class="ic">⭐</div><h3>Réputation vérifiée</h3><p>Un profil, des avis d'éleveurs, un badge vérifié. Les mieux notés reçoivent plus de cas.</p></div>
+      <div class="card"><div class="ic">💵</div><h3>Revenus récurrents</h3><p>Consultations + ventes de produits, en continu — sans frais de prospection ni local coûteux.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Le modèle</div>
+    <h2 class="serif">Simple. Vous soignez, on vous connecte.</h2>
+    <ul class="check" style="margin-top:12px;max-width:64ch">
+      <li><b>Inscription en ligne</b> en quelques minutes (diplôme / carte professionnelle pour vérification).</li>
+      <li>Vous fixez vos honoraires et le prix de vos produits.</li>
+      <li>AGRI-X vous apporte les cas et l'outillage ; vous gardez la relation avec l'éleveur.</li>
+      <li>Couverture par zone : soyez le premier vétérinaire de référence de votre région.</li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="cta">
+      <h2 class="serif">Rejoignez le réseau.</h2>
+      <p>Les premières zones se remplissent. Inscrivez-vous, vérifiez votre profil, et commencez à recevoir des cas d'éleveurs près de chez vous.</p>
+      <div class="contact">
+        <a class="pill" href="https://gfa-ia.avifarmer.net/inscription-veto" target="_blank" rel="noopener">🩺 S'inscrire en ligne</a>
+        <a class="pill" href="tel:+22870992018">📞 +228 70 99 20 18</a>
+        <span class="pill">📍 ATM Farm Village · Afrique de l'Ouest</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    AGRI-X — ATM Farm Village · Le cabinet vétérinaire, augmenté par la donnée.<br>
+    Document de présentation non contractuel.
+  </footer>
+
+</div>
+</body></html>
