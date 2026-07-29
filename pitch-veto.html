@@ -151,4 +151,7 @@
   </footer>
 
 </div>
+<button id="copybtn" type="button" onclick="cpLink()" aria-label="Copier le lien de cette page">🔗 Copier le lien</button>
+<style>#copybtn{position:fixed;top:14px;right:14px;z-index:50;border:0;cursor:pointer;background:#0B6B4D;color:#fff;font-weight:800;font-size:13px;padding:10px 14px;border-radius:999px;box-shadow:0 8px 20px -6px rgba(6,103,74,.6);font-family:inherit}#copybtn:hover{filter:brightness(1.08)}#copybtn:focus-visible{outline:2px solid #fff;outline-offset:2px}#copybtn.ok{background:#0EA5E9}@media print{#copybtn{display:none}}</style>
+<script>function cpLink(){var b=document.getElementById('copybtn');function done(){var t='🔗 Copier le lien';b.textContent='✓ Lien copié';b.classList.add('ok');setTimeout(function(){b.textContent=t;b.classList.remove('ok');},1600);}try{navigator.clipboard.writeText(location.href).then(done,function(){prompt('Copiez le lien :',location.href);});}catch(e){prompt('Copiez le lien :',location.href);}}</script>
 </body></html>
