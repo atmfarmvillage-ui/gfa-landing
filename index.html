@@ -199,6 +199,8 @@ footer{text-align:center;padding:50px 0 40px;color:var(--muted);font-size:13px}
 /* logos réels (cabinet + chips hero) */
 .iclogo{width:74px;height:74px;margin-bottom:16px;filter:drop-shadow(0 14px 22px rgba(6,103,74,.35));animation:float 6s ease-in-out infinite}
 .iclogo svg{width:100%;height:100%}
+.iclogo-img{border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 14px 22px rgba(6,103,74,.35),0 0 0 2px rgba(6,103,74,.10)}
+.iclogo-img img{width:100%;height:100%;object-fit:cover;display:block}
 .chiplogo{width:30px;height:30px;flex-shrink:0}
 /* icônes premium (Lucide) dans les chips features */
 .fic i,.fic svg{width:33px;height:33px;color:var(--green-d);stroke-width:2}
@@ -422,7 +424,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
   <div class="wrap">
     <div class="head rv"><div class="lbl" data-i18n="cab_lbl">Cabinet IA</div><h2 data-i18n="cab_h2">Vos experts, dans votre poche</h2><p data-i18n="cab_p">Un vétérinaire IA, un agronome et un <b>vrai vétérinaire</b> en renfort, 24/7, pour une fraction du prix d'une vraie consultation. C'est ce qui rend AGRI-X unique.</p></div>
     <div class="grid3">
-      <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-sankara"/></svg></div><h3 data-i18n="cab_sankara_t">Dr SANKARA — Vétérinaire</h3><p data-i18n="cab_sankara_p">Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.</p><span class="pill" data-i18n="cab_sankara_pill">2 consultations offertes</span></div>
+      <div class="tcard rv"><div class="iclogo iclogo-img"><img src="dr-sankara.jpg?v=1" width="74" height="74" alt="Dr SANKARA — vétérinaire multi-espèces" loading="lazy"></div><h3 data-i18n="cab_sankara_t">Dr SANKARA — Vétérinaire</h3><p data-i18n="cab_sankara_p">Maladie, mortalité, symptôme ? Décrivez ou envoyez une photo : diagnostic, traitement et conduite à tenir.</p><span class="pill" data-i18n="cab_sankara_pill">2 consultations offertes</span></div>
       <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-savana"/></svg></div><h3 data-i18n="cab_savana_t">Dr SAVANA — Agronome</h3><p data-i18n="cab_savana_p">Maladies des plantes, fertilisation, calendrier cultural : votre conseiller cultures, adapté à votre région.</p></div>
       <div class="tcard rv"><div class="iclogo"><svg viewBox="0 0 48 48"><use href="#logo-yayra"/></svg></div><h3 data-i18n="cab_yayra_t">YAYRA — Assistante</h3><p data-i18n="cab_yayra_p">Elle connaît vos bandes et vos chiffres, saisit vos rapports, vous alerte, et vous passe le bon expert. Aussi sur WhatsApp.</p></div>
       <div class="tcard rv"><div class="iclogo" style="display:flex;align-items:center;justify-content:center;font-size:26px">🎓</div><h3 data-i18n="cab_hosana_t">HOSANA — Formateur</h3><p data-i18n="cab_hosana_p">Tu veux APPRENDRE à faire ? Démarrer une bande, préparer un aliment, réussir tes cultures, la mécanisation… HOSANA te forme pas à pas, adapté à ton niveau.</p></div>

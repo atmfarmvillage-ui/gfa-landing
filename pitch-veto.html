@@ -29,7 +29,8 @@
 
   header.hero{padding:52px 0 30px}
   .brandbar{display:flex;align-items:center;gap:10px;font-weight:800}
-  .logo{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--teal),var(--green-d));display:grid;place-items:center;color:#fff;font-size:16px}
+  .logo{width:40px;height:40px;border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 0 0 2px rgba(6,103,74,.12);flex-shrink:0}
+  .logo img{width:100%;height:100%;object-fit:cover;display:block}
   .brandbar small{font-weight:600;color:var(--muted)}
   .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:26px}
   .kpi{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:center;box-shadow:var(--shadow)}
@@ -74,7 +75,7 @@
 <div class="wrap">
 
   <header class="hero">
-    <div class="brandbar"><span class="logo">🩺</span> AGRI-X <small>· Réseau Vétérinaire · ATM Farm Village</small></div>
+    <div class="brandbar"><span class="logo"><img src="dr-sankara.jpg?v=1" alt="Dr SANKARA"></span> AGRI-X <small>· Réseau Vétérinaire · ATM Farm Village</small></div>
     <div class="eyebrow" style="margin-top:26px">Pour les vétérinaires & techniciens d'élevage</div>
     <h1 class="serif">Des patients qui<br><span class="hl">viennent à vous.</span></h1>
     <p class="lead">Fini la prospection. Les éleveurs d'AGRI-X vous envoient leurs cas <b style="color:var(--ink)">déjà documentés</b> — photo, symptômes, historique — et <b style="color:var(--ink)">dans votre zone</b>. Vous soignez, vous vendez vos produits, vous bâtissez votre réputation.</p>
