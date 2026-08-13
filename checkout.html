@@ -234,7 +234,8 @@ function capturerGeoloc(){
 // Le montant (prix ×1,20) et le bénéficiaire sont envoyés par le SYSTÈME (worker), jamais ici.
 function payerDiaspora(){
   const p = _produit;
-  const msg = `Bonjour KEPELA 🌍\nJe suis à l'étranger et je veux payer la formation « ${p.titre} » en diaspora.\nComment procéder ?\n[FD:${p.id}]`;
+  const ref = String(p.id || '').replace(/-/g, '').slice(0, 8).toUpperCase();   // réf. courte & propre
+  const msg = `Bonjour KEPELA 🌍\nJe suis à l'étranger et je veux payer en diaspora la formation :\n« ${p.titre} » 🎓\nComment procéder ? 🙏\n\nRéf. AGX-${ref}`;
   window.open(`https://wa.me/${KEPELA_WHATSAPP_E164}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
