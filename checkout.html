@@ -236,8 +236,13 @@ async function finaliser(){
   const montant = gratuit ? 0 : (_produit.prix * qte);
   const mode = gratuit ? null : (isVirtuel ? 'fedapay' : _mode);
 
-  // Insérer la commande en pending
-  const { data, error } = await SHOP_SB.from('commandes').insert({
+  // Insérer la commande en pending.
+  // On GÉNÈRE l'id côté client → pas de .select() (sinon il faudrait une policy SELECT anon
+  // sur commandes, qui exposerait TOUTES les commandes clients). Sécurité C3 préservée.
+  const cmdId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){ var r = Math.random()*16|0, v = c === 'x' ? r : (r&0x3|0x8); return v.toString(16); });
+  const { error } = await SHOP_SB.from('commandes').insert({
+    id: cmdId,
     type: _produit.type,
     produit_table: _produit.table,
     produit_id: _produit.id,
@@ -250,7 +255,7 @@ async function finaliser(){
     montant: montant,
     paye: gratuit, // gratuit → directement marqué payé
     mode_paiement: mode,
-  }).select().single();
+  });
 
   if(error){
     alert('Erreur enregistrement commande : ' + error.message);
@@ -259,7 +264,7 @@ async function finaliser(){
 
   // Si gratuit ou paiement à la livraison → pas de FedaPay, redirection directe vers Merci
   if(gratuit || mode === 'livraison'){
-    location.href = `/merci?cmd=${data.id}&mode=${mode||'gratuit'}`;
+    location.href = `/merci?cmd=${cmdId}&mode=${mode||'gratuit'}`;
     return;
   }
 
@@ -309,7 +314,7 @@ async function finaliser(){
           fedapay_ref: String(ref),
           mode_paiement: 'fedapay_echec_' + (status || 'inconnu'),
           updated_at: new Date().toISOString(),
-        }).eq('id', data.id);
+        }).eq('id', cmdId);
         alert(
           'Paiement non confirme.\n\n' +
           'Statut FedaPay : ' + (status || 'inconnu') + '\n\n' +
@@ -326,7 +331,7 @@ async function finaliser(){
         paye: true,
         fedapay_ref: String(ref),
         updated_at: new Date().toISOString(),
-      }).eq('id', data.id);
+      }).eq('id', cmdId);
 
       // Si virtuel : TOUJOURS créer le token (même si lien vide).
       // Si l'admin upload le PDF/vidéo plus tard, access.html résoudra dynamiquement
@@ -335,12 +340,12 @@ async function finaliser(){
       if(_produit.type === 'virtuel'){
         const token = genererToken(24);
         await SHOP_SB.from('acces_virtuels').insert({
-          commande_id: data.id,
+          commande_id: cmdId,
           token: token,
           lien_reel: _produit.lien_contenu || '',
         });
       }
-      location.href = `/merci?cmd=${data.id}&mode=fedapay`;
+      location.href = `/merci?cmd=${cmdId}&mode=fedapay`;
     },
   }).open();
 }
