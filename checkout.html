@@ -55,6 +55,9 @@ h1{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--bleu-
 .btn-payer{width:100%;background:var(--bleu);color:white;padding:15px 24px;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:10px;transition:all .2s;box-shadow:0 4px 14px rgba(27,79,216,.35)}
 .btn-payer:hover:not(:disabled){background:var(--bleu-mid);transform:translateY(-1px)}
 .btn-payer:disabled{opacity:.6;cursor:not-allowed}
+.btn-diaspora{width:100%;background:#fff;color:var(--vert);border:1.5px solid var(--vert);padding:13px 24px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .2s}
+.btn-diaspora:hover{background:#f0fdf4}
+.diaspora-hint{font-size:11px;color:var(--textm);text-align:center;margin-top:8px;line-height:1.45}
 
 .recap{position:sticky;top:20px}
 .recap h2{font-family:'Fraunces',serif;font-size:18px;color:var(--bleu-sombre);margin-bottom:14px}
@@ -180,6 +183,11 @@ function rendreCheckout(){
         <button id="btnPayer" class="btn-payer" onclick="finaliser()">
           ${gratuit ? '🎁 Confirmer & envoyer à ATM' : (_mode==='fedapay' || isVirtuel ? '💳 Payer ' + fcfa(total) : '📍 Confirmer & envoyer à ATM')}
         </button>
+
+        ${isVirtuel && !gratuit ? `
+        <button class="btn-diaspora" onclick="payerDiaspora()">🌍 Je paie depuis l'étranger (diaspora)</button>
+        <div class="diaspora-hint">France, USA, Canada, Europe… Paiement par <b>Western Union / virement</b>, validé sur WhatsApp par notre équipe. Ton accès est débloqué dès la vérification du reçu.</div>
+        ` : ''}
       </div>
 
       <div class="recap">
@@ -220,6 +228,14 @@ function capturerGeoloc(){
     btn.textContent = '📍 Réessayer';
     alert('Impossible de capturer votre position : ' + err.message);
   }, {enableHighAccuracy:true, timeout:10000});
+}
+
+// PAIEMENT DIASPORA (étranger) : ouvre WhatsApp vers YAYRA/KEPELA avec la formation ENCODÉE ([FD:id]).
+// Le montant (prix ×1,20) et le bénéficiaire sont envoyés par le SYSTÈME (worker), jamais ici.
+function payerDiaspora(){
+  const p = _produit;
+  const msg = `Bonjour KEPELA 🌍\nJe suis à l'étranger et je veux payer la formation « ${p.titre} » en diaspora.\nComment procéder ?\n[FD:${p.id}]`;
+  window.open(`https://wa.me/${KEPELA_WHATSAPP_E164}?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
 async function finaliser(){
