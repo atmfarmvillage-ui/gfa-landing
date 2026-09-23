@@ -348,6 +348,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
     <a href="#cabinet" data-i18n="nav_cabinet">Cabinet IA</a>
     <a href="#fonctions" data-i18n="nav_features">Fonctionnalités</a>
     <a href="#plans" data-i18n="nav_pricing">Tarifs</a>
+    <a href="#appli" data-i18n="nav_app">Application</a>
     <button class="theme-tgl" onclick="toggleLang()" id="langBtn" title="Français / English" aria-label="Langue" style="width:auto;padding:0 13px;font-size:13px;font-weight:800">EN</button>
     <button class="theme-tgl" id="themeBtn" onclick="toggleTheme()" title="Thème clair / sombre" aria-label="Thème">🌙</button>
     <a href="https://app.avifarmer.net" class="btn btn-pri" data-i18n="cta_start">Commencer gratuitement</a>
@@ -364,6 +365,10 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
       <a href="https://app.avifarmer.net" class="btn btn-pri" data-i18n="hero_cta1">🚀 Commencer gratuitement</a>
       <a href="https://wa.me/22890378888?text=Bonjour%2C%20je%20veux%20le%20diagnostic%20gratuit%20de%20Dr%20SANKARA%20pour%20ma%20b%C3%AAte.%20Je%20vais%20envoyer%20une%20photo." class="btn btn-diag" data-i18n="hero_cta_diag">🩺 Diagnostic gratuit de ta bête</a>
       <a href="#cabinet" class="btn btn-ghost" data-i18n="hero_cta2">Découvrir le Cabinet IA</a>
+    </div>
+    <div style="margin-top:14px;font-size:14px;opacity:.9">
+      📱 <span data-i18n="hero_apk">Aussi en application Android —</span>
+      <a href="https://app.avifarmer.net/apk/agrix-latest.apk" style="font-weight:800;text-decoration:underline" data-i18n="hero_apk_lien">télécharger (3 Mo)</a>
     </div>
     <div class="hero-meta">
       <div id="metaEleveurs"><div class="n" id="statEleveurs">—</div><div class="l" data-i18n="meta_eleveurs">Éleveurs</div></div>
@@ -656,6 +661,27 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
   </div>
 </section>
 
+<!-- APPLICATION ANDROID -->
+<section class="blk" id="appli">
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="ap_lbl">📱 Application</div>
+      <h2 data-i18n="ap_h2">AGRI-X dans votre poche, jusqu'au bout du champ</h2>
+      <p data-i18n="ap_p">Le site marche déjà très bien dans le navigateur. L'application, elle, s'installe sur le téléphone — et ouvrira bientôt ce que le navigateur interdit sur le terrain.</p></div>
+    <div class="avis-grid">
+      <div class="avis-card rv"><div class="q" data-i18n="ap1">📱 <b>Une vraie application</b> sur l'écran d'accueil : plein écran, sans barre de navigateur, elle s'ouvre d'un geste.</div></div>
+      <div class="avis-card rv"><div class="q" data-i18n="ap2">🌾 <b>Tout AGRI-X à l'intérieur</b> : élevage, cultures, analyses de sol, cabinet IA — exactement ce que vous avez sur le site.</div></div>
+      <div class="avis-card rv"><div class="q" data-i18n="ap3">📡 <b>Un écran clair quand le réseau tombe</b>, au lieu d'une page blanche — et ça repart dès que la connexion revient.</div></div>
+      <div class="avis-card rv"><div class="q" data-i18n="ap4">🔄 <b>Les mises à jour arrivent toutes seules</b> : l'application vous prévient dès qu'une nouvelle version est publiée.</div></div>
+    </div>
+    <div style="text-align:center;margin-top:32px">
+      <a href="https://app.avifarmer.net/apk/agrix-latest.apk" class="btn btn-pri" data-i18n="ap_btn">⬇️ Télécharger l'application (3 Mo)</a>
+      <div style="margin-top:12px;font-size:14px;opacity:.85" data-i18n="ap_note">À la première installation, Android affiche « source inconnue » : c'est normal en dehors du Play Store. Touchez Paramètres, autorisez, et l'installation se termine. Les mises à jour vous seront proposées dans l'application.</div>
+      <div style="margin-top:8px;font-size:14px;opacity:.85" data-i18n="ap_web">Pas d'Android ? Tout fonctionne aussi dans le navigateur, sans rien installer.</div>
+      <div style="margin-top:14px;font-size:14px;opacity:.75" data-i18n="ap_suite">En préparation : le GPS qui continue écran éteint pour le tracteur, la sonde de sol et le récepteur GNSS branchés en USB, et les cartes gardées hors ligne.</div>
+    </div>
+  </div>
+</section>
+
 <!-- AVIS -->
 <section class="blk" id="avis">
   <div class="wrap">
@@ -822,6 +848,17 @@ const I18N={
     hero_badge:`Élevage &amp; cultures · Cabinet IA`,
     hero_h1:`Entrez dans l'ère <span class="grad">AGRI-X</span><br>— l'IA prend les commandes.`,
     hero_sub:`AGRI-X gère vos <b>animaux</b> (volaille, lapin, porc, caprin…) <b>et vos cultures</b> — avec Dr&nbsp;SANKARA (vétérinaire) &amp; Dr&nbsp;SAVANA (agronome). <b>Gratuit à vie jusqu'à 1 000 bêtes</b> — ensuite <b>à partir de 1 F par bête</b>.`,
+    nav_app:`Application`,hero_apk:`Aussi en application Android —`,hero_apk_lien:`télécharger (3 Mo)`,
+    ap_lbl:`📱 Application`,ap_h2:`AGRI-X dans votre poche, jusqu'au bout du champ`,
+    ap_p:`Le site marche déjà très bien dans le navigateur. L'application, elle, s'installe sur le téléphone — et ouvrira bientôt ce que le navigateur interdit sur le terrain.`,
+    ap1:`📱 <b>Une vraie application</b> sur l'écran d'accueil : plein écran, sans barre de navigateur, elle s'ouvre d'un geste.`,
+    ap2:`🌾 <b>Tout AGRI-X à l'intérieur</b> : élevage, cultures, analyses de sol, cabinet IA — exactement ce que vous avez sur le site.`,
+    ap3:`📡 <b>Un écran clair quand le réseau tombe</b>, au lieu d'une page blanche — et ça repart dès que la connexion revient.`,
+    ap4:`🔄 <b>Les mises à jour arrivent toutes seules</b> : l'application vous prévient dès qu'une nouvelle version est publiée.`,
+    ap_suite:`En préparation : le GPS qui continue écran éteint pour le tracteur, la sonde de sol et le récepteur GNSS branchés en USB, et les cartes gardées hors ligne.`,
+    ap_btn:`⬇️ Télécharger l'application (3 Mo)`,
+    ap_note:`À la première installation, Android affiche « source inconnue » : c'est normal en dehors du Play Store. Touchez Paramètres, autorisez, et l'installation se termine. Les mises à jour vous seront proposées dans l'application.`,
+    ap_web:`Pas d'Android ? Tout fonctionne aussi dans le navigateur, sans rien installer.`,
     hero_cta1:`🚀 Commencer gratuitement`,hero_cta_diag:`🩺 Diagnostic gratuit de ta bête`,hero_cta2:`Découvrir le Cabinet IA`,
     meta_eleveurs:`Éleveurs`,meta_filieres:`Filières &amp; cultures`,meta_experts:`Experts IA`,meta_dispo:`Disponibilité`,meta_free_n:`Gratuit`,meta_free_l:`à vie`,
     stats_lbl:`En direct`,stats_h2:`Nos agents au travail`,stats_p:`Des chiffres réels — la preuve que la plateforme tourne pour de vraies fermes.`,stats_fermes:`Fermes`,stats_diag:`Diagnostics Dr SANKARA`,stats_form:`Formations HOSANA`,stats_ventes:`Ventes suivies (KEPELA)`,stats_suivies:`Rapports suivis par YAYRA`,stats_conseils:`Conseils IA donnés`,
@@ -882,6 +919,17 @@ cab_hosana_t:`HOSANA — Formateur`,cab_hosana_p:`Tu veux APPRENDRE à faire ? D
     hero_badge:`Livestock &amp; crops · AI Clinic`,
     hero_h1:`Enter the <span class="grad">AGRI-X</span> era<br>— AI takes control of your farm.`,
     hero_sub:`AGRI-X manages your <b>animals</b> (poultry, rabbit, pig, goat…) <b>and your crops</b> — with Dr&nbsp;SANKARA (vet) &amp; Dr&nbsp;SAVANA (agronomist). <b>Free forever up to 1,000 animals</b> — then <b>from 1 F per animal</b>.`,
+    nav_app:`App`,hero_apk:`Also available as an Android app —`,hero_apk_lien:`download (3 MB)`,
+    ap_lbl:`📱 Mobile app`,ap_h2:`AGRI-X in your pocket, all the way into the field`,
+    ap_p:`The website already works well in a browser. The app installs on your phone — and will soon open what browsers forbid out in the field.`,
+    ap1:`📱 <b>A real app</b> on your home screen: full screen, no browser bar, one tap to open.`,
+    ap2:`🌾 <b>All of AGRI-X inside</b>: livestock, crops, soil analyses, AI clinic — exactly what you get on the website.`,
+    ap3:`📡 <b>A clear screen when the network drops</b>, instead of a blank page — and it picks up as soon as you are back online.`,
+    ap4:`🔄 <b>Updates come to you</b>: the app tells you as soon as a new version is published.`,
+    ap_suite:`Coming next: GPS that keeps running with the screen off for tractor work, the soil probe and GNSS receiver over USB, and maps kept offline.`,
+    ap_btn:`⬇️ Download the app (3 MB)`,
+    ap_note:`On first install, Android warns about an « unknown source »: that is normal outside the Play Store. Tap Settings, allow it, and the install completes. Updates are offered inside the app.`,
+    ap_web:`No Android? Everything works in the browser too, with nothing to install.`,
     hero_cta1:`🚀 Start for free`,hero_cta_diag:`🩺 Free animal diagnosis`,hero_cta2:`Explore the AI Clinic`,
     meta_eleveurs:`Farmers`,meta_filieres:`Sectors &amp; crops`,meta_experts:`AI experts`,meta_dispo:`Availability`,meta_free_n:`Free`,meta_free_l:`forever`,
     stats_lbl:`Live`,stats_h2:`Our agents at work`,stats_p:`Real numbers — proof the platform runs for real farms.`,stats_fermes:`Farms`,stats_diag:`Dr SANKARA diagnoses`,stats_form:`HOSANA trainings`,stats_ventes:`Sales tracked (KEPELA)`,stats_suivies:`Reports tracked by YAYRA`,stats_conseils:`AI advice given`,
