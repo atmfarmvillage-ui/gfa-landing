@@ -346,7 +346,8 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
   <a class="logo" href="#"><img class="logomark" src="logo-agrix.jpg?v=5" alt="AGRI-X" width="46" height="46" style="border-radius:11px"><div><small data-i18n="brand_sub">Gestion d'une Ferme Agricole</small></div></a>
   <div class="nav-links">
     <a href="#cabinet" data-i18n="nav_cabinet">Cabinet IA</a>
-    <a href="#fonctions" data-i18n="nav_features">Fonctionnalités</a>
+    <a href="/fonctionnalites" data-i18n="nav_features">Fonctionnalités</a>
+    <a href="#talent" data-i18n="nav_talent">Talent &amp; Awards</a>
     <a href="#plans" data-i18n="nav_pricing">Tarifs</a>
     <a href="#appli" data-i18n="nav_app">Application</a>
     <button class="theme-tgl" onclick="toggleLang()" id="langBtn" title="Français / English" aria-label="Langue" style="width:auto;padding:0 13px;font-size:13px;font-weight:800">EN</button>
@@ -454,6 +455,73 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
       <div class="fcard rv"><div class="fic"><i data-lucide="wifi-off"></i></div><h4 data-i18n="feat7_t">Hors-ligne</h4><p data-i18n="feat7_p">Saisie sans réseau, synchro auto.</p></div>
       <div class="fcard rv"><div class="fic"><i data-lucide="building-2"></i></div><h4 data-i18n="feat8_t">Multi-fermes</h4><p data-i18n="feat8_p">Comparez vos sites d'un coup d'œil.</p></div>
     </div>
+  </div>
+</section>
+
+
+<div class="wrap" style="text-align:center;margin:-40px auto 20px"><a href="/fonctionnalites" style="font-weight:800;color:var(--green-d);text-decoration:underline" data-i18n="feat_tous">Voir les 202 fonctionnalités →</a></div>
+<!-- AGRI-X TALENT & AWARDS (07/10/2026) -->
+<style>
+#talent .tl-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:42px;align-items:center}
+#talent .etape{display:flex;gap:16px;padding:16px 0;border-bottom:1px dashed var(--border)}
+#talent .etape:last-child{border-bottom:none}
+#talent .num{flex:0 0 46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:22px;background:var(--green-l)}
+#talent .etape h4{font-size:17px;font-weight:800}
+#talent .etape p{font-size:14.5px;color:var(--muted);margin-top:3px}
+#talent .tl-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+#talent .btn-or{background:linear-gradient(135deg,#F4C14E,#E8A33D);color:#2A1A00;font-weight:800;font-size:15px;padding:13px 22px;box-shadow:0 12px 26px -10px rgba(232,163,61,.7)}
+#talent .btn-vert{background:var(--glass);border:1px solid var(--border);font-size:15px;padding:13px 22px}
+#talent .podium{background:var(--glass);border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:var(--shadow)}
+#talent .podium .tt{display:flex;justify-content:space-between;font-weight:800;font-size:14px;margin-bottom:12px}
+#talent .podium .tt span{font-size:12px;color:var(--green-d);background:var(--green-l);padding:3px 10px;border-radius:999px}
+#talent .rang{display:grid;grid-template-columns:34px 1fr 52px;gap:10px;align-items:center;padding:9px 0}
+#talent .rang .m{font-size:22px;text-align:center}
+#talent .rang b{font-size:14.5px}
+#talent .rang small{display:block;font-size:12px;color:var(--muted)}
+#talent .rang .sc{font-weight:900;font-family:'Fraunces',serif;font-size:20px;color:var(--green-d);text-align:right}
+#talent .jauge{grid-column:2/4;height:6px;border-radius:4px;background:var(--border);overflow:hidden;margin-top:-4px}
+#talent .jauge i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold))}
+#talent .award{margin-top:16px;border-radius:22px;padding:22px;text-align:center;color:#2A1A00;background:radial-gradient(circle at 30% 20%,#FFE7A8,#F4C14E 55%,#D9952A);box-shadow:0 26px 50px -24px rgba(185,120,22,.8);position:relative;overflow:hidden}
+#talent .award .tr{font-size:46px;line-height:1}
+#talent .award h4{font-family:'Fraunces',serif;font-weight:900;font-size:22px;margin-top:6px}
+#talent .award p{font-size:13.5px;margin-top:4px;opacity:.85}
+#talent .award .niv{display:flex;justify-content:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+#talent .award .niv span{background:rgba(255,255,255,.55);border-radius:999px;padding:4px 11px;font-size:12px;font-weight:800}
+#talent .ex{font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
+@media(max-width:860px){#talent .tl-grid{grid-template-columns:1fr}}
+</style>
+<section class="blk" id="talent">
+  <div class="wrap">
+    <div class="head rv"><div class="lbl" data-i18n="tal_lbl">AGRI-X Talent</div><h2 data-i18n="tal_h2">Les meilleurs techniciens d'Afrique, <span style="color:var(--gold-d)">prouvés par les chiffres</span></h2><p data-i18n="tal_p">Ici, un technicien ne se vend pas avec un CV : <b>ses résultats réels parlent pour lui</b>. Score vérifié, classement national et africain, et chaque mois les <b>AGRI-X Awards</b>.</p></div>
+    <div class="tl-grid">
+      <div class="rv">
+        <div class="etape"><div class="num">🦁</div><div><h4 data-i18n="tal_1t">1. Je m'inscris, j'ai mon identité à vie</h4><p data-i18n="tal_1p">Un indicatif unique (ex. <b>LION-5</b>) et un <b>passeport</b> : mon score, mes domaines, ma disponibilité. Il me suit de ferme en ferme, même si je change de téléphone.</p></div></div>
+        <div class="etape"><div class="num">📊</div><div><h4 data-i18n="tal_2t">2. Mon travail devient un score sur 100</h4><p data-i18n="tal_2p">Assiduité, ponte par rapport à la norme, mortalité, cohérence des chiffres : calculé chaque nuit à partir des <b>vrais résultats de la ferme</b>, avec un anti-triche et l'avis du patron.</p></div></div>
+        <div class="etape"><div class="num">🏅</div><div><h4 data-i18n="tal_3t">3. Je monte au classement</h4><p data-i18n="tal_3p">Par domaine (pondeuse, chair, lapin, porc…), <b>dans mon pays et dans toute l'Afrique</b>. Je demande « mon rang » à YAYRA sur WhatsApp et je vois l'écart avec le suivant.</p></div></div>
+        <div class="etape"><div class="num">🏆</div><div><h4 data-i18n="tal_4t">4. Je gagne les AGRI-X Awards</h4><p data-i18n="tal_4p"><b>Meilleur Technicien du mois</b> par domaine et par pays, validé par un jury, avec certificat partageable. Le 1er janvier : <b>Champions de l'année</b> — National, Afrique et Monde — avec un vrai trophée.</p></div></div>
+        <div class="tl-cta">
+          <a class="btn btn-or" href="https://app.avifarmer.net/?inscription=technicien" data-i18n="tal_cta1">🦁 Je suis technicien : je m'inscris</a>
+          <a class="btn btn-vert" href="https://wa.me/22890378888?text=Bonjour%20YAYRA%2C%20je%20cherche%20un%20technicien%20pour%20ma%20ferme." data-i18n="tal_cta2">🔎 Je cherche un technicien</a>
+        </div>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px" data-i18n="tal_parr">🤝 Parrainage : 10 techniciens parrainés actifs = 1 mois de visibilité offert · 50 = un stage à ATM Farm Village.</p>
+      </div>
+      <div class="rv">
+        <div class="podium">
+          <div class="tt"><b data-i18n="tal_classt" style="font-weight:800">🥇 Classement Pondeuse · Togo</b> <span data-i18n="tal_verif">vérifié</span></div>
+          <div class="rang"><div class="m">🥇</div><div><b>LION-5</b><small>Ferme Espoir · Kpalimé</small></div><div class="sc">96</div><div class="jauge"><i style="width:96%"></i></div></div>
+          <div class="rang"><div class="m">🥈</div><div><b>AIGLE-12</b><small>Ferme du Plateau · Atakpamé</small></div><div class="sc">93</div><div class="jauge"><i style="width:93%"></i></div></div>
+          <div class="rang"><div class="m">🥉</div><div><b>PANTHÈRE-3</b><small>Ferme Avenir · Tsévié</small></div><div class="sc">91</div><div class="jauge"><i style="width:91%"></i></div></div>
+        </div>
+        <div class="award">
+          <div class="tr">🏆</div>
+          <h4>AGRI-X Awards</h4>
+          <p data-i18n="tal_aw_p">Meilleur Technicien du mois · Pondeuse · Togo</p>
+          <div class="niv"><span data-i18n="tal_aw_nat">🇹🇬 National</span><span data-i18n="tal_aw_af">🌍 Afrique</span><span data-i18n="tal_aw_mo">🌐 Monde</span></div>
+        </div>
+        <div class="ex" data-i18n="tal_ex">Exemple d'affichage — les vrais lauréats sont publiés chaque mois.</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:44px"><a class="btn btn-vert" href="/fonctionnalites" style="background:var(--glass);border:1px solid var(--border);padding:13px 22px;font-size:15px" data-i18n="tal_tous">📚 Voir les 202 fonctionnalités d'AGRI-X →</a></div>
   </div>
 </section>
 
@@ -843,6 +911,7 @@ window.toggleTheme=toggleTheme;
 // ── i18n FR / EN ──
 const I18N={
   fr:{
+    tal_lbl:`AGRI-X Talent`,tal_h2:`Les meilleurs techniciens d'Afrique, <span style="color:var(--gold-d)">prouvés par les chiffres</span>`,tal_p:`Ici, un technicien ne se vend pas avec un CV : <b>ses résultats réels parlent pour lui</b>. Score vérifié, classement national et africain, et chaque mois les <b>AGRI-X Awards</b>.`,tal_1t:`1. Je m'inscris, j'ai mon identité à vie`,tal_1p:`Un indicatif unique (ex. <b>LION-5</b>) et un <b>passeport</b> : mon score, mes domaines, ma disponibilité. Il me suit de ferme en ferme, même si je change de téléphone.`,tal_2t:`2. Mon travail devient un score sur 100`,tal_2p:`Assiduité, ponte par rapport à la norme, mortalité, cohérence des chiffres : calculé chaque nuit à partir des <b>vrais résultats de la ferme</b>, avec un anti-triche et l'avis du patron.`,tal_3t:`3. Je monte au classement`,tal_3p:`Par domaine (pondeuse, chair, lapin, porc…), <b>dans mon pays et dans toute l'Afrique</b>. Je demande « mon rang » à YAYRA sur WhatsApp et je vois l'écart avec le suivant.`,tal_4t:`4. Je gagne les AGRI-X Awards`,tal_4p:`<b>Meilleur Technicien du mois</b> par domaine et par pays, validé par un jury, avec certificat partageable. Le 1er janvier : <b>Champions de l'année</b> — National, Afrique et Monde — avec un vrai trophée.`,tal_cta1:`🦁 Je suis technicien : je m'inscris`,tal_cta2:`🔎 Je cherche un technicien`,tal_parr:`🤝 Parrainage : 10 techniciens parrainés actifs = 1 mois de visibilité offert · 50 = un stage à ATM Farm Village.`,tal_classt:`🥇 Classement Pondeuse · Togo`,tal_verif:`vérifié`,tal_aw_p:`Meilleur Technicien du mois · Pondeuse · Togo`,tal_aw_nat:`🇹🇬 National`,tal_aw_af:`🌍 Afrique`,tal_aw_mo:`🌐 Monde`,tal_ex:`Exemple d'affichage — les vrais lauréats sont publiés chaque mois.`,tal_tous:`📚 Voir les 202 fonctionnalités d'AGRI-X →`,nav_talent:`Talent &amp; Awards`,feat_tous:`Voir les 202 fonctionnalités →`,
     nav_cabinet:`Cabinet IA`,nav_features:`Fonctionnalités`,nav_pricing:`Tarifs`,cta_start:`Commencer gratuitement`,
     brand_sub:`Gestion d'une Ferme Agricole`,
     hero_badge:`Élevage &amp; cultures · Cabinet IA`,
@@ -914,6 +983,7 @@ cab_hosana_t:`HOSANA — Formateur`,cab_hosana_p:`Tu veux APPRENDRE à faire ? D
     footer_txt:`AGRI-X — Gestion d'une Ferme Agricole · ATM Farm Village · Togo 🇹🇬`
   },
   en:{
+    tal_lbl:`AGRI-X Talent`,tal_h2:`Africa's best farm technicians, <span style="color:var(--gold-d)">proven by the numbers</span>`,tal_p:`Here, a technician isn't sold by a CV: <b>real results speak for them</b>. Verified score, national and African rankings, and every month the <b>AGRI-X Awards</b>.`,tal_1t:`1. I sign up and get a lifetime identity`,tal_1p:`A unique call sign (e.g. <b>LION-5</b>) and a <b>passport</b>: my score, my fields, my availability. It follows me from farm to farm, even if I change phones.`,tal_2t:`2. My work becomes a score out of 100`,tal_2p:`Attendance, laying vs standard, mortality, data consistency: computed every night from the <b>farm's real results</b>, with anti-cheating checks and the owner's review.`,tal_3t:`3. I climb the rankings`,tal_3p:`By field (layers, broilers, rabbits, pigs…), <b>in my country and across Africa</b>. I ask YAYRA “my rank” on WhatsApp and see the gap to the next one.`,tal_4t:`4. I win the AGRI-X Awards`,tal_4p:`<b>Technician of the Month</b> by field and country, validated by a jury, with a shareable certificate. On January 1st: <b>Champions of the Year</b> — National, Africa and World — with a real trophy.`,tal_cta1:`🦁 I'm a technician: sign me up`,tal_cta2:`🔎 I'm looking for a technician`,tal_parr:`🤝 Referrals: 10 active referred technicians = 1 free month of visibility · 50 = an internship at ATM Farm Village.`,tal_classt:`🥇 Layers ranking · Togo`,tal_verif:`verified`,tal_aw_p:`Technician of the Month · Layers · Togo`,tal_aw_nat:`🇹🇬 National`,tal_aw_af:`🌍 Africa`,tal_aw_mo:`🌐 World`,tal_ex:`Display example — real winners are published every month.`,tal_tous:`📚 See all 202 AGRI-X features →`,nav_talent:`Talent &amp; Awards`,feat_tous:`See all 202 features →`,
     nav_cabinet:`AI Clinic`,nav_features:`Features`,nav_pricing:`Pricing`,cta_start:`Start for free`,
     brand_sub:`Smart Farm Management`,
     hero_badge:`Livestock &amp; crops · AI Clinic`,
