@@ -1091,8 +1091,10 @@ function peindreTalent(){
       /* textContent et pas innerHTML : ce qui vient du serveur ne doit jamais
          pouvoir ecrire du HTML dans la page. */
       el.querySelector('b').textContent = t.indicatif || '';
-      el.querySelector('small').textContent = t.prenom
-        ? t.prenom
+      /* Le nom sous l'indicatif ; repli sur les jours de saisie si le profil
+         n'a pas de nom, pour ne jamais laisser une ligne vide. */
+      el.querySelector('small').textContent = t.nom
+        ? t.nom
         : ((Number(t.jours_suivis) || 0) + (en ? ' days tracked' : ' jours suivis'));
       pod.appendChild(el);
     });
