@@ -506,7 +506,7 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
         <p style="font-size:13px;color:var(--muted);margin-top:12px" data-i18n="tal_parr">🤝 Parrainage : 10 techniciens parrainés actifs = 1 mois de visibilité offert · 50 = un stage à ATM Farm Village.</p>
       </div>
       <div class="rv">
-        <div class="podium">
+        <div class="podium" id="talPodium">
           <div class="tt"><b data-i18n="tal_classt" style="font-weight:800">🥇 Classement Pondeuse · Togo</b> <span data-i18n="tal_verif">vérifié</span></div>
           <div class="rang"><div class="m">🥇</div><div><b>LION-5</b><small>Ferme Espoir · Kpalimé</small></div><div class="sc">96</div><div class="jauge"><i style="width:96%"></i></div></div>
           <div class="rang"><div class="m">🥈</div><div><b>AIGLE-12</b><small>Ferme du Plateau · Atakpamé</small></div><div class="sc">93</div><div class="jauge"><i style="width:93%"></i></div></div>
@@ -515,10 +515,10 @@ html[data-theme="dark"] .pcard.pop{border-color:var(--green)}
         <div class="award">
           <div class="tr">🏆</div>
           <h4>AGRI-X Awards</h4>
-          <p data-i18n="tal_aw_p">Meilleur Technicien du mois · Pondeuse · Togo</p>
+          <p id="talAwardP" data-i18n="tal_aw_p">Meilleur Technicien du mois · Pondeuse · Togo</p>
           <div class="niv"><span data-i18n="tal_aw_nat">🇹🇬 National</span><span data-i18n="tal_aw_af">🌍 Afrique</span><span data-i18n="tal_aw_mo">🌐 Monde</span></div>
         </div>
-        <div class="ex" data-i18n="tal_ex">Exemple d'affichage — les vrais lauréats sont publiés chaque mois.</div>
+        <div class="ex" id="talEx" data-i18n="tal_ex">Exemple d'affichage — les vrais lauréats sont publiés chaque mois.</div>
       </div>
     </div>
     <div style="text-align:center;margin-top:44px"><a class="btn btn-vert" href="/fonctionnalites" style="background:var(--glass);border:1px solid var(--border);padding:13px 22px;font-size:15px" data-i18n="tal_tous">📚 Voir les 202 fonctionnalités d'AGRI-X →</a></div>
@@ -1056,8 +1056,77 @@ cab_hosana_t:`HOSANA — Trainer`,cab_hosana_p:`Want to LEARN how? Start a flock
   }
 };
 let LANG='fr';
-function applyLang(l){LANG=(l==='en')?'en':'fr';const d=I18N[LANG];document.querySelectorAll('[data-i18n]').forEach(el=>{const v=d[el.getAttribute('data-i18n')];if(v!=null)el.innerHTML=v;});document.documentElement.lang=LANG;const b=document.getElementById('langBtn');if(b)b.textContent=(LANG==='fr')?'EN':'FR';try{localStorage.setItem('agrix_lang',LANG)}catch(e){}}
+function applyLang(l){LANG=(l==='en')?'en':'fr';const d=I18N[LANG];document.querySelectorAll('[data-i18n]').forEach(el=>{const v=d[el.getAttribute('data-i18n')];if(v!=null)el.innerHTML=v;});document.documentElement.lang=LANG;const b=document.getElementById('langBtn');if(b)b.textContent=(LANG==='fr')?'EN':'FR';try{localStorage.setItem('agrix_lang',LANG)}catch(e){}if(typeof peindreTalent==='function')peindreTalent();}
 function toggleLang(){applyLang(LANG==='fr'?'en':'fr')}
+
+/* ---- AGRI-X Talent : le podium et l'award viennent du worker, pas du HTML ----
+   Tant qu'aucun technicien n'est VERIFIE, on garde l'exemple ecrit en dur et sa
+   mention : une page d'accueil qui affiche un podium vide ne vaut pas mieux
+   qu'un exemple assume. Des qu'il y a du vrai, le vrai prend la place et la
+   mention disparait. */
+var TALENT = { classement: [], awards: [] };
+function peindreTalent(){
+  var pod = document.getElementById('talPodium');
+  if (!pod) return;
+  var ex = document.getElementById('talEx'), awp = document.getElementById('talAwardP');
+  var C = TALENT.classement || [], A = TALENT.awards || [], en = (LANG === 'en');
+
+  if (C.length) {
+    var med = ['🥇', '🥈', '🥉'];
+    Array.prototype.forEach.call(pod.querySelectorAll('.rang'), function(e){ e.remove(); });
+    C.slice(0, 3).forEach(function(t, i){
+      var sc = Math.max(0, Math.min(100, Number(t.score) || 0));
+      var el = document.createElement('div');
+      el.className = 'rang';
+      el.innerHTML = '<div class="m">' + (med[i] || '') + '</div><div><b></b><small></small></div>'
+        + '<div class="sc">' + sc + '</div><div class="jauge"><i style="width:' + sc + '%"></i></div>';
+      /* textContent et pas innerHTML : ce qui vient du serveur ne doit jamais
+         pouvoir ecrire du HTML dans la page. */
+      el.querySelector('b').textContent = t.indicatif || '';
+      el.querySelector('small').textContent = t.prenom
+        ? t.prenom
+        : ((Number(t.jours_suivis) || 0) + (en ? ' days tracked' : ' jours suivis'));
+      pod.appendChild(el);
+    });
+  }
+
+  if (awp && A.length) {
+    var a = A[0];
+    awp.removeAttribute('data-i18n');   /* sinon applyLang ecraserait le vrai laureat */
+    awp.textContent = [a.titre, a.periode_label, a.lauréat, (a.score + '/100')].filter(Boolean).join(' · ');
+  }
+
+  if (ex) {
+    if (C.length && A.length) ex.style.display = 'none';
+    else if (C.length) {
+      ex.removeAttribute('data-i18n');
+      ex.textContent = en
+        ? 'Live verified ranking — the month\'s winner is published once the jury has validated it.'
+        : 'Classement vérifié en direct — le lauréat du mois est publié après validation du jury.';
+    } else ex.style.display = '';
+  }
+}
+(function chargerTalent(){
+  var B = 'https://gfa-ia.avifarmer.net', Q = '?domaine=pondeuse&pays=TG';
+  var lire = function(u){
+    return fetch(B + u).then(function(r){
+      if (!r.ok) throw new Error('HTTP ' + r.status + ' sur ' + u);
+      return r.json();
+    });
+  };
+  Promise.all([lire('/api/talent/classement' + Q + '&top=3'), lire('/api/talent/hall' + Q)])
+    .then(function(res){
+      TALENT.classement = (res[0] && res[0].classement) || [];
+      TALENT.awards = (res[1] && res[1].awards) || [];
+      peindreTalent();
+    })
+    .catch(function(e){
+      /* Le visiteur garde l'exemple et sa mention : pas d'erreur a l'ecran sur
+         une page d'accueil. Mais on dit POURQUOI dans la console, sinon la
+         panne reste invisible le jour ou le worker tombe. */
+      console.warn('[talent] classement indisponible, exemple conserve :', (e && e.message) || e);
+    });
+})();
 window.toggleLang=toggleLang;
 (function(){try{const l=localStorage.getItem('agrix_lang');if(l==='en')applyLang('en');}catch(e){}})();
 // reveal on scroll
