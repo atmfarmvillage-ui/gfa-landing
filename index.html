@@ -1086,7 +1086,8 @@ function peindreTalent(){
       var sc = Math.max(0, Math.min(100, Number(t.score) || 0));
       var el = document.createElement('div');
       el.className = 'rang';
-      el.innerHTML = '<div class="m">' + (med[i] || '') + '</div><div><b></b><small></small></div>'
+      el.innerHTML = '<div class="m">' + (med[i] || '') + '</div>'
+        + '<div><b></b><small></small><small class="eta" style="font-size:11px;opacity:.75"></small></div>'
         + '<div class="sc">' + sc + '</div><div class="jauge"><i style="width:' + sc + '%"></i></div>';
       /* textContent et pas innerHTML : ce qui vient du serveur ne doit jamais
          pouvoir ecrire du HTML dans la page. */
@@ -1096,6 +1097,9 @@ function peindreTalent(){
       el.querySelector('small').textContent = t.nom
         ? t.nom
         : ((Number(t.jours_suivis) || 0) + (en ? ' days tracked' : ' jours suivis'));
+      /* L'ecole sous le nom, seulement si le technicien l'a renseignee. */
+      var eta = el.querySelector('small.eta');
+      if (eta) { if (t.formation) eta.textContent = t.formation; else eta.remove(); }
       pod.appendChild(el);
     });
   }
