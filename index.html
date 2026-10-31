@@ -1064,12 +1064,20 @@ function toggleLang(){applyLang(LANG==='fr'?'en':'fr')}
    mention : une page d'accueil qui affiche un podium vide ne vaut pas mieux
    qu'un exemple assume. Des qu'il y a du vrai, le vrai prend la place et la
    mention disparait. */
-var TALENT = { classement: [], awards: [] };
+var TALENT = { classement: [], awards: [], statut: 'vide' };
 function peindreTalent(){
   var pod = document.getElementById('talPodium');
   if (!pod) return;
   var ex = document.getElementById('talEx'), awp = document.getElementById('talAwardP');
   var C = TALENT.classement || [], A = TALENT.awards || [], en = (LANG === 'en');
+  var enCours = (TALENT.statut === 'en_cours');
+  /* Le badge doit dire la verite : « verifie » n'est pas « en cours ». */
+  var badge = pod.querySelector('.tt span');
+  if (badge && C.length) {
+    badge.removeAttribute('data-i18n');
+    badge.textContent = enCours ? (en ? 'being verified' : 'en cours de v\u00e9rification')
+                                : (en ? 'verified' : 'v\u00e9rifi\u00e9');
+  }
 
   if (C.length) {
     var med = ['🥇', '🥈', '🥉'];
@@ -1097,12 +1105,15 @@ function peindreTalent(){
   }
 
   if (ex) {
-    if (C.length && A.length) ex.style.display = 'none';
+    if (C.length && A.length && !enCours) ex.style.display = 'none';
     else if (C.length) {
       ex.removeAttribute('data-i18n');
-      ex.textContent = en
-        ? 'Live verified ranking — the month\'s winner is published once the jury has validated it.'
-        : 'Classement vérifié en direct — le lauréat du mois est publié après validation du jury.';
+      ex.style.display = '';
+      ex.textContent = enCours
+        ? (en ? 'Real technicians, real scores \u2014 a score becomes official after 20 days of entries spread over at least 30 days.'
+              : 'De vrais techniciens, de vrais scores \u2014 un score devient officiel apr\u00e8s 20 jours de saisie \u00e9tal\u00e9s sur au moins 30 jours.')
+        : (en ? 'Live verified ranking \u2014 the month\'s winner is published once the jury has validated it.'
+              : 'Classement v\u00e9rifi\u00e9 en direct \u2014 le laur\u00e9at du mois est publi\u00e9 apr\u00e8s validation du jury.');
     } else ex.style.display = '';
   }
 }
@@ -1117,6 +1128,7 @@ function peindreTalent(){
   Promise.all([lire('/api/talent/classement' + Q + '&top=3'), lire('/api/talent/hall' + Q)])
     .then(function(res){
       TALENT.classement = (res[0] && res[0].classement) || [];
+      TALENT.statut = (res[0] && res[0].statut) || 'vide';
       TALENT.awards = (res[1] && res[1].awards) || [];
       peindreTalent();
     })
